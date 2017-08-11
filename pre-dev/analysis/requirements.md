@@ -1,0 +1,23 @@
+# Functional requirements
+- **FR1**: The user may choose to take a photo of a receipt from the camera. OCR recognition is required.
+- **FR2**: The user may choose to pick a photo of a receipt from his gallery. OCR recognition is required.
+- **FR3**: The user may choose to write the bill manually.
+- **FR4**: When the user is entering the bill manually, at any moment, he/she can decide to remove or modify a previously added product.
+- **FR5**: The user should have a chance to modify/fix the bill after taking/picking a photo of the receipt or even after having finished the manual transcription.
+- **FR6**: The user can assign an arbitrary number of people to each product of the bill. It must be possible also to unassign previously assigned people.
+- **FR7**: It must be possible to bulk assign people to multiple products selected by the user.
+- **FR8**: While assigning people to products, the user should be able to add a new person to the list of avaible people, at any moment.
+- **FR9**: By default, the available people list should contain:
+	- A item representing the user itself (i.e. "Me") as the first item of the list.
+	- Many items representing the people added by the user on previous
+	assignments for the current bill. The order should be from most recent to less recent.
+	- A maximum of 8 items representing other people added by the user on previous usages of the app. 
+- **FR10**: Once assigned all the people to the products, the user should be able to choose a percentage for the tip, that must be added to the final price, and divided proportionally.
+- **FR11**: When the process is finished, the app should inform the user the amount of money each person has to pay.
+- **FR12**: The user should be able to see the details of a person payment. In other words, the user must be able to see how was calculated the amount of money that any person should pay.
+- **FR13**: The results of each bill should be permanently saved. The user should be able to see the details of any bill processed on a previous usage of the app. These details are exactly the same as the specified by `FR11` and `FR12`.
+- **FR14**: Each saved bill must have a name, that can be changed by the user.
+- **FR15**: The user must be able to delete one or multiple bills previously processed.
+- **FR16**: The user must be able to set de default tip percentage.
+- **FR17**: The user must be able to disable all the advertisements, by paying certain amount of money.
+- **FR18**: If the app is suddenly closed while splitting a bill, the user should be able to continue the process when he/she opens the app again, without loosing any data.
