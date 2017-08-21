@@ -18,6 +18,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -33,6 +36,7 @@ dependencies {
     compile 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'co.metalab.asyncawait:asyncawait:1.0.0'
+    compile 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'
     testCompile 'junit:junit:4.12'
 }
 

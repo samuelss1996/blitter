@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fab_mini_transcribe"
+        android:title="@string/main_fab_manually"
+        android:icon="@drawable/ic_receipt_black_24dp"
+        android:orderInCategory="1"/>
+    <item
+        android:id="@+id/fab_mini_gallery"
+        android:title="@string/main_fab_gallery"
+        android:icon="@drawable/ic_photo_library_black_24dp"
+        android:orderInCategory="2"/>
+    <item
+        android:id="@+id/fab_mini_camera"
+        android:title="@string/main_fab_camera"
+        android:icon="@drawable/ic_photo_camera_black_24dp"
+        android:orderInCategory="3"/>
+</menu>

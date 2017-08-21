@@ -2,4 +2,15 @@
     <string name="app_name">Blitter</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_assignation">AssignationActivity</string>
+    <string name="main_fab_manually">Transcribir manualmente</string>
+    <string name="main_fab_gallery">Desde la galería</string>
+    <string name="main_fab_camera">Desde la cámara</string>
+    <string name="bills_empty_state_welcome">¡Bienvenido!</string>
+    <string name="bills_empty_state_instruction_before">Pulsa el botón</string>
+    <string name="bills_empty_state_instruction_after">para comenzar</string>
+    <string name="content_description_blue_circle">Círculo azul</string>
+    <string name="content_description_receipt_icon">Icono de factura</string>
+    <string name="content_description_button_start">Botón principal</string>
+    <string name="action_activity_main_search">Buscar</string>
+    <string name="action_activity_main_settings">Ajustes</string>
 </resources>

@@ -1,33 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="es.soutullo.blitter.view.activity.MainActivity">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
+    <data>
+        <variable name="bills" type="java.util.List&lt;es.soutullo.blitter.model.vo.bill.Bill&gt;" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        tools:context="es.soutullo.blitter.view.activity.MainActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <include layout="@layout/content_main" />
+        </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        <include layout="@layout/content_main" bind:bills="@{bills}"/>
 
-</android.support.design.widget.CoordinatorLayout>
+        <io.github.kobakei.materialfabspeeddial.FabSpeedDial
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:fab_menu="@menu/menu_fab_main_activity"
+
+            app:fab_fabDrawable="@drawable/ic_action_add"
+            app:fab_fabDrawableTint="#FFF"
+            app:fab_fabRippleColor="@color/black_overlay"
+
+            app:fab_miniFabBackgroundColorList="@array/mini_fab_background_color_list"
+            app:fab_miniFabDrawableTint="@android:color/white"
+            app:fab_miniFabRippleColor="@color/black_overlay"
+
+            app:fab_miniFabTextColor="@android:color/black"
+            app:fab_miniFabTextBackgroundList="@array/fab_mini_labels"
+
+            app:fab_useTouchGuard="true"
+            app:fab_touchGuardColor="#80000000"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>
