@@ -1,16 +1,19 @@
 package es.soutullo.blitter.view.activity
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import es.soutullo.blitter.R
+import es.soutullo.blitter.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.setContentView(R.layout.activity_main)
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         this.setSupportActionBar(toolbar)

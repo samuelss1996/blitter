@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/product_name"
+        android:id="@+id/product_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -19,7 +19,7 @@
         android:textColor="@android:color/black"/>
 
     <TextView
-        android:id="@+id/product_price"
+        android:id="@+id/product_price_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -27,7 +27,7 @@
         android:layout_marginTop="0dp"
         tools:text="20,07€ + 3,00€ de propina"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_name"
+        app:layout_constraintTop_toBottomOf="@+id/product_name_text"
         android:textSize="@dimen/caption_text_size"/>
 
     <TextView
@@ -39,7 +39,7 @@
         android:layout_marginTop="0dp"
         tools:text="Lunes, 17 de octubre de 1996 a las 22:00"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_price"
+        app:layout_constraintTop_toBottomOf="@+id/product_price_text"
         android:textSize="@dimen/caption_text_size"/>
 
 </android.support.constraint.ConstraintLayout>

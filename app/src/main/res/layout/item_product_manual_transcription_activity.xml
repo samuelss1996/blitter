@@ -1,76 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/product_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        tools:text="Producto A"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@android:color/black"/>
+    <data>
+        <import type="java.util.Currency" />
+        <import type="java.util.Locale"/>
 
-    <TextView
-        android:id="@+id/product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        tools:text="Precio/unidad: 2,47€"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_name"
-        android:textSize="@dimen/caption_text_size"/>
+        <variable name="product" type="es.soutullo.blitter.view.adapter.data.ManualTranscriptionProduct" />
+    </data>
 
-    <TextView
-        android:id="@+id/product_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:textSize="@dimen/caption_text_size"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_price"
-        tools:text="Unidades: 1" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/edit_product"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="0dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/content_description_edit_product"
-        app:layout_constraintBottom_toBottomOf="@+id/delete_product"
-        app:layout_constraintRight_toLeftOf="@+id/delete_product"
-        app:layout_constraintTop_toTopOf="@+id/delete_product"
-        app:srcCompat="@drawable/ic_edit_black_24dp"
-        android:tint="@color/light_icon_tint"/>
+        <TextView
+            android:id="@+id/product_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{product.name}"
+            tools:text="Producto A"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@android:color/black"/>
 
-    <ImageButton
-        android:id="@+id/delete_product"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="0dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/content_description_delete_product"
-        app:layout_constraintBottom_toBottomOf="@+id/product_quantity"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/product_name"
-        app:layout_constraintVertical_bias="0.6"
-        app:srcCompat="@drawable/ic_delete_forever_black_24dp"
-        android:tint="@color/light_icon_tint"/>
+        <TextView
+            android:id="@+id/product_price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@{@string/manual_transcription_product_price(product.unitPrice, Currency.getInstance(Locale.getDefault()).symbol)}"
+            tools:text="Precio/unidad: 2,47€"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_name_text"
+            android:textSize="@dimen/caption_text_size"/>
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/product_quantity_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:textSize="@dimen/caption_text_size"
+            android:text="@{@string/manual_transcription_product_quantity(product.quantity)}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_price_text"
+            tools:text="Unidades: 1" />
+
+        <ImageButton
+            android:id="@+id/edit_product"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="0dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/content_description_edit_product"
+            app:layout_constraintBottom_toBottomOf="@+id/delete_product"
+            app:layout_constraintRight_toLeftOf="@+id/delete_product"
+            app:layout_constraintTop_toTopOf="@+id/delete_product"
+            app:srcCompat="@drawable/ic_edit_black_24dp"
+            android:tint="@color/light_icon_tint"/>
+
+        <ImageButton
+            android:id="@+id/delete_product"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="0dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/content_description_delete_product"
+            app:layout_constraintBottom_toBottomOf="@+id/product_quantity_text"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/product_name_text"
+            app:layout_constraintVertical_bias="0.6"
+            app:srcCompat="@drawable/ic_delete_forever_black_24dp"
+            android:tint="@color/light_icon_tint"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

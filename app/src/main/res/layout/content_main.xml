@@ -26,7 +26,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="1.0"
             android:id="@+id/constraintLayout"
-            android:visibility="@{bills.isEmpty()? View.VISIBLE : View.GONE}">
+            android:visibility="@{bills == null || bills.isEmpty()? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:id="@+id/welcome"
@@ -135,7 +135,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
             android:layout_marginBottom="0dp"
             tools:listitem="@layout/item_bill_main_activity"
-            android:visibility="@{bills.isEmpty()? View.GONE : View.VISIBLE}"/>
+            android:visibility="@{bills == null || bills.isEmpty()? View.GONE : View.VISIBLE}"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>
