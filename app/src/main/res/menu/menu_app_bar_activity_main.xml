@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_search_24dp"
+        android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/action_activity_main_search"
         app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_settings"
-        android:icon="@drawable/ic_settings_24dp"
+        android:icon="@drawable/ic_settings_white_24dp"
         android:title="@string/action_activity_main_settings"
         app:showAsAction="ifRoom"/>
 

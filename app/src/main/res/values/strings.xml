@@ -13,4 +13,8 @@
     <string name="content_description_button_start">Botón principal</string>
     <string name="action_activity_main_search">Buscar</string>
     <string name="action_activity_main_settings">Ajustes</string>
+    <string name="hint_edit_text_product_name">Producto</string>
+    <string name="hint_edit_text_product_price">Precio</string>
+    <string name="content_description_delete_product">Eliminar producto</string>
+    <string name="content_description_edit_product">Editar producto</string>
 </resources>

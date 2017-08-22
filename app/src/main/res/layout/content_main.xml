@@ -56,27 +56,29 @@
                 android:adjustViewBounds="false"
                 android:contentDescription="@string/content_description_blue_circle"
                 android:cropToPadding="false"
-                android:src="@drawable/ic_brightness_black_24dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/welcome" />
+                app:layout_constraintTop_toBottomOf="@+id/welcome"
+                app:srcCompat="@drawable/ic_brightness_black_24dp"
+                android:tint="@color/colorPrimary"/>
 
             <ImageView
                 android:id="@+id/receipt"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="32dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="32dp"
-                android:src="@drawable/ic_receipt_white_24dp"
+                android:contentDescription="@string/content_description_receipt_icon"
                 app:layout_constraintBottom_toBottomOf="@+id/circle_background"
                 app:layout_constraintLeft_toLeftOf="@+id/circle_background"
                 app:layout_constraintRight_toRightOf="@+id/circle_background"
                 app:layout_constraintTop_toTopOf="@+id/circle_background"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:contentDescription="@string/content_description_receipt_icon"/>
+                app:srcCompat="@drawable/ic_receipt_black_24dp"
+                android:tint="@android:color/white"/>
 
             <TextView
                 android:id="@+id/tip_before"
@@ -91,22 +93,22 @@
                 app:layout_constraintLeft_toLeftOf="parent" />
 
             <ImageView
+                android:id="@+id/tip_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_circle_24dp"
-                app:layout_constraintDimensionRatio="w,1:1"
-                android:id="@+id/tip_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/tip_after"
-                app:layout_constraintLeft_toRightOf="@+id/tip_before"
+                android:layout_marginBottom="32dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="32dp"
                 android:layout_marginTop="8dp"
+                android:contentDescription="@string/content_description_button_start"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintLeft_toRightOf="@+id/tip_before"
+                app:layout_constraintRight_toLeftOf="@+id/tip_after"
                 app:layout_constraintTop_toBottomOf="@+id/circle_background"
-                android:contentDescription="@string/content_description_button_start"/>
+                app:srcCompat="@drawable/ic_add_circle_24dp" />
 
             <TextView
                 android:id="@+id/tip_after"

@@ -22,4 +22,7 @@
         <item>@color/fab_mini_photo_library</item>
         <item>@color/fab_mini_camera</item>
     </array>
+
+    <color name="color_edit_text_border">#EEEEEE</color>
+    <color name="light_icon_tint">#757575</color>
 </resources>

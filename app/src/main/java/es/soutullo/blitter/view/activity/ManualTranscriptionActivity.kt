@@ -2,6 +2,7 @@ package es.soutullo.blitter.view.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.view.adapter.data.ManualTranscriptionProduct
@@ -12,6 +13,11 @@ class ManualTranscriptionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manual_transcription)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuInflater.inflate(R.menu.menu_app_bar_activity_manual_transcription, menu)
+        return true
     }
 
     /**
