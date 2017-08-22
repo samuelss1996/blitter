@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="java.util.Currency" />
-        <import type="java.util.Locale"/>
-
+        <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
         <variable name="product" type="es.soutullo.blitter.view.adapter.data.ManualTranscriptionProduct" />
     </data>
 
@@ -34,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:text="@{@string/manual_transcription_product_price(product.unitPrice, Currency.getInstance(Locale.getDefault()).symbol)}"
+            android:text="@{@string/manual_transcription_product_price(product.unitPrice, utils.currencySymbol)}"
             tools:text="Precio/unidad: 2,47€"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_name_text"

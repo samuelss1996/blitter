@@ -23,6 +23,7 @@
         <item>@color/fab_mini_camera</item>
     </array>
 
-    <color name="color_edit_text_border">#EEEEEE</color>
+    <color name="edit_text_border">#EEEEEE</color>
     <color name="light_icon_tint">#757575</color>
+    <color name="color_bill_summary_text">#263238</color>
 </resources>

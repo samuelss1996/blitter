@@ -19,4 +19,14 @@
     <string name="content_description_edit_product">Editar producto</string>
     <string name="manual_transcription_product_quantity">Unidades: %1$d</string>
     <string name="manual_transcription_product_price">Precio/unidad: %1$f %2$s</string>
+    <string name="button_amend_bill_summary">Corregir</string>
+    <string name="button_continue_bill_summary">Continuar</string>
+    <string name="bill_summary_header">TU CUENTA - BLITTER</string>
+    <string name="generic_item_price">%1$f %2$s</string>
+    <string name="bill_summary_total_products_text">NUM. TOTAL DE PRODUCTOS:</string>
+    <string name="bill_summary_products_header">PRODUCTOS</string>
+    <string name="bill_summary_total_price_text">PRECIO TOTAL:</string>
+    <string name="bill_summary_separator_product_count">-</string>
+    <string name="bill_summary_separator_products_title">=</string>
+    <string name="bill_summary_separator_total_price">*</string>
 </resources>
