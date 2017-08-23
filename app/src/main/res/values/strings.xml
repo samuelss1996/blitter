@@ -29,4 +29,5 @@
     <string name="bill_summary_separator_product_count">-</string>
     <string name="bill_summary_separator_products_title">=</string>
     <string name="bill_summary_separator_total_price">*</string>
+    <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
 </resources>

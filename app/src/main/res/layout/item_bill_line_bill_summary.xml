@@ -5,7 +5,7 @@
 
     <data>
         <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
-        <variable name="billLine" type="es.soutullo.blitter.model.vo.bill.BillLine" />
+        <variable name="item" type="es.soutullo.blitter.model.vo.bill.BillLine" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -17,7 +17,7 @@
             android:id="@+id/bill_line_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{billLine.name.toUpperCase()}"
+            android:text="@{item.name.toUpperCase()}"
             tools:text="PRODUCTO A"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
@@ -31,7 +31,7 @@
             android:id="@+id/bill_line_price_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/generic_item_price(billLine.price, utils.currencySymbol)}"
+            android:text="@{@string/generic_item_price(item.price, utils.currencySymbol)}"
             tools:text="2,07 €"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"

@@ -20,4 +20,7 @@ data class BillLine(val lineNumber: Int, val name: String, val price: Float, val
         // TODO implement here
     }
 
+    fun getAssignedPeopleAsString() : String {
+        TODO()
+    }
 }

@@ -26,4 +26,6 @@
     <color name="edit_text_border">#EEEEEE</color>
     <color name="light_icon_tint">#757575</color>
     <color name="color_bill_summary_text">#263238</color>
+
+    <color name="material_green_500">#4CAF50</color>
 </resources>

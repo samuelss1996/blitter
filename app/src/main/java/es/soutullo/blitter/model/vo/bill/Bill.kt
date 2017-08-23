@@ -18,4 +18,12 @@ data class Bill(val id: Int, val name: String, val lines: List<BillLine>, val pr
     fun addLine(line: BillLine) {
         // TODO implement here
     }
+
+    fun getBeautifulPrice(): String {
+        TODO()
+    }
+
+    fun getBeautifulDate(): String {
+        TODO()
+    }
 }
