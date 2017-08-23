@@ -7,11 +7,8 @@ import es.soutullo.blitter.model.vo.bill.BillLine
  */
 data class BillPerson(val name: String, val lines: List<BillLine>) : Person(name) {
 
-    /**
-     * @return
-     */
-    // TODO implement here
-    val payingAmountWithoutTip: Float
-        get() = 0.0f
-
+    // TODO UPDATE UML
+    fun getPayingAmountWithTip(): Float {
+        TODO()
+    }
 }

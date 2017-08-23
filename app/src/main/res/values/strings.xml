@@ -30,4 +30,9 @@
     <string name="bill_summary_separator_products_title">=</string>
     <string name="bill_summary_separator_total_price">*</string>
     <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
+    <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
+    <string name="tip_final_result">Toca sobre una persona para ver el desglose detallado.</string>
+    <string name="final_result_button_split_again">Volver a repartir</string>
+    <string name="final_result_button_finished">Listo</string>
+    <string name="content_description_button_rename_bill">Renombrar cuenta</string>
 </resources>
