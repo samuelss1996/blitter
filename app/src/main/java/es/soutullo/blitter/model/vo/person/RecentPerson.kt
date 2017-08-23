@@ -5,5 +5,5 @@ import java.util.*
 /**
  *
  */
-data class RecentPerson(val name: String, val lastDate: Date) : Person(name) {
+data class RecentPerson(override val name: String, val lastDate: Date) : Person(name) {
 }

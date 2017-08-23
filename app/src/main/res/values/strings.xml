@@ -38,4 +38,14 @@
     <string name="title_user_products">Productos de este usuario</string>
     <string name="bill_trace_all_product">Totatilidad del producto (%1$s)</string>
     <string name="bill_trace_partial_product">1/%1$d del producto (%2$s)</string>
+    <string name="dialog_edit_product_hint_product_name">Nombre del producto</string>
+    <string name="dialog_edit_product_hint_product_price">Precio (%1$s)</string>
+    <string name="dialog_edit_product_hint_product_quantity">Cantidad</string>
+    <string name="dialog_tip_hint">Introduce el porcentaje (%) de propina a continuación. Es posible cambiar el valor por defecto desde los ajustes</string>
+    <string name="dialog_tip_result_text">Se añadirá un %1$d\%% de propina (%2$s) a la cuenta.</string>
+
+    <plurals name="dialog_product_assignation_sub_header">
+        <item quantity="one">Asignar este producto a:</item>
+        <item quantity="other">Asignar estos productos a:</item>
+    </plurals>
 </resources>

@@ -39,6 +39,7 @@ dependencies {
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'co.metalab.asyncawait:asyncawait:1.0.0'
     compile 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'
+    compile 'com.xw.repo:bubbleseekbar:3.4-lite'
     testCompile 'junit:junit:4.12'
 }
 
