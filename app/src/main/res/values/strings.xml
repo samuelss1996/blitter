@@ -11,6 +11,7 @@
     <string name="content_description_blue_circle">Círculo azul</string>
     <string name="content_description_receipt_icon">Icono de factura</string>
     <string name="content_description_button_start">Botón principal</string>
+    <string name="badge_bill_status_not_completed">Sin completar</string>
     <string name="action_activity_main_search">Buscar</string>
     <string name="action_activity_main_settings">Ajustes</string>
     <string name="hint_edit_text_product_name">Producto</string>
