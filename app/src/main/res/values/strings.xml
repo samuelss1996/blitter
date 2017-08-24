@@ -1,3 +1,65 @@
 <resources>
     <string name="app_name">Blitter</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_assignation">AssignationActivity</string>
+    <string name="main_fab_manually">Transcribir manualmente</string>
+    <string name="main_fab_gallery">Desde la galería</string>
+    <string name="main_fab_camera">Desde la cámara</string>
+    <string name="bills_empty_state_welcome">¡Bienvenido!</string>
+    <string name="bills_empty_state_instruction_before">Pulsa el botón</string>
+    <string name="bills_empty_state_instruction_after">para comenzar</string>
+    <string name="content_description_blue_circle">Círculo azul</string>
+    <string name="content_description_receipt_icon">Icono de factura</string>
+    <string name="content_description_button_start">Botón principal</string>
+    <string name="badge_bill_status_not_completed">Sin completar</string>
+    <string name="action_activity_main_search">Buscar</string>
+    <string name="action_activity_main_settings">Ajustes</string>
+    <string name="hint_edit_text_product_name">Producto</string>
+    <string name="hint_edit_text_product_price">Precio</string>
+    <string name="content_description_delete_product">Eliminar producto</string>
+    <string name="content_description_edit_product">Editar producto</string>
+    <string name="manual_transcription_product_quantity">Unidades: %1$d</string>
+    <string name="manual_transcription_product_price">Precio/unidad: %1$f %2$s</string>
+    <string name="button_amend_bill_summary">Corregir</string>
+    <string name="button_continue_bill_summary">Continuar</string>
+    <string name="bill_summary_header">TU CUENTA - BLITTER</string>
+    <string name="generic_item_price">%1$f %2$s</string>
+    <string name="bill_summary_total_products_text">NUM. TOTAL DE PRODUCTOS:</string>
+    <string name="bill_summary_products_header">PRODUCTOS</string>
+    <string name="bill_summary_total_price_text">PRECIO TOTAL:</string>
+    <string name="bill_summary_separator_product_count">-</string>
+    <string name="bill_summary_separator_products_title">=</string>
+    <string name="bill_summary_separator_total_price">*</string>
+    <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
+    <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
+    <string name="tip_final_result">Toca sobre una persona para ver el desglose detallado.</string>
+    <string name="final_result_button_split_again">Volver a repartir</string>
+    <string name="final_result_button_finished">Listo</string>
+    <string name="content_description_button_rename_bill">Renombrar cuenta</string>
+    <string name="title_user_products">Productos de este usuario</string>
+    <string name="bill_trace_all_product">Totatilidad del producto (%1$s)</string>
+    <string name="bill_trace_partial_product">1/%1$d del producto (%2$s)</string>
+    <string name="dialog_edit_product_hint_product_name">Nombre del producto</string>
+    <string name="dialog_edit_product_hint_product_price">Precio (%1$s)</string>
+    <string name="dialog_edit_product_hint_product_quantity">Cantidad</string>
+    <string name="dialog_tip_hint">Introduce el porcentaje (%) de propina a continuación. Es posible cambiar el valor por defecto desde los ajustes</string>
+    <string name="dialog_tip_result_text">Se añadirá un %1$d\%% de propina (%2$s) a la cuenta.</string>
+
+    <string name="preference_category_title_settings">Ajustes</string>
+    <string name="preference_category_title_about">Acerca de</string>
+    <string name="preference_title_default_tip">Porcentaje de propina</string>
+    <string name="preference_title_remove_ads">Eliminar anuncios</string>
+    <string name="preference_summary_remove_ads">¡No más anuncios!</string>
+    <string name="preference_title_developer">Desarrollador</string>
+    <string name="preference_summary_developer" translatable="false">Samuel Soutullo Sobral</string>
+    <string name="preference_title_contact">Contacto</string>
+    <string name="preference_summary_contact" translatable="false">samuelsoutullosobral@gmail.com</string>
+    <string name="preference_title_version">Versión</string>
+    <string name="preference_title_privacy_policy">Política de privacidad</string>
+    <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
+
+    <plurals name="dialog_product_assignation_sub_header">
+        <item quantity="one">Asignar este producto a:</item>
+        <item quantity="other">Asignar estos productos a:</item>
+    </plurals>
 </resources>

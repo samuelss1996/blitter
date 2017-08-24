@@ -2,5 +2,32 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryLight">#5C6BC0</color>
+    <color name="colorAccent">#078B75</color>
+
+    <color name="colorOverPrimary">#FFFFFFFF</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <color name="fab_mini_receipt_non_pressed">#AB47BC</color>
+    <color name="fab_mini_photo_library_non_pressed">#2196F3</color>
+    <color name="fab_mini_camera_non_pressed">#43A047</color>
+
+    <color name="fab_mini_receipt_pressed">#BA68C8</color>
+    <color name="fab_mini_photo_library_pressed">#42A5F5</color>
+    <color name="fab_mini_camera_pressed">#4CAF50</color>
+
+    <array name="mini_fab_background_color_list">
+        <item>@color/fab_mini_receipt</item>
+        <item>@color/fab_mini_photo_library</item>
+        <item>@color/fab_mini_camera</item>
+    </array>
+
+    <color name="edit_text_border">#EEEEEE</color>
+    <color name="light_icon_tint">#757575</color>
+    <color name="color_bill_summary_text">#263238</color>
+
+    <color name="material_green_500">#4CAF50</color>
+
+    <color name="material_red_600">#E53935</color>
 </resources>

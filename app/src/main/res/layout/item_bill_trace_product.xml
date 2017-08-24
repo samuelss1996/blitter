@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
+        <variable name="item" type="es.soutullo.blitter.model.vo.bill.BillLine" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/bill_trace_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.name}"
+            tools:text="Producto A"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/bill_trace_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@{item.persons.size() == 1? @string/bill_trace_all_product(@string/generic_item_price(item.price, utils.currencySymbol)) : @string/bill_trace_partial_product(item.persons.size(), @string/generic_item_price(item.price / item.persons.size(), utils.currencySymbol))}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bill_trace_product_name"
+            tools:text="1/2 del producto (0,50 €)"
+            android:textSize="12sp"/>
+    </android.support.constraint.ConstraintLayout>
+</layout>
