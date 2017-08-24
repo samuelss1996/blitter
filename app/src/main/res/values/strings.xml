@@ -45,6 +45,19 @@
     <string name="dialog_tip_hint">Introduce el porcentaje (%) de propina a continuación. Es posible cambiar el valor por defecto desde los ajustes</string>
     <string name="dialog_tip_result_text">Se añadirá un %1$d\%% de propina (%2$s) a la cuenta.</string>
 
+    <string name="preference_category_title_settings">Ajustes</string>
+    <string name="preference_category_title_about">Acerca de</string>
+    <string name="preference_title_default_tip">Porcentaje de propina</string>
+    <string name="preference_title_remove_ads">Eliminar anuncios</string>
+    <string name="preference_summary_remove_ads">¡No más anuncios!</string>
+    <string name="preference_title_developer">Desarrollador</string>
+    <string name="preference_summary_developer" translatable="false">Samuel Soutullo Sobral</string>
+    <string name="preference_title_contact">Contacto</string>
+    <string name="preference_summary_contact" translatable="false">samuelsoutullosobral@gmail.com</string>
+    <string name="preference_title_version">Versión</string>
+    <string name="preference_title_privacy_policy">Política de privacidad</string>
+    <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
+
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
         <item quantity="other">Asignar estos productos a:</item>

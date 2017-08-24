@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/preference_category_title_settings">
+        <com.pavelsikun.seekbarpreference.SeekBarPreference
+            android:key="preference_default_tip_percent"
+            android:defaultValue="0"
+            sample:msbp_minValue="0"
+            sample:msbp_maxValue="@integer/max_tip_percent"
+            sample:msbp_interval="1"
+            sample:msbp_measurementUnit="%"
+            sample:msbp_dialogEnabled="true"
+
+            android:title="@string/preference_title_default_tip"/>
+
+        <Preference
+            android:key="preference_remove_ads"
+            android:title="Eliminar anuncios"
+            android:summary="¡No más publicidad!"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/preference_category_title_about">
+        <Preference
+            android:key="preference_developer"
+            android:title="@string/preference_title_developer"
+            android:summary="@string/preference_summary_developer" />
+
+        <Preference
+            android:key="preference_contact"
+            android:title="@string/preference_title_contact"
+            android:summary="@string/preference_summary_contact" />
+
+        <Preference
+            android:key="preference_version"
+            android:title="@string/preference_title_version"
+            android:summary="@string/app_version_name" />
+
+        <Preference
+            android:key="preference_privacy_policy"
+            android:title="@string/preference_title_privacy_policy"
+            android:summary="@string/preference_summary_privacy_policy" />
+    </PreferenceCategory>
+</PreferenceScreen>
