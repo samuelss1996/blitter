@@ -1,12 +1,17 @@
 package es.soutullo.blitter.model.vo.person
 
-import android.graphics.drawable.Drawable
+import es.soutullo.blitter.model.vo.bill.BillLine
+import java.util.*
+import kotlin.collections.ArrayList
 
-/**
- *
- */
-abstract class Person(open val name: String) {
-    val profilePicture: Drawable by lazy {
+
+data class Person(val id: Long?, val name: String, val lastDate: Date, val lines: List<BillLine> = ArrayList()) {
+
+    fun getPayingAmountWithTip(): Float {
+        TODO()
+    }
+
+    fun getCompletePayingAmountAsString(): String {
         TODO()
     }
 }

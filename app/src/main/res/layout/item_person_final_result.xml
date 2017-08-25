@@ -5,7 +5,7 @@
 
     <data>
         <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
-        <variable name="item" type="es.soutullo.blitter.model.vo.person.BillPerson" />
+        <variable name="item" type="es.soutullo.blitter.model.vo.person.Person" />
         <variable name="traceFlag" type="Boolean" />
     </data>
 

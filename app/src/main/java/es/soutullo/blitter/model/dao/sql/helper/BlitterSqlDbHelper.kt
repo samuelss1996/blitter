@@ -19,6 +19,10 @@ class BlitterSqlDbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
 
     }
 
+    override fun onConfigure(db: SQLiteDatabase?) {
+        db?.setForeignKeyConstraintsEnabled(true)
+    }
+
     /**
      * Generates the creation sql query for a specific table
      * @param table The table to create the query for
@@ -35,7 +39,7 @@ class BlitterSqlDbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         }
 
         for ((currentCol, refTable, refCol) in table.foreignKeys) {
-            queryBuilder.append(String.format("FOREIGN KEY (%s) REFERENCES %s(%s),", currentCol, refTable, refCol))
+            queryBuilder.append(String.format("FOREIGN KEY (%s) REFERENCES %s(%s) ON DELETE CASCADE,", currentCol, refTable, refCol))
         }
 
         return queryBuilder.replace(queryBuilder.lastIndexOf(","), queryBuilder.lastIndexOf(",") + 1, ");").toString()

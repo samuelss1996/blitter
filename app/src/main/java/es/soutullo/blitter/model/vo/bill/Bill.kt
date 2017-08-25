@@ -5,8 +5,8 @@ import java.util.*
 /**
  *
  */
-data class Bill(val id: Int, val name: String, val lines: List<BillLine>, val priceWithoutTip: Float,
-                val tipPercent: Float, val date: Date, val source: EBillSource, val status: EBillStatus) {
+data class Bill(var id: Long?, val name: String, val date: Date, val source: EBillSource, val status: EBillStatus,
+                val lines: List<BillLine> = ArrayList(), val priceWithoutTip: Float = 0f, val tipPercent: Float = 0f) {
 
     fun getLine(index: Int) {
         // TODO implement here

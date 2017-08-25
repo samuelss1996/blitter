@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
-import es.soutullo.blitter.model.vo.person.BillPerson
+import es.soutullo.blitter.model.vo.person.Person
 
 class AssignationActivity : AppCompatActivity() {
     private lateinit var bill: Bill
@@ -70,7 +70,7 @@ class AssignationActivity : AppCompatActivity() {
      * @param assignedPersons
      * @param unassignedPersons
      */
-    fun onAssignationDone(affectedBillLines: List<BillLine>, assignedPersons: List<BillPerson>, unassignedPersons: List<BillPerson>) {
+    fun onAssignationDone(affectedBillLines: List<BillLine>, assignedPersons: List<Person>, unassignedPersons: List<Person>) {
         // TODO implement here
     }
 

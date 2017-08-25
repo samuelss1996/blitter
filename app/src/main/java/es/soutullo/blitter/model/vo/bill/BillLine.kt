@@ -1,22 +1,22 @@
 package es.soutullo.blitter.model.vo.bill
 
-import es.soutullo.blitter.model.vo.person.BillPerson
+import es.soutullo.blitter.model.vo.person.Person
 
 /**
  *
  */
-data class BillLine(val lineNumber: Int, val name: String, val price: Float, val persons: List<BillPerson>) {
+data class BillLine(val id: Long?, val lineNumber: Int, val name: String, val price: Float, val persons: List<Person> = ArrayList()) {
     /**
      * @param person
      */
-    fun assignPerson(person: BillPerson) {
+    fun assignPerson(person: Person) {
         // TODO implement here
     }
 
     /**
      * @param person
      */
-    fun unassignPerson(person: BillPerson) {
+    fun unassignPerson(person: Person) {
         // TODO implement here
     }
 

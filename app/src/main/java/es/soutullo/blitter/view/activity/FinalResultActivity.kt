@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.Bill
-import es.soutullo.blitter.model.vo.person.BillPerson
+import es.soutullo.blitter.model.vo.person.Person
 
 class FinalResultActivity : AppCompatActivity() {
     private lateinit var bill: Bill
@@ -46,7 +46,7 @@ class FinalResultActivity : AppCompatActivity() {
      * @param listIndex
      * @param person
      */
-    fun onBillPersonClicked(listIndex: Int, person: BillPerson) {
+    fun onBillPersonClicked(listIndex: Int, person: Person) {
         // TODO implement here
     }
 }
