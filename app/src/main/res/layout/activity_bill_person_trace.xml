@@ -6,7 +6,7 @@
 
     <data>
         <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
-        <variable name="person" type="es.soutullo.blitter.model.vo.person.BillPerson" />
+        <variable name="person" type="es.soutullo.blitter.model.vo.person.Person" />
     </data>
 
     <android.support.constraint.ConstraintLayout

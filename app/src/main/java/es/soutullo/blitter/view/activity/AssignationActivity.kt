@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
-import es.soutullo.blitter.model.vo.person.BillPerson
+import es.soutullo.blitter.model.vo.person.Person
 
 class AssignationActivity : AppCompatActivity() {
     private lateinit var bill: Bill
@@ -16,10 +16,10 @@ class AssignationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_assignation)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -70,7 +70,7 @@ class AssignationActivity : AppCompatActivity() {
      * @param assignedPersons
      * @param unassignedPersons
      */
-    fun onAssignationDone(affectedBillLines: List<BillLine>, assignedPersons: List<BillPerson>, unassignedPersons: List<BillPerson>) {
+    fun onAssignationDone(affectedBillLines: List<BillLine>, assignedPersons: List<Person>, unassignedPersons: List<Person>) {
         // TODO implement here
     }
 

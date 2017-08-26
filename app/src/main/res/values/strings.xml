@@ -2,6 +2,7 @@
     <string name="app_name">Blitter</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_assignation">AssignationActivity</string>
+    <string name="persons_array_separator">, </string>
     <string name="main_fab_manually">Transcribir manualmente</string>
     <string name="main_fab_gallery">Desde la galería</string>
     <string name="main_fab_camera">Desde la cámara</string>
@@ -12,6 +13,8 @@
     <string name="content_description_receipt_icon">Icono de factura</string>
     <string name="content_description_button_start">Botón principal</string>
     <string name="badge_bill_status_not_completed">Sin completar</string>
+    <string name="bill_beautiful_price_without_tip">%1$s, sin propina</string>
+    <string name="bill_beautiful_price_with_tip">%1$s + %2$s de propina</string>
     <string name="action_activity_main_search">Buscar</string>
     <string name="action_activity_main_settings">Ajustes</string>
     <string name="hint_edit_text_product_name">Producto</string>
@@ -30,6 +33,7 @@
     <string name="bill_summary_separator_product_count">-</string>
     <string name="bill_summary_separator_products_title">=</string>
     <string name="bill_summary_separator_total_price">*</string>
+    <string name="item_assignation_persons_unassigned">Sin asignar</string>
     <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
     <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
     <string name="tip_final_result">Toca sobre una persona para ver el desglose detallado.</string>
@@ -58,8 +62,18 @@
     <string name="preference_title_privacy_policy">Política de privacidad</string>
     <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
 
+
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
         <item quantity="other">Asignar estos productos a:</item>
+    </plurals>
+
+    <plurals name="item_assignation_persons_assigned_all_as_number">
+        <item quantity="one">%d persona</item>
+        <item quantity="other">%d personas</item>
+    </plurals>
+
+    <plurals name="item_assignation_persons_more">
+        <item quantity="other"> y %d más</item>
     </plurals>
 </resources>
