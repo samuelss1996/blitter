@@ -43,7 +43,7 @@
             android:id="@+id/user_paying_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{traceFlag != null &amp;&amp; traceFlag? item.completePayingAmountAsString : @string/generic_item_price(item.payingAmountWithTip, utils.currencySymbol)}"
+            android:text="@{traceFlag != null &amp;&amp; traceFlag? item.getBeautifulPayingAmount(context) : @string/generic_item_price(item.payingAmountWithTip, utils.currencySymbol)}"
             tools:text="3,07 €"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:layout_constraintBottom_toBottomOf="@+id/user_profile_picture"

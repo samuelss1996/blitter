@@ -29,13 +29,15 @@ object SqlUtils {
     /**
      * Converts a cursor positioned in a bill line row to a bill line object
      * @param cursor The cursor
+     * @param bill The bill object the bill line belongs to
      * @return The bill line object
      */
-    fun cursorToBillLine(cursor: Cursor) : BillLine = BillLine (
+    fun cursorToBillLine(cursor: Cursor, bill: Bill) : BillLine = BillLine (
             id = cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry._ID.colName)),
             lineNumber = cursor.getInt(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry.LINE_NUMBER.colName)),
             name = cursor.getString(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry.NAME.colName)),
-            price = cursor.getFloat(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry.PRICE.colName))
+            price = cursor.getFloat(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry.PRICE.colName)),
+            bill = bill
     )
 
     /**

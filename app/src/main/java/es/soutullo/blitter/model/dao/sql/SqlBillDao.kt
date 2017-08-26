@@ -123,7 +123,7 @@ class SqlBillDao(private val context: Context) : BillDao {
 
         this.dbHelper.readableDatabase.rawQuery(queryLines, arrayOf(bill.id.toString())).use { lineCursor ->
             while(lineCursor.moveToNext()) {
-                val billLine = SqlUtils.cursorToBillLine(lineCursor)
+                val billLine = SqlUtils.cursorToBillLine(lineCursor, bill)
 
                 this.fillBillLinePeople(billLine)
                 bill.addLine(billLine)
