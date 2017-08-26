@@ -156,7 +156,6 @@ class SqlBillDao(private val context: Context) : BillDao {
         val values = ContentValues()
 
         values.put(BillEntry.NAME.colName, bill.name)
-        values.put(BillEntry.PRICE_WITHOUT_TIP.colName, bill.priceWithoutTip)
         values.put(BillEntry.TIP_PERCENT.colName, bill.tipPercent)
         values.put(BillEntry.DATE.colName, bill.date.time)
         values.put(BillEntry.SOURCE.colName, bill.source.sourceId)

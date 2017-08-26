@@ -11,15 +11,16 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/list_item_horizontal_padding"
+        android:paddingRight="@dimen/list_item_horizontal_padding"
+        android:paddingTop="@dimen/list_item_vertical_padding"
+        android:paddingBottom="@dimen/list_item_vertical_padding">
 
         <ImageView
             android:id="@+id/user_profile_picture"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_user_profile_picture"/>
@@ -35,22 +36,23 @@
             android:layout_marginTop="8dp"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@+id/user_profile_picture"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@android:color/black"/>
+            android:layout_marginLeft="@dimen/list_item_horizontal_padding"
+            android:layout_marginStart="@dimen/list_item_horizontal_padding"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/list_title_text_size"/>
 
         <TextView
             android:id="@+id/user_paying_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{traceFlag != null &amp;&amp; traceFlag? item.getBeautifulPayingAmount(context) : @string/generic_item_price(item.payingAmountWithTip, utils.currencySymbol)}"
+            android:text="@{traceFlag != null &amp;&amp; traceFlag? utils.getPriceAsStringWithTip(context, item.payingAmountWithoutTip, item.tipPercent) : utils.getPriceAsString(item.payingAmountWithTip)}"
             tools:text="3,07 €"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:layout_constraintBottom_toBottomOf="@+id/user_profile_picture"
             android:layout_marginBottom="8dp"
             app:layout_constraintLeft_toRightOf="@+id/user_profile_picture"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:textSize="12sp"/>
+            android:layout_marginLeft="@dimen/list_item_horizontal_padding"
+            android:layout_marginStart="@dimen/list_item_horizontal_padding"
+            android:textSize="@dimen/list_caption_text_size"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

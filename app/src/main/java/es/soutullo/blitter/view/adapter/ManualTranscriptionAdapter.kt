@@ -1,38 +1,11 @@
 package es.soutullo.blitter.view.adapter
 
-import android.support.v7.widget.RecyclerView
-import android.view.View
-
+import es.soutullo.blitter.R
 import es.soutullo.blitter.view.adapter.data.ManualTranscriptionProduct
 import es.soutullo.blitter.view.adapter.generic.GenericListAdapter
 
-/**
- *
- */
-/**
- * Default constructor
- */
+/** RecyclerView adapter for the products on the manual transcription activity */
 class ManualTranscriptionAdapter : GenericListAdapter<ManualTranscriptionProduct>() {
-
-    override fun getItemLayout(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getViewHolder(view: View): RecyclerView.ViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    /**
-     *
-     */
-    private fun onEditProductClicked() {
-        // TODO implement here
-    }
-
-    /**
-     *
-     */
-    private fun onDeleteProductClicked() {
-        // TODO implement here
-    }
+    override fun getItemLayout(): Int = R.layout.item_product_manual_transcription_activity
+    override fun clickableChildren(): Array<Int> = arrayOf(R.id.edit_product, R.id.delete_product)
 }

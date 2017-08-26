@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context="es.soutullo.blitter.view.activity.ManualTranscriptionActivity"
     tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="0dp"
+    android:id="@+id/activity_manual_transcription">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/manual_products_list"
@@ -20,6 +21,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/product_field"
+        android:background="@android:color/white"
         tools:listitem="@layout/item_product_manual_transcription_activity"/>
 
     <EditText
@@ -34,13 +36,17 @@
         android:hint="@string/hint_edit_text_product_name"
         android:inputType="textCapSentences"
         android:padding="8dp"
+        android:imeOptions="actionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="5"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/bill_price_text" />
+        app:layout_constraintRight_toLeftOf="@+id/product_price_field">
+
+        <requestFocus />
+    </EditText>
 
     <EditText
-        android:id="@+id/bill_price_text"
+        android:id="@+id/product_price_field"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
@@ -57,7 +63,8 @@
         app:layout_constraintTop_toTopOf="@+id/product_field"
         app:layout_constraintBottom_toBottomOf="@+id/product_field"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        android:imeOptions="actionDone"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="0dp"
@@ -67,10 +74,12 @@
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/add_product"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/bill_price_text"
-        app:layout_constraintTop_toTopOf="@+id/bill_price_text"
+        app:layout_constraintBottom_toBottomOf="@+id/product_price_field"
+        app:layout_constraintTop_toTopOf="@+id/product_price_field"
         app:layout_constraintDimensionRatio="w,1:1"
         app:srcCompat="@drawable/ic_add_black_24dp"
-        android:tint="@android:color/white"/>
+        android:tint="@android:color/white"
+        android:scaleType="center"
+        android:onClick="onAddProductButtonClicked"/>
 
 </android.support.constraint.ConstraintLayout>

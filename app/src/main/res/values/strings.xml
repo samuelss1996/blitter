@@ -22,11 +22,11 @@
     <string name="content_description_delete_product">Eliminar producto</string>
     <string name="content_description_edit_product">Editar producto</string>
     <string name="manual_transcription_product_quantity">Unidades: %1$d</string>
-    <string name="manual_transcription_product_price">Precio/unidad: %1$f %2$s</string>
+    <string name="manual_transcription_product_price">Precio/unidad: %1$s</string>
+    <string name="action_activity_manual_done">Hecho</string>
     <string name="button_amend_bill_summary">Corregir</string>
     <string name="button_continue_bill_summary">Continuar</string>
     <string name="bill_summary_header">TU CUENTA - BLITTER</string>
-    <string name="generic_item_price">%1$f %2$s</string>
     <string name="bill_summary_total_products_text">NUM. TOTAL DE PRODUCTOS:</string>
     <string name="bill_summary_products_header">PRODUCTOS</string>
     <string name="bill_summary_total_price_text">PRECIO TOTAL:</string>
@@ -61,6 +61,16 @@
     <string name="preference_title_version">Versión</string>
     <string name="preference_title_privacy_policy">Política de privacidad</string>
     <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
+    <string name="toast_manual_transcription_fill_fields">Por favor, rellene los campos correctamente</string>
+    <string name="dialog_delete_product_title">Eliminar producto</string>
+    <string name="dialog_delete_product_message">¿Eliminar el producto %1$s?</string>
+    <string name="dialog_delete_product_positive_button">Eliminar</string>
+    <string name="dialog_delete_product_negative_button">Conservar</string>
+    <string name="edit_product_dialog_positive_button">Guardar</string>
+    <string name="edit_product_dialog_negative_button">Cancelar</string>
+    <string name="dialog_edit_product_title">Editar producto</string>
+    <string name="toast_manual_transcription_no_products">Debes añadir al menos un producto antes de continuar</string>
+    <string name="bill_uncompleted_default_name">Cuenta sin completar</string>
 
 
     <plurals name="dialog_product_assignation_sub_header">

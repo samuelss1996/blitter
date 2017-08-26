@@ -55,7 +55,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/dialog_tip_result_text(Math.round(bill.tipPercent * 100), @string/generic_item_price(bill.priceWithoutTip * bill.tipPercent, utils.currencySymbol))}"
+            android:text="@{@string/dialog_tip_result_text(Math.round(bill.tipPercent * 100), utils.getPriceAsString(bill.priceWithoutTip * bill.tipPercent))}"
             app:layout_constraintLeft_toLeftOf="@+id/dialog_tip_seek_bar"
             app:layout_constraintRight_toRightOf="@+id/dialog_tip_seek_bar"
             app:layout_constraintTop_toBottomOf="@+id/dialog_tip_seek_bar"
