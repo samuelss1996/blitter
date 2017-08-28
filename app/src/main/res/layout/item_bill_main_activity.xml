@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{item.status != EBillStatus.COMPLETED? View.VISIBLE: View.GONE}"
-            app:badgeBackground="@color/material_red_600"
+            app:badgeBackground="@color/md_red_600"
             app:badgeTextColor="@android:color/white"
             app:spacing="8dp"
             app:layout_constraintRight_toRightOf="parent"

@@ -65,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/bill_line_price_text"
 
             app:layout_constraintRight_toRightOf="parent"
-            android:tint="@color/material_green_500"
+            android:tint="@color/md_green_500"
             android:visibility="@{item.persons.isEmpty()? View.GONE : View.VISIBLE}"
             android:contentDescription="@string/content_description_assignation_green_tick"/>
 

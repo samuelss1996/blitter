@@ -26,7 +26,6 @@
 
         <activity
             android:name=".view.activity.MainActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
@@ -38,6 +37,9 @@
 
         <activity android:name=".view.activity.ManualTranscriptionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+        <activity android:name=".view.activity.AssignationIntroActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

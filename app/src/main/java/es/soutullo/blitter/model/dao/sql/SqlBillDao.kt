@@ -18,7 +18,7 @@ class SqlBillDao(private val context: Context) : BillDao {
     private val dbHelper = BlitterSqlDbHelper(this.context)
 
     override fun queryBills(begin: Int, limit: Int): List<Bill> {
-        var queryBills = "SELECT * FROM %s ORDER BY %s, %s DESC LIMIT ?, ?"
+        var queryBills = "SELECT * FROM %s ORDER BY %s ASC, %s DESC LIMIT ?, ?"
         queryBills = String.format(queryBills, BILL.tableName, BillEntry.STATUS.colName, BillEntry.DATE.colName)
 
         return this.retrieveBillsByQuery(queryBills, kotlin.arrayOf(begin.toString(), limit.toString()))

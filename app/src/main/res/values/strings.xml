@@ -63,7 +63,7 @@
     <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
     <string name="toast_manual_transcription_fill_fields">Por favor, rellene los campos correctamente</string>
     <string name="dialog_delete_product_title">Eliminar producto</string>
-    <string name="dialog_delete_product_message">¿Eliminar el producto %1$s?</string>
+    <string name="dialog_delete_product_message">¿Deseas eliminar el producto %1$s?</string>
     <string name="dialog_delete_product_positive_button">Eliminar</string>
     <string name="dialog_delete_product_negative_button">Conservar</string>
     <string name="edit_product_dialog_positive_button">Guardar</string>
@@ -71,6 +71,8 @@
     <string name="dialog_edit_product_title">Editar producto</string>
     <string name="toast_manual_transcription_no_products">Debes añadir al menos un producto antes de continuar</string>
     <string name="bill_uncompleted_default_name">Cuenta sin completar</string>
+    <string name="assignation_intro_title">Asignar productos a personas</string>
+    <string name="assignation_intro_description">A continuación se mostrará la lista de productos. Toca sobre un producto para asignarle personas. También puedes seleccionar varios productos a la vez manteniendo pulsado sobre uno</string>
 
 
     <plurals name="dialog_product_assignation_sub_header">

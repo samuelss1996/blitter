@@ -2,6 +2,7 @@ package es.soutullo.blitter.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
@@ -77,7 +78,8 @@ class ManualTranscriptionActivity : AppCompatActivity() {
     /** Gets called when the user clicks the finish button in the action bar */
     private fun onFinishButtonClicked() {
         if(!this.productsAdapter.isEmpty()) {
-            val intent = Intent(this, BillSummaryActivity::class.java)
+            val tutorialViewed = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(AssignationIntroActivity.FLAG_ASSIGNATION_INTRO_VIEWED, false)
+            val intent = Intent(this, if(tutorialViewed) BillSummaryActivity::class.java else AssignationIntroActivity::class.java)
 
             intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
             this.startActivity(intent)
