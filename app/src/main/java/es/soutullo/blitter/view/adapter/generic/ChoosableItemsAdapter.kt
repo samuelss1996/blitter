@@ -1,46 +1,28 @@
 package es.soutullo.blitter.view.adapter.generic
 
 import android.view.View
+import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 
-/**
- *
- */
-abstract class ChoosableItemsAdapter<Item> : GenericListAdapter<Item>() {
+abstract class ChoosableItemsAdapter<Item>(var choosableHandler: IChoosableItemsListHandler? = null) : GenericListAdapter<Item>(handler = choosableHandler) {
     private val choosingModeEnabled: Boolean = false
     private val selectedIndexes: List<Int>? = null
-    //private val handler: IChoosableItemsListHandler? = null
 
-    /**
-     * @param firstSelectionIndex
-     */
     fun startChoiceMode(firstSelectionIndex: Int) {
         // TODO implement here
     }
 
-    /**
-     *
-     */
     fun finishChoiceMode() {
         // TODO implement here
     }
 
-    /**
-     *
-     */
     fun selectAll() {
         // TODO implement here
     }
 
-    /**
-     *
-     */
     fun deselectAll() {
         // TODO implement here
     }
 
-    /**
-     * @return
-     */
     protected abstract fun choosingModeItemLayout(): Int
 
     protected abstract inner class ChoosableItemViewHolder(itemView: View) : GenericListAdapter<Item>.GenericListViewHolder(itemView) {

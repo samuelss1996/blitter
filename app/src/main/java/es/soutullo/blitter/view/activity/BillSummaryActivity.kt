@@ -11,6 +11,7 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.ActivityBillSummaryBinding
+import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.view.adapter.BillSummaryAdapter
@@ -34,6 +35,7 @@ class BillSummaryActivity : AppCompatActivity() {
         this.bill = intent.getSerializableExtra(BILL_INTENT_DATA_KEY) as Bill
         this.linesAdapter = BillSummaryAdapter(this.bill.lines, this.assets)
 
+        this.doBackup()
         this.init()
     }
 
@@ -58,6 +60,12 @@ class BillSummaryActivity : AppCompatActivity() {
 
         intent.putExtra(BILL_INTENT_DATA_KEY, this.bill)
         this.startActivity(intent)
+    }
+
+    /** Saves the bill status on the database */
+    private fun doBackup() {
+        this.bill.status = EBillStatus.UNCONFIRMED
+        DaoFactory.getFactory(this).getBillDao().updateBill(this.bill.id, this.bill)
     }
 
     /** Initializes some fields of the activity */

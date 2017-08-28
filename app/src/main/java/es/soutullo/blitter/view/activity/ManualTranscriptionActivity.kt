@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import es.soutullo.blitter.R
+import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
 import es.soutullo.blitter.model.vo.bill.EBillSource
@@ -25,14 +26,14 @@ import java.util.*
 
 class ManualTranscriptionActivity : AppCompatActivity() {
     private val productsAdapter = ManualTranscriptionAdapter()
-    private var billToAmend: Bill? = null
+    private var bill: Bill? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         this.setContentView(R.layout.activity_manual_transcription)
 
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        this.billToAmend = intent.getSerializableExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY) as Bill?
+        this.bill = intent.getSerializableExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY) as Bill?
 
         this.init()
     }
@@ -44,6 +45,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
+            android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_done -> this.onFinishButtonClicked()
         }
 
@@ -62,6 +64,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
 
         if (productNameText.text.isNotBlank() && productPriceText.text.isNotBlank() && productPriceText.text.toString().toFloatOrNull() != null) {
             this.productsAdapter.add(ManualTranscriptionProduct(productNameText.text.trim().toString(), productPriceText.text.toString().toFloat(), 1))
+            this.doBackup()
 
             productNameText.setText("")
             productPriceText.setText("")
@@ -76,7 +79,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
         if(!this.productsAdapter.isEmpty()) {
             val intent = Intent(this, BillSummaryActivity::class.java)
 
-            intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.toBill(this.productsAdapter.items, EBillStatus.UNCONFIRMED))
+            intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
             this.startActivity(intent)
         } else {
             this.onTryToFinishWithNoProducts()
@@ -107,8 +110,19 @@ class ManualTranscriptionActivity : AppCompatActivity() {
      * Gets called when the user confirms he/she wants to delete a product, by clicking the proper button on a dialog
      * @param listIndex The index of the product on the list of the adapter
      */
-    fun onDeleteProductConfirmed(listIndex: Int) {
+    private fun onDeleteProductConfirmed(listIndex: Int) {
         this.productsAdapter.remove(listIndex)
+        this.doBackup()
+    }
+
+    /**
+     * Gets called when the user confirms the values after editing a product.
+     * @param listIndex The index of the product on the list of the adapter
+     * @param newProduct The product with its new values
+     */
+    private fun onEditProductConfirmed(listIndex: Int, newProduct: ManualTranscriptionProduct) {
+        this.productsAdapter.update(listIndex, newProduct)
+        this.doBackup()
     }
 
     /** Gets called when the user presses the add/edit product button but he/she has not filled all the required fields properly */
@@ -121,15 +135,25 @@ class ManualTranscriptionActivity : AppCompatActivity() {
         Toast.makeText(this, this.getString(R.string.toast_manual_transcription_no_products), Toast.LENGTH_SHORT).show()
     }
 
+    /** Saves the bill status on the database */
+    private fun doBackup() {
+        if (!this.productsAdapter.isEmpty()) {
+            this.bill = this.toBill(this.bill?.id, this.productsAdapter.items)
+            DaoFactory.getFactory(this).getBillDao().updateBill(this.bill!!.id, this.bill!!)
+        } else {
+            val deleteIds = if(this.bill?.id != null) listOf(this.bill!!.id!!) else listOf()
+            DaoFactory.getFactory(this).getBillDao().deleteBills(deleteIds)
+        }
+    }
+
     /**
      * Converts a list of manual transcription products to a bill, in order to be used by the next activities
      * of the app, or to be stored on the database
      * @param products The list of manual transcription products
-     * @param status The status the new bill should have
      * @return The bill
      */
-    private fun toBill(products: List<ManualTranscriptionProduct>, status: EBillStatus): Bill {
-        val bill = Bill(null, this.getString(R.string.bill_uncompleted_default_name), Date(), EBillSource.MANUAL, status)
+    private fun toBill(billId: Long?, products: List<ManualTranscriptionProduct>): Bill {
+        val bill = Bill(billId, this.getString(R.string.bill_uncompleted_default_name), Date(), EBillSource.MANUAL, EBillStatus.WRITING)
 
         var i = 0
         for ((name, unitPrice, quantity) in products) {
@@ -162,7 +186,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
         this.findViewById<EditText>(R.id.product_price_field).setOnEditorActionListener {_, _, _ -> this.onAddProductButtonClicked(null); true}
         this.findViewById<RecyclerView>(R.id.manual_products_list).adapter = this@ManualTranscriptionActivity.productsAdapter
 
-        this.productsAdapter.addAll(this.toProducts(this.billToAmend))
+        this.productsAdapter.addAll(this.toProducts(this.bill))
 
         this.productsAdapter.handler = object : IListHandler {
             override fun onItemClicked(listIndex: Int, clickedViewId: Int) {
@@ -185,7 +209,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
         return object : IDialogHandler {
             override fun onPositiveButtonClicked(dialog: CustomDialog) {
                 if(dialog is EditProductDialog && dialog.getNewProduct() != null) {
-                    this@ManualTranscriptionActivity.productsAdapter.update(listIndex, dialog.getNewProduct()!!)
+                    onEditProductConfirmed(listIndex, dialog.getNewProduct()!!)
                     dialog.dismiss()
                 } else {
                     onTryToAddProductWithWrongField()

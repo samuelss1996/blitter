@@ -18,8 +18,8 @@ class SqlBillDao(private val context: Context) : BillDao {
     private val dbHelper = BlitterSqlDbHelper(this.context)
 
     override fun queryBills(begin: Int, limit: Int): List<Bill> {
-        var queryBills = "SELECT * FROM %s ORDER BY %s DESC LIMIT ?, ?"
-        queryBills = String.format(queryBills, BILL.tableName, BillEntry.DATE.colName)
+        var queryBills = "SELECT * FROM %s ORDER BY %s, %s DESC LIMIT ?, ?"
+        queryBills = String.format(queryBills, BILL.tableName, BillEntry.STATUS.colName, BillEntry.DATE.colName)
 
         return this.retrieveBillsByQuery(queryBills, kotlin.arrayOf(begin.toString(), limit.toString()))
     }
@@ -53,11 +53,11 @@ class SqlBillDao(private val context: Context) : BillDao {
         }
     }
 
-    override fun updateBill(billId: Long, bill: Bill) {
+    override fun updateBill(billId: Long?, bill: Bill) {
         with(this.dbHelper.writableDatabase) {
             this.beginTransaction()
 
-            deleteBills(listOf(billId))
+            deleteBills(if(billId != null) listOf(billId) else listOf())
             insertBill(bill)
 
             this.setTransactionSuccessful()
@@ -67,7 +67,7 @@ class SqlBillDao(private val context: Context) : BillDao {
 
     override fun deleteBills(billsIds: List<Long>) {
         with(this.dbHelper.writableDatabase) {
-            val statement = this.compileStatement(String.format("DELETE FROM %s WHERE id = ?", BILL.tableName))
+            val statement = this.compileStatement(String.format("DELETE FROM %s WHERE %s = ?", BILL.tableName, BillEntry._ID.colName))
             this.beginTransaction()
 
             for (id in billsIds) {

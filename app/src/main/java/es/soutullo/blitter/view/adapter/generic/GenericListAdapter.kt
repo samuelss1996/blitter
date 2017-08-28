@@ -105,6 +105,12 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
         this.notifyDataSetChanged()
     }
 
+    /** Removes all the items from the recycler view */
+    fun clear() {
+        this.items.clear()
+        this.notifyDataSetChanged()
+    }
+
     fun showLoadingMoreProgressBar() {
         // TODO implement here
     }
