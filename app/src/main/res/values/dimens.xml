@@ -8,4 +8,5 @@
     <dimen name="list_title_text_size">16sp</dimen>
     <dimen name="list_caption_text_size">14sp</dimen>
     <dimen name="section_title_size">18sp</dimen>
+    <dimen name="main_activity_tip_text_size">16sp</dimen>
 </resources>

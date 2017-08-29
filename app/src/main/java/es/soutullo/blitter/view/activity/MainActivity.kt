@@ -15,7 +15,6 @@ import es.soutullo.blitter.view.adapter.RecentBillsAdapter
 import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 import io.github.kobakei.materialfabspeeddial.FabSpeedDial
 
-// TODO review the appearance of the main activity
 class MainActivity : AppCompatActivity(), IChoosableItemsListHandler {
     private lateinit var binding: ActivityMainBinding
     private val recentBillsAdapter: RecentBillsAdapter = RecentBillsAdapter(this)

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorPrimaryLight">#5C6BC0</color>
-    <color name="colorAccent">#078B75</color>
+    <color name="colorPrimary">@color/md_blue_500</color>
+    <color name="colorPrimaryDark">@color/md_blue_700</color>
+    <color name="colorPrimaryLight">@color/md_blue_300</color>
+    <color name="colorAccent">@color/md_teal_500</color>
 
     <color name="colorOverPrimary">#FFFFFFFF</color>
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="fab_mini_receipt_non_pressed">#AB47BC</color>
-    <color name="fab_mini_photo_library_non_pressed">#2196F3</color>
-    <color name="fab_mini_camera_non_pressed">#43A047</color>
+    <color name="fab_mini_receipt_non_pressed">@color/md_purple_400</color>
+    <color name="fab_mini_photo_library_non_pressed">@color/md_blue_500</color>
+    <color name="fab_mini_camera_non_pressed">@color/md_green_600</color>
 
-    <color name="fab_mini_receipt_pressed">#BA68C8</color>
-    <color name="fab_mini_photo_library_pressed">#42A5F5</color>
-    <color name="fab_mini_camera_pressed">#4CAF50</color>
+    <color name="fab_mini_receipt_pressed">@color/md_purple_300</color>
+    <color name="fab_mini_photo_library_pressed">@color/md_blue_400</color>
+    <color name="fab_mini_camera_pressed">@color/md_green_500</color>
 
     <array name="mini_fab_background_color_list">
         <item>@color/fab_mini_receipt</item>
@@ -23,9 +23,9 @@
         <item>@color/fab_mini_camera</item>
     </array>
 
-    <color name="edit_text_border">#EEEEEE</color>
-    <color name="light_icon_tint">#757575</color>
-    <color name="color_bill_summary_text">#263238</color>
+    <color name="edit_text_border">@color/md_grey_200</color>
+    <color name="light_icon_tint">@color/md_grey_600</color>
+    <color name="color_bill_summary_text">@color/md_blue_grey_900</color>
 
     <color name="md_red_50">#FFEBEE</color>
     <color name="md_red_100">#FFCDD2</color>
