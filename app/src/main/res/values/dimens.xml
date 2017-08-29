@@ -1,7 +1,12 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="caption_text_size">12sp</dimen>
-    
     <dimen name="drawable_button_padding">4dp</dimen>
+    <dimen name="list_item_horizontal_padding">16dp</dimen>
+    <dimen name="list_item_vertical_padding">8dp</dimen>
+    <dimen name="list_bill_line_vertical_padding">4dp</dimen>
+
+    <dimen name="list_title_text_size">16sp</dimen>
+    <dimen name="list_caption_text_size">14sp</dimen>
     <dimen name="section_title_size">18sp</dimen>
+    <dimen name="main_activity_tip_text_size">16sp</dimen>
 </resources>

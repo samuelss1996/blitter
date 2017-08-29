@@ -10,7 +10,11 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/list_item_horizontal_padding"
+        android:paddingRight="@dimen/list_item_horizontal_padding"
+        android:paddingTop="@dimen/list_item_vertical_padding"
+        android:paddingBottom="@dimen/list_item_vertical_padding">
 
         <TextView
             android:id="@+id/bill_trace_product_name"
@@ -19,23 +23,19 @@
             android:text="@{item.name}"
             tools:text="Producto A"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/list_title_text_size"/>
 
         <TextView
             android:id="@+id/bill_trace_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@{item.persons.size() == 1? @string/bill_trace_all_product(@string/generic_item_price(item.price, utils.currencySymbol)) : @string/bill_trace_partial_product(item.persons.size(), @string/generic_item_price(item.price / item.persons.size(), utils.currencySymbol))}"
+            android:text="@{item.persons.size() == 1? @string/bill_trace_all_product(utils.getPriceAsString(item.price)) : @string/bill_trace_partial_product(item.persons.size(), utils.getPriceAsString(item.price / item.persons.size()))}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bill_trace_product_name"
             tools:text="1/2 del producto (0,50 €)"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/list_caption_text_size"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

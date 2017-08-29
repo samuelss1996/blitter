@@ -19,7 +19,6 @@ object SqlUtils {
     fun cursorToBill(cursor: Cursor) : Bill =  Bill (
             id = cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry._ID.colName)),
             name = cursor.getString(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.NAME.colName)),
-            priceWithoutTip = cursor.getFloat(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.PRICE_WITHOUT_TIP.colName)),
             tipPercent = cursor.getFloat(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.TIP_PERCENT.colName)),
             date = Date(cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.DATE.colName))),
             source = EBillSource.findSourceById(cursor.getInt(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.SOURCE.colName))),

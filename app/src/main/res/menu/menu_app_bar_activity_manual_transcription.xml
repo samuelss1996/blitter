@@ -5,6 +5,6 @@
     <item
         android:id="@+id/action_done"
         android:icon="@drawable/ic_done_white_24dp"
-        android:title="@string/action_activity_main_search"
+        android:title="@string/action_activity_manual_done"
         app:showAsAction="ifRoom" />
 </menu>

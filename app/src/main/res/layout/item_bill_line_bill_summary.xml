@@ -10,7 +10,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/list_bill_line_vertical_padding"
+        android:paddingBottom="@dimen/list_bill_line_vertical_padding">
 
 
         <TextView
@@ -20,9 +22,7 @@
             android:text="@{item.name.toUpperCase()}"
             tools:text="PRODUCTO A"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
+
             app:layout_constraintLeft_toLeftOf="parent"
             android:textColor="@color/color_bill_summary_text"
             android:textSize="16sp"/>
@@ -31,14 +31,11 @@
             android:id="@+id/bill_line_price_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/generic_item_price(item.price, utils.currencySymbol)}"
+            android:text="@{utils.getPriceAsString(item.price)}"
             tools:text="2,07 €"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
             android:textColor="@color/color_bill_summary_text"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/list_title_text_size" />
     </android.support.constraint.ConstraintLayout>
 </layout>

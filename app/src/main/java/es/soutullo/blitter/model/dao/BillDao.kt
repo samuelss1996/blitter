@@ -29,10 +29,10 @@ interface BillDao {
 
     /**
      * Update a bill already present on the database
-     * @param billId The ID of the bill that should be updated
+     * @param billId The ID of the bill that should be updated. If null, the bill is inserted as a new bill
      * @param bill The bill with its new values
      */
-    fun updateBill(billId: Long, bill: Bill)
+    fun updateBill(billId: Long? = null, bill: Bill)
 
     /**
      * Deletes a set of bills from the database

@@ -39,7 +39,6 @@ object BlitterSqlDbContract {
     enum class BillEntry(override val colName: String, override val type: String, override val extraAttributes: String? = null) : TableEntry {
         _ID("_id", "INTEGER", "PRIMARY KEY"),
         NAME("name", "TEXT"),
-        PRICE_WITHOUT_TIP("price_without_tip", "REAL"),
         TIP_PERCENT("tip_percent", "REAL"),
         DATE("date", "INTEGER"),
         SOURCE("source", "INTEGER"),
