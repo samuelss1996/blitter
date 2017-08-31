@@ -25,6 +25,8 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
         private val VIEW_TYPE_LOADING = 1
     }
 
+    protected var recyclerView: RecyclerView? = null
+
     override fun getItemCount(): Int = this.items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder =
@@ -37,6 +39,8 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+        this.recyclerView = recyclerView
+
         val layoutManager = LinearLayoutManager(recyclerView?.context)
         recyclerView?.layoutManager = layoutManager
 
@@ -137,14 +141,23 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     protected abstract fun getItemLayout(): Int
 
     /** Generic ViewHolder for each item of the RecyclerView */
-    inner class GenericListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    open inner class GenericListViewHolder(protected val view: View) : RecyclerView.ViewHolder(view) {
         val binding: ViewDataBinding = DataBindingUtil.bind<ViewDataBinding>(this.view)
 
         init {
-            val clickListener = View.OnClickListener { handler?.onItemClicked(adapterPosition, it.id) }
+            val clickListener = View.OnClickListener { this.onClick(it.id) }
 
             this.view.setOnClickListener(clickListener)
             this@GenericListAdapter.clickableChildren().forEach { this.view.findViewById<View>(it).setOnClickListener(clickListener) }
+        }
+
+        /**
+         * Gets called when the item is clicked
+         * @param viewId The clicked view id, which can be the id of the list item itself, or any of
+         *        its clickable children
+         */
+        open protected fun onClick(viewId: Int) {
+            this@GenericListAdapter.handler?.onItemClicked(this.adapterPosition, viewId)
         }
     }
 }

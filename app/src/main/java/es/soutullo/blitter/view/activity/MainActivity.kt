@@ -44,15 +44,15 @@ class MainActivity : AppCompatActivity(), IChoosableItemsListHandler {
     }
 
     override fun onChoiceModeStarted() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onChoiceModeFinished() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onChosenItemsChanged() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onItemClicked(listIndex: Int, clickedViewId: Int) {

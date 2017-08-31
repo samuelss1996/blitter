@@ -79,6 +79,8 @@
     <string name="dialog_add_person_positive_button">Añadir</string>
     <string name="dialog_add_person_field_hint">Nombre de la persona</string>
     <string name="empty_state_assignation_dialog">Todavía no has añadido ninguna persona, pulsa en \"%1$s\" para hacerlo</string>
+    <string name="choosing_bar_choose_all">Todo</string>
+    <string name="app_bar_button_assign">Asignar</string>
 
 
     <plurals name="dialog_product_assignation_sub_header">

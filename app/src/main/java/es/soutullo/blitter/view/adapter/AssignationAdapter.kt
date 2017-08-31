@@ -8,5 +8,4 @@ import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 /** RecyclerView adapter for the bill lines on the assignation activity */
 class AssignationAdapter(handler: IChoosableItemsListHandler) : ChoosableItemsAdapter<BillLine>(handler) {
     override fun getItemLayout(): Int = R.layout.item_bill_line_assignation
-    override fun choosingModeItemLayout(): Int = R.layout.item_bill_line_assignation_choosing
 }
