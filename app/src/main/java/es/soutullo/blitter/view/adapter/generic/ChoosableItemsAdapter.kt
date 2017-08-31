@@ -1,6 +1,5 @@
 package es.soutullo.blitter.view.adapter.generic
 
-import android.view.View
 import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 
 abstract class ChoosableItemsAdapter<Item>(var choosableHandler: IChoosableItemsListHandler? = null) : GenericListAdapter<Item>(handler = choosableHandler) {
@@ -25,13 +24,13 @@ abstract class ChoosableItemsAdapter<Item>(var choosableHandler: IChoosableItems
 
     protected abstract fun choosingModeItemLayout(): Int
 
-    protected abstract inner class ChoosableItemViewHolder(itemView: View) : GenericListAdapter<Item>.GenericListViewHolder(itemView) {
-        private val isChosen: Boolean = false
-
-        /**
-         * @param newState
-         */
-        protected abstract fun onChoiceStateChanged(newState: Boolean)
-
-    }
+//    protected abstract inner class ChoosableItemViewHolder(itemView: View) : GenericListAdapter<Item>.GenericListViewHolder(itemView) {
+//        private val isChosen: Boolean = false
+//
+//        /**
+//         * @param newState
+//         */
+//        protected abstract fun onChoiceStateChanged(newState: Boolean)
+//
+//    }
 }

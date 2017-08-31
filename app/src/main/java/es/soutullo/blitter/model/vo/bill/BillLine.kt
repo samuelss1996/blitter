@@ -15,14 +15,16 @@ data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name
      * @param person The person to assign
      */
     fun assignPerson(person: Person) {
-        val realPerson = this.bill.findPerson(person.name) ?: person
+        if (!this.persons.contains(person)) {
+            val realPerson = this.bill.findPerson(person.name) ?: person
 
-        realPerson.lines.add(this)
-        this.persons.add(realPerson)
+            realPerson.lines.add(this)
+            this.persons.add(realPerson)
+        }
     }
 
     /**
-     * Unassigns a person to the bill line. The bill line is unassigned from the person too.
+     * Unassigns a person from the bill line. The bill line is unassigned from the person too.
      * @param person The person to unassign
      */
     fun unassignPerson(person: Person) {
@@ -33,31 +35,51 @@ data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name
     }
 
     /**
+     * Assigns a set of persons to the bill line. If any person already exists on any line of the bill, then
+     * such person is assigned to the bill line. The line is assigned to the person too
+     * @param persons The persons to assign
+     */
+    fun assignAllPersons(persons: Collection<Person>) {
+        persons.forEach { this.assignPerson(it) }
+    }
+
+    /**
+     * Unassigns a set of persons from the bill line. The bill line is unassigned from the person too.
+     * @param persons The set of persons to unassign
+     */
+    fun unassignAllPersons(persons: Collection<Person>) {
+        persons.forEach { this.unassignPerson(it) }
+    }
+
+    /**
      * Returns the assigned people to this bill line as a string like "A, B" or "A, B, C and 2 more"
      * @param context The android context
      * @param textView The text view where the text will be placed. Required for measurements
      * @return The assigned people as string
      */
     fun getAssignedPeopleAsString(context: Context, textView: TextView) : String {
-        var previousString = if(persons.isEmpty()) context.getString(R.string.item_assignation_persons_unassigned)
-            else context.resources.getQuantityString(R.plurals.item_assignation_persons_assigned_all_as_number, persons.size, persons.size)
+        val separator = context.getString(R.string.persons_array_separator)
+        var result: String
 
-        for(i in 1..persons.size) {
-            val separator = context.getString(R.string.persons_array_separator)
-            var newString = persons.map { it.name }.subList(0, i).reduce { acc, s ->  acc + s + separator}.removeSuffix(separator)
+        if (this.persons.isNotEmpty()) {
+            result = this.persons.map { it.name }.reduce { acc, s ->  acc + separator + s}
 
-            if(persons.size > i) {
-                newString += context.resources.getQuantityString(R.plurals.item_assignation_persons_more, persons.size - 1, persons.size - 1)
+            var i = 1
+            while(textView.paint.measureText(result) > textView.width) {
+                val morePersons = context.resources.getQuantityString(R.plurals.item_assignation_persons_more, i, i)
+
+                result = when(i) {
+                    this.persons.size -> context.resources.getQuantityString(R.plurals.item_assignation_persons_assigned_all_as_number, persons.size, persons.size)
+                    else -> this.persons.map { it.name }.subList(0, persons.size - i).reduce { acc, s ->  acc + separator+ s } + morePersons
+                }
+
+                i++
             }
-
-            if (textView.paint.measureText(newString) <= textView.width) {
-                previousString = newString
-            } else {
-                break
-            }
+        } else {
+            result = context.getString(R.string.item_assignation_persons_unassigned)
         }
 
-        return previousString
+        return result
     }
 
     override fun equals(other: Any?): Boolean {

@@ -52,5 +52,5 @@ class EditProductDialog(context: Context, handler: IDialogHandler, title: String
 
     override fun preventDismissOnButtonClicked(): Boolean = true
     override fun getPositiveText(): String = this.context.getString(R.string.edit_product_dialog_positive_button)
-    override fun getNegativeText(): String? = this.context.getString(R.string.edit_product_dialog_negative_button)
+    override fun getNegativeText(): String? = this.context.getString(R.string.generic_dialog_cancel)
 }

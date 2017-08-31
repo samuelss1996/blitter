@@ -1,21 +1,12 @@
 package es.soutullo.blitter.view.adapter
 
+import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.BillLine
 import es.soutullo.blitter.view.adapter.generic.ChoosableItemsAdapter
+import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 
-/**
- *
- */
-/**
- * Default constructor
- */
-class AssignationAdapter : ChoosableItemsAdapter<BillLine>() {
-
-    override fun getItemLayout(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun choosingModeItemLayout(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+/** RecyclerView adapter for the bill lines on the assignation activity */
+class AssignationAdapter(handler: IChoosableItemsListHandler) : ChoosableItemsAdapter<BillLine>(handler) {
+    override fun getItemLayout(): Int = R.layout.item_bill_line_assignation
+    override fun choosingModeItemLayout(): Int = R.layout.item_bill_line_assignation_choosing
 }

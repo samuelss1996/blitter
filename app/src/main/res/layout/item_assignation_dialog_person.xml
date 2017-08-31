@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="item" type="es.soutullo.blitter.model.vo.person.Person" />
+        <variable name="item" type="es.soutullo.blitter.view.dialog.data.AssignationDialogPerson" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/list_item_horizontal_padding"
         android:paddingRight="@dimen/list_item_horizontal_padding"
         android:paddingTop="@dimen/list_item_vertical_padding"
@@ -18,10 +18,13 @@
             android:id="@+id/item_assignation_dialog_checkbox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:checked="@{item.status == true}"
+            app:indeterminate="@{item.status == null}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="@{item.name}"
-            tools:text="Samuel Soutullo"/>
+            tools:text="Samuel Soutullo"
+            android:onClick="@{() -> item.changeStatus()}"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

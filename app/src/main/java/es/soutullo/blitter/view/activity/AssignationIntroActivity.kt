@@ -32,6 +32,6 @@ class AssignationIntroActivity : AppIntro() {
         PreferenceManager.getDefaultSharedPreferences(this).edit().clear().putBoolean(FLAG_ASSIGNATION_INTRO_VIEWED, true).apply()
 
         val bill = this.intent.getSerializableExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY)
-        this.startActivity(Intent(this, BillSummaryActivity::class.java).putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill))
+        this.startActivity(Intent(this, AssignationActivity::class.java).putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill))
     }
 }

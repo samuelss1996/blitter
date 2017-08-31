@@ -5,7 +5,7 @@ import java.io.Serializable
 import java.util.*
 
 /** Represents a person, who may partially pay a bill */
-data class Person(val id: Long?, val name: String, val lastDate: Date, val lines: MutableList<BillLine> = mutableListOf()): Serializable {
+data class Person(val id: Long?, val name: String, val lastDate: Date = Date(), val lines: MutableList<BillLine> = mutableListOf()): Serializable {
 
     /**
      * Calculates the amount of money this person has to pay, considering his assigned lines and the tip percent of the bill

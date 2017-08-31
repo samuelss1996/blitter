@@ -12,7 +12,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/list_item_horizontal_padding"
         android:paddingRight="@dimen/list_item_horizontal_padding"
         android:paddingTop="@dimen/list_item_vertical_padding"
@@ -33,7 +33,6 @@
             android:id="@+id/bill_line_assignations_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="0dp"
             android:text="@{item.getAssignedPeopleAsString(context, billLineAssignationsText)}"
             tools:text="Todavía sin asignar"
@@ -66,7 +65,7 @@
 
             app:layout_constraintRight_toRightOf="parent"
             android:tint="@color/md_green_500"
-            android:visibility="@{item.persons.isEmpty()? View.GONE : View.VISIBLE}"
+            android:visibility="@{item.persons.isEmpty()? View.INVISIBLE : View.VISIBLE}"
             android:contentDescription="@string/content_description_assignation_green_tick"/>
 
     </android.support.constraint.ConstraintLayout>

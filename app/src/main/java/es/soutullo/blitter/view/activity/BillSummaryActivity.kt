@@ -3,6 +3,7 @@ package es.soutullo.blitter.view.activity
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -46,9 +47,9 @@ class BillSummaryActivity : AppCompatActivity() {
 
     /** Gets called when the confirm (continue) button is clicked, in order to go to the next activity */
     fun onConfirmClicked(view: View) {
-        val intent = Intent(this, AssignationActivity::class.java)
+        val tutorialViewed = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(AssignationIntroActivity.FLAG_ASSIGNATION_INTRO_VIEWED, false)
+        val intent = Intent(this, if(tutorialViewed) AssignationActivity::class.java else AssignationIntroActivity::class.java)
 
-        this.bill.status = EBillStatus.ASSIGNING
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
 
         this.startActivity(intent)

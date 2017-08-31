@@ -2,7 +2,7 @@
     <string name="app_name">Blitter</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_assignation">AssignationActivity</string>
-    <string name="persons_array_separator">, </string>
+    <string name="persons_array_separator">,&#160;</string>
     <string name="main_fab_manually">Transcribir manualmente</string>
     <string name="main_fab_gallery">Desde la galería</string>
     <string name="main_fab_camera">Desde la cámara</string>
@@ -43,6 +43,7 @@
     <string name="title_user_products">Productos de este usuario</string>
     <string name="bill_trace_all_product">Totatilidad del producto (%1$s)</string>
     <string name="bill_trace_partial_product">1/%1$d del producto (%2$s)</string>
+    <string name="generic_dialog_cancel">Cancelar</string>
     <string name="dialog_edit_product_hint_product_name">Nombre del producto</string>
     <string name="dialog_edit_product_hint_product_price">Precio (%1$s)</string>
     <string name="dialog_edit_product_hint_product_quantity">Cantidad</string>
@@ -67,12 +68,17 @@
     <string name="dialog_delete_product_positive_button">Eliminar</string>
     <string name="dialog_delete_product_negative_button">Conservar</string>
     <string name="edit_product_dialog_positive_button">Guardar</string>
-    <string name="edit_product_dialog_negative_button">Cancelar</string>
     <string name="dialog_edit_product_title">Editar producto</string>
     <string name="toast_manual_transcription_no_products">Debes añadir al menos un producto antes de continuar</string>
     <string name="bill_uncompleted_default_name">Cuenta sin completar</string>
     <string name="assignation_intro_title">Asignar productos a personas</string>
     <string name="assignation_intro_description">A continuación se mostrará la lista de productos. Toca sobre un producto para asignarle personas. También puedes seleccionar varios productos a la vez manteniendo pulsado sobre uno</string>
+    <string name="assignation_dialog_positive_button">OK</string>
+    <string name="assignation_dialog_neutral_button">Nueva persona</string>
+    <string name="dialog_add_person_title">Nueva persona</string>
+    <string name="dialog_add_person_positive_button">Añadir</string>
+    <string name="dialog_add_person_field_hint">Nombre de la persona</string>
+    <string name="empty_state_assignation_dialog">Todavía no has añadido ninguna persona, pulsa en \"%1$s\" para hacerlo</string>
 
 
     <plurals name="dialog_product_assignation_sub_header">
@@ -86,6 +92,11 @@
     </plurals>
 
     <plurals name="item_assignation_persons_more">
-        <item quantity="other"> y %d más</item>
+        <item quantity="other">&#160;y %d más</item>
+    </plurals>
+
+    <plurals name="assignation_dialog_title">
+        <item quantity="one">%1$s</item>
+        <item quantity="other">%2$s productos</item>
     </plurals>
 </resources>

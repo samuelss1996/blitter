@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.databinding.library.baseAdapters.BR
+import es.soutullo.blitter.BR
 import es.soutullo.blitter.view.adapter.handler.IListHandler
 import es.soutullo.blitter.view.util.BlitterUtils
 
@@ -137,7 +137,7 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     protected abstract fun getItemLayout(): Int
 
     /** Generic ViewHolder for each item of the RecyclerView */
-    open inner class GenericListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    inner class GenericListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val binding: ViewDataBinding = DataBindingUtil.bind<ViewDataBinding>(this.view)
 
         init {
