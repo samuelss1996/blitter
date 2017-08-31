@@ -1,35 +1,27 @@
 package es.soutullo.blitter.view.activity
 
 import android.content.res.Configuration
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.TextView
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
 import es.soutullo.blitter.model.vo.person.Person
 import es.soutullo.blitter.view.adapter.AssignationAdapter
-import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 import es.soutullo.blitter.view.dialog.AssignationDialog
 import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
-class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
-    private val assignationAdapter = AssignationAdapter(this)
+class AssignationActivity : ChoosingLayoutActivity() {
+    override val itemsAdapter = AssignationAdapter(this)
+
     private var peopleAddedOnSession = mutableListOf<Person>()
     private var assignationDialog: AssignationDialog? = null
 
@@ -44,7 +36,7 @@ class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (this.assignationAdapter.choosingModeEnabled) {
+        if (this.itemsAdapter.choosingModeEnabled) {
             this.menuInflater.inflate(R.menu.menu_app_bar_activity_assignation_choosing, menu)
         }
 
@@ -55,8 +47,8 @@ class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
         when(item?.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_assign -> {
-                val selectedLines = this.assignationAdapter.items.filterIndexed {
-                    index, _ -> this.assignationAdapter.selectedIndexes.contains(index)
+                val selectedLines = this.itemsAdapter.items.filterIndexed {
+                    index, _ -> this.itemsAdapter.selectedIndexes.contains(index)
                 }
 
                 this.onAssignClicked(selectedLines)
@@ -66,14 +58,6 @@ class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
         return true
     }
 
-    override fun onBackPressed() {
-        if(this.assignationAdapter.choosingModeEnabled) {
-            this.assignationAdapter.finishChoiceMode()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         this.onBackPressed()
         return true
@@ -81,7 +65,7 @@ class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
-        Handler().postDelayed({this.assignationAdapter.notifyDataSetChanged()}, 100)
+        Handler().postDelayed({this.itemsAdapter.notifyDataSetChanged()}, 100)
     }
 
     fun onFinishButtonClicked() {
@@ -140,53 +124,16 @@ class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
             line.unassignAllPersons(unassignedPersons)
         }
 
-        this.assignationAdapter.finishChoiceMode()
-        this.assignationAdapter.notifyDataSetChanged()
+        this.itemsAdapter.finishChoiceMode()
+        this.itemsAdapter.notifyDataSetChanged()
     }
 
     override fun onItemClicked(listIndex: Int, clickedViewId: Int) {
-        this.onAssignClicked(listOf(this.assignationAdapter.get(listIndex)))
-    }
-
-    override fun onChoiceModeStarted() {
-        this.changeBarLayout(true)
-    }
-
-    override fun onChoiceModeFinished() {
-        this.changeBarLayout(false)
-    }
-
-    override fun onChosenItemsChanged() {
-        val allCheckbox = this.findViewById<CheckBox>(R.id.select_all_checkbox)
-        val checkAll = (this.assignationAdapter.itemCount == this.assignationAdapter.selectedIndexes.size)
-
-        this.findViewById<TextView>(R.id.selected_items_count_text).text = this.assignationAdapter.selectedIndexes.size.toString()
-
-        allCheckbox.setOnCheckedChangeListener(null)
-        this.findViewById<CheckBox>(R.id.select_all_checkbox).isChecked = checkAll
-        allCheckbox.setOnCheckedChangeListener(this.createCheckAllListener())
+        this.onAssignClicked(listOf(this.itemsAdapter.get(listIndex)))
     }
 
     private fun onTryToFinishWithMissingAssignation() {
         // TODO implement here
-    }
-
-    /**
-     * Changes the bar layout and color depending on whether or not the activity is in choosing mode
-     * @param choosingMode Indicates whether or not the activity is in choosing mode
-     */
-    private fun changeBarLayout(choosingMode: Boolean) {
-        val appBarColorId = if(choosingMode) R.color.colorPrimaryLight else R.color.colorPrimary
-        val statusBarColorId = if(choosingMode) R.color.colorPrimary else R.color.colorPrimaryDark
-
-        this.invalidateOptionsMenu()
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(!choosingMode)
-        this.findViewById<ViewGroup>(R.id.assignation_bar_content).visibility = if(choosingMode) View.VISIBLE else View.GONE
-
-        this.supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this,appBarColorId)))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.window.statusBarColor = ContextCompat.getColor(this, statusBarColorId)
-        }
     }
 
     /** Initializes some fields of the activity */
@@ -197,8 +144,8 @@ class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
         this.findViewById<CheckBox>(R.id.select_all_checkbox).setOnCheckedChangeListener(this.createCheckAllListener())
         this.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener({ onFinishButtonClicked() })
 
-        this.assignationAdapter.addAll(bill.lines)
-        assignationRecycler.adapter = this.assignationAdapter
+        this.itemsAdapter.addAll(bill.lines)
+        assignationRecycler.adapter = this.itemsAdapter
     }
 
     /** Creates the handler for the assignation dialog, which manages the click events on its buttons */
@@ -233,17 +180,6 @@ class AssignationActivity : AppCompatActivity(), IChoosableItemsListHandler {
 
             override fun onNegativeButtonClicked(dialog: CustomDialog) { }
             override fun onNeutralButtonClicked(dialog: CustomDialog) { }
-        }
-    }
-
-    /** Creates the listener for the "select all" checkbox, displayed on the action bar in the choosing mode */
-    private fun createCheckAllListener(): CompoundButton.OnCheckedChangeListener {
-        return CompoundButton.OnCheckedChangeListener { _, checked ->
-            if(checked) {
-                this.assignationAdapter.selectAll()
-            } else {
-                this.assignationAdapter.deselectAll()
-            }
         }
     }
 }

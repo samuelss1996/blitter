@@ -21,7 +21,7 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:animateLayoutChanges="true">
 
-                <include android:id="@+id/assignation_bar_content"
+                <include android:id="@+id/action_bar_content"
                     layout="@layout/layout_app_bar_choosing"
                     android:visibility="gone"/>
 
