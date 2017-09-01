@@ -59,7 +59,8 @@
             android:layout_marginEnd="@dimen/list_item_horizontal_padding"
             app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp" />
+            android:layout_marginLeft="8dp"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/bill_line_price_text"

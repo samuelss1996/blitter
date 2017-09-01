@@ -61,7 +61,7 @@ data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name
         val separator = context.getString(R.string.persons_array_separator)
         var result: String
 
-        if (this.persons.isNotEmpty()) {
+        if (this.persons.isNotEmpty() && textView.width > 0) {
             result = this.persons.map { it.name }.reduce { acc, s ->  acc + separator + s}
 
             var i = 1

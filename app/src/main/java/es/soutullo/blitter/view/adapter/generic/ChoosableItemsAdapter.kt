@@ -1,5 +1,6 @@
 package es.soutullo.blitter.view.adapter.generic
 
+import android.animation.LayoutTransition
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -67,6 +68,7 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
         init {
             this.itemCheckBox.visibility = View.GONE
 
+            (this.view as? ViewGroup)?.layoutTransition?.addTransitionListener(this.createOnTransitionListener())
             this.view.setOnLongClickListener { this.onLongClick() }
             this.itemCheckBox.setOnCheckedChangeListener {_, newState -> this.changeState(newState) }
         }
@@ -86,7 +88,6 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
             }
 
             this.itemCheckBox.toggle()
-
             return true
         }
 
@@ -106,6 +107,21 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
             }
 
             (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
+        }
+
+        /**
+         * Creates a transition listener for the transition performed when changing to or from choice mode.
+         * Allows the items layout to be refreshed, which can be necessary for them to adapt to the new space
+         * @return The listener
+         */
+        private fun createOnTransitionListener(): LayoutTransition.TransitionListener {
+            return object : LayoutTransition.TransitionListener {
+                override fun endTransition(p0: LayoutTransition?, p1: ViewGroup?, p2: View?, p3: Int) {
+                    notifyDataSetChanged()
+                }
+
+                override fun startTransition(p0: LayoutTransition?, p1: ViewGroup?, p2: View?, p3: Int) { }
+            }
         }
     }
 }

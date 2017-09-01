@@ -7,11 +7,13 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.CheckBox
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
+import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.model.vo.person.Person
 import es.soutullo.blitter.view.adapter.AssignationAdapter
 import es.soutullo.blitter.view.dialog.AssignationDialog
@@ -19,9 +21,12 @@ import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
+// TODO review the position of the select all checkbox
+// TODO add option on the assignation activity to clear assignation to selected lines
 class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)
 
+    private lateinit var bill: Bill
     private var peopleAddedOnSession = mutableListOf<Person>()
     private var assignationDialog: AssignationDialog? = null
 
@@ -31,7 +36,11 @@ class AssignationActivity : ChoosingLayoutActivity() {
         this.setSupportActionBar(this.findViewById(R.id.toolbar))
 
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        this.bill = this.intent.getSerializableExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY) as Bill
 
+        this.findViewById<View>(R.id.assignation_root).post { this.itemsAdapter.notifyDataSetChanged() }
+
+        this.doBackup()
         this.init()
     }
 
@@ -53,6 +62,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
                 this.onAssignClicked(selectedLines)
             }
+
         }
 
         return true
@@ -124,8 +134,11 @@ class AssignationActivity : ChoosingLayoutActivity() {
             line.unassignAllPersons(unassignedPersons)
         }
 
+        assignedPersons.forEach { DaoFactory.getFactory(this).getPersonDao().insertRecentPerson(it) }
+
         this.itemsAdapter.finishChoiceMode()
         this.itemsAdapter.notifyDataSetChanged()
+        this.doBackup()
     }
 
     override fun onItemClicked(listIndex: Int, clickedViewId: Int) {
@@ -136,15 +149,19 @@ class AssignationActivity : ChoosingLayoutActivity() {
         // TODO implement here
     }
 
+    private fun doBackup() {
+        this.bill.status = EBillStatus.ASSIGNING
+        DaoFactory.getFactory(this).getBillDao().updateBill(this.bill.id, this.bill)
+    }
+
     /** Initializes some fields of the activity */
     private fun init() {
-        val bill = this.intent.getSerializableExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY) as Bill
         val assignationRecycler = this.findViewById<RecyclerView>(R.id.assignation_bill_lines)
 
         this.findViewById<CheckBox>(R.id.select_all_checkbox).setOnCheckedChangeListener(this.createCheckAllListener())
         this.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener({ onFinishButtonClicked() })
 
-        this.itemsAdapter.addAll(bill.lines)
+        this.itemsAdapter.addAll(this.bill.lines)
         assignationRecycler.adapter = this.itemsAdapter
     }
 

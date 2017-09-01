@@ -10,8 +10,7 @@ import es.soutullo.blitter.model.dao.sql.helper.BlitterSqlDbHelper
 import es.soutullo.blitter.model.dao.sql.helper.SqlUtils
 import es.soutullo.blitter.model.vo.person.Person
 
-class SqlPersonDao(private val context: Context) : PersonDao {
-    private val dbHelper = BlitterSqlDbHelper(this.context)
+class SqlPersonDao(private val context: Context, private val dbHelper: BlitterSqlDbHelper = BlitterSqlDbHelper(context)) : PersonDao {
 
     override fun queryRecentPersons(limit: Int, exclude: List<Person>): List<Person> {
         val persons = mutableListOf<Person>()
@@ -30,6 +29,18 @@ class SqlPersonDao(private val context: Context) : PersonDao {
         }
 
         return persons
+    }
+
+    override fun queryPersonByExactName(name: String): Person? {
+        val query = "SELECT * FROM %s WHERE %s LIKE ?".format(PERSON.tableName, PersonEntry.NAME)
+
+        this.dbHelper.readableDatabase.rawQuery(query, arrayOf(name)).use { cursor ->
+            if(cursor.moveToNext()) {
+                return SqlUtils.cursorToPerson(cursor)
+            }
+        }
+
+        return null
     }
 
     override fun insertRecentPerson(person: Person) {

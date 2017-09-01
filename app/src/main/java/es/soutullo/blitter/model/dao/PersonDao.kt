@@ -14,6 +14,13 @@ interface PersonDao {
     fun queryRecentPersons(limit: Int, exclude: List<Person>): List<Person>
 
     /**
+     * Retrieves a person given its name.
+     * @param name The exact name of the person
+     * @return The found person
+     */
+    fun queryPersonByExactName(name: String): Person?
+
+    /**
      * Inserts a new person, without assigning it to any bill or bill line
      * @param person The new person to insert
      */

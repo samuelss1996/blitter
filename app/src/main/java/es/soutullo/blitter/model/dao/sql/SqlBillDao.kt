@@ -2,6 +2,7 @@ package es.soutullo.blitter.model.dao.sql
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import es.soutullo.blitter.model.BlitterSqlDbContract.BillEntry
 import es.soutullo.blitter.model.BlitterSqlDbContract.BillLineEntry
 import es.soutullo.blitter.model.BlitterSqlDbContract.BillLinePersonEntry
@@ -14,8 +15,7 @@ import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
 import es.soutullo.blitter.model.vo.person.Person
 
-class SqlBillDao(private val context: Context) : BillDao {
-    private val dbHelper = BlitterSqlDbHelper(this.context)
+class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlDbHelper = BlitterSqlDbHelper(context)) : BillDao {
 
     override fun queryBills(begin: Int, limit: Int): List<Bill> {
         var queryBills = "SELECT * FROM %s ORDER BY %s ASC, %s DESC LIMIT ?, ?"
@@ -40,7 +40,9 @@ class SqlBillDao(private val context: Context) : BillDao {
                 val billLineId = this.insert(BILL_LINE.tableName, null, generateBillLineValues(billId, line))
 
                 for (person in line.persons) {
-                    val personId = this.insert(PERSON.tableName, null, generatePersonValues(person))
+                    var personId = this.insertWithOnConflict(PERSON.tableName, null, generatePersonValues(person), SQLiteDatabase.CONFLICT_IGNORE)
+                    personId = if(personId > -1) personId else SqlPersonDao(context, dbHelper).queryPersonByExactName(person.name)?.id ?: -1
+
                     this.insert(BILL_LINE_PERSON.tableName, null, generateBillLinePersonValues(billLineId, personId))
                 }
             }
@@ -136,9 +138,9 @@ class SqlBillDao(private val context: Context) : BillDao {
      * @param billLine A bill line with no people, which will be filled
      */
     private fun fillBillLinePeople(billLine: BillLine) {
-        var queryPersons = "SELECT * FROM %s WHERE %s IN (SELECT %s FROM %s WHERE %s = ?)"
+        var queryPersons = "SELECT * FROM %s WHERE %s IN (SELECT %s FROM %s WHERE %s = ?) ORDER BY %s DESC"
         queryPersons = String.format(queryPersons, PERSON.tableName, PersonEntry._ID.colName, BillLinePersonEntry.PERSON_ID.colName,
-                BILL_LINE_PERSON.tableName, BillLinePersonEntry.BILL_LINE_ID.colName)
+                BILL_LINE_PERSON.tableName, BillLinePersonEntry.BILL_LINE_ID.colName, PersonEntry.LAST_DATE.colName)
 
         this.dbHelper.readableDatabase.rawQuery(queryPersons, arrayOf(billLine.id.toString())).use { personCursor ->
             while (personCursor.moveToNext()) {
