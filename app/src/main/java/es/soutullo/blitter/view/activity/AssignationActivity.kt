@@ -17,12 +17,11 @@ import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.model.vo.person.Person
 import es.soutullo.blitter.view.adapter.AssignationAdapter
 import es.soutullo.blitter.view.dialog.AssignationDialog
+import es.soutullo.blitter.view.dialog.ConfirmationDialog
 import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
-// TODO review the position of the select all checkbox
-// TODO add option on the assignation activity to clear assignation to selected lines
 class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)
 
@@ -55,6 +54,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
+            R.id.action_clear_assignations -> this.onClearAssignationsClicked()
             R.id.action_assign -> {
                 val selectedLines = this.itemsAdapter.items.filterIndexed {
                     index, _ -> this.itemsAdapter.selectedIndexes.contains(index)
@@ -104,6 +104,18 @@ class AssignationActivity : ChoosingLayoutActivity() {
         PromptDialog(this, this.createNewPersonDialogHandler(), this.getString(R.string.dialog_add_person_title),
                 this.getString(R.string.generic_dialog_cancel), this.getString(R.string.dialog_add_person_positive_button),
                 this.getString(R.string.dialog_add_person_field_hint)).show()
+    }
+
+    /** Gets called when the user presses the "clear assignations" button on the app bar */
+    private fun onClearAssignationsClicked() {
+        val selectedLines = this.itemsAdapter.items.filterIndexed { index, _ -> this.itemsAdapter.selectedIndexes.contains(index) }
+        val dialogTitle = this.getString(R.string.app_bar_button_clear_assignations)
+        val dialogMessage = this.getString(R.string.dialog_clear_assignations_message)
+        val positiveButtonText = this.getString(R.string.app_bar_button_clear_assignations)
+        val negativeButtonText = this.getString(R.string.generic_dialog_cancel)
+
+        ConfirmationDialog(this, this.createClearAssignationsDialogHandler(selectedLines), dialogTitle,
+                dialogMessage, positiveButtonText, negativeButtonText).show()
     }
 
     /**
@@ -193,6 +205,17 @@ class AssignationActivity : ChoosingLayoutActivity() {
                 if(dialog is PromptDialog) {
                     onNewPersonAdded(dialog.getUserInput())
                 }
+            }
+
+            override fun onNegativeButtonClicked(dialog: CustomDialog) { }
+            override fun onNeutralButtonClicked(dialog: CustomDialog) { }
+        }
+    }
+
+    private fun createClearAssignationsDialogHandler(affectedBillLines: List<BillLine>): IDialogHandler {
+        return object : IDialogHandler {
+            override fun onPositiveButtonClicked(dialog: CustomDialog) {
+                this@AssignationActivity.onAssignationDone(affectedBillLines, listOf(), affectedBillLines.map { it.persons }.flatten() )
             }
 
             override fun onNegativeButtonClicked(dialog: CustomDialog) { }

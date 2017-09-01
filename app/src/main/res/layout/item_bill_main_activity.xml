@@ -11,81 +11,88 @@
         <variable name="item" type="es.soutullo.blitter.model.vo.bill.Bill" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/list_item_horizontal_padding"
-        android:paddingRight="@dimen/list_item_horizontal_padding"
-        android:paddingTop="@dimen/list_item_vertical_padding"
-        android:paddingBottom="@dimen/list_item_vertical_padding"
-        android:animateLayoutChanges="true">
+        android:background="@color/md_white_1000">
 
-        <CheckBox
-            android:id="@+id/choosing_checkbox"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bill_name_text"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/bill_date"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"/>
+            android:paddingLeft="@dimen/list_item_horizontal_padding"
+            android:paddingRight="@dimen/list_item_horizontal_padding"
+            android:paddingTop="@dimen/list_item_vertical_padding"
+            android:paddingBottom="@dimen/list_item_vertical_padding"
+            android:animateLayoutChanges="true"
+            android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/bill_name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{item.name}"
-            tools:text="Cuenta del 17/10/1996"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/list_title_text_size"
-            android:layout_marginTop="0dp"
-            app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp" />
-
-        <TextView
-            android:id="@+id/bill_price_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{utils.getPriceAsStringWithTip(context, item.priceWithoutTip, item.tipPercent)}"
-            tools:text="20,07€ + 3,00€ de propina"
-            app:layout_constraintTop_toBottomOf="@+id/bill_name_text"
-            android:textSize="@dimen/list_caption_text_size"
-            app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp" />
-
-        <TextView
-            android:id="@+id/bill_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{utils.getBeautifulDate(context, item.date)}"
-            tools:text="Lunes, 17 de octubre de 1996 a las 22:00"
-            app:layout_constraintTop_toBottomOf="@+id/bill_price_text"
-            android:textSize="@dimen/list_caption_text_size"
-            app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp" />
-        
-        <au.com.dardle.widget.BadgeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{item.status != EBillStatus.COMPLETED? View.VISIBLE: View.GONE}"
-            app:badgeBackground="@color/md_red_600"
-            app:badgeTextColor="@android:color/white"
-            app:spacing="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <au.com.dardle.widget.BadgeItem
+            <CheckBox
+                android:id="@+id/choosing_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/badge_bill_status_not_completed"/>
-        </au.com.dardle.widget.BadgeLayout>
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/bill_name_text"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/bill_date"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"/>
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/bill_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.name}"
+                tools:text="Cuenta del 17/10/1996"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/list_title_text_size"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp" />
+
+            <TextView
+                android:id="@+id/bill_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{utils.getPriceAsStringWithTip(context, item.priceWithoutTip, item.tipPercent)}"
+                tools:text="20,07€ + 3,00€ de propina"
+                app:layout_constraintTop_toBottomOf="@+id/bill_name_text"
+                android:textSize="@dimen/list_caption_text_size"
+                app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp" />
+
+            <TextView
+                android:id="@+id/bill_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{utils.getBeautifulDate(context, item.date)}"
+                tools:text="Lunes, 17 de octubre de 1996 a las 22:00"
+                app:layout_constraintTop_toBottomOf="@+id/bill_price_text"
+                android:textSize="@dimen/list_caption_text_size"
+                app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp" />
+
+            <au.com.dardle.widget.BadgeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{item.status != EBillStatus.COMPLETED? View.VISIBLE: View.GONE}"
+                app:badgeBackground="@color/md_red_600"
+                app:badgeTextColor="@android:color/white"
+                app:spacing="8dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <au.com.dardle.widget.BadgeItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/badge_bill_status_not_completed"/>
+            </au.com.dardle.widget.BadgeLayout>
+
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
 </layout>

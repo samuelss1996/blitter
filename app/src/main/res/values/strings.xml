@@ -82,6 +82,8 @@
     <string name="choosing_bar_choose_all">Todo</string>
     <string name="app_bar_button_assign">Asignar</string>
     <string name="app_bar_button_delete">Eliminar</string>
+    <string name="app_bar_button_clear_assignations">Quitar asignaciones</string>
+    <string name="dialog_clear_assignations_message">¿Estás seguro de que deseas quitar todas las asignaciones para los productos seleccionados?</string>
 
 
     <plurals name="dialog_product_assignation_sub_header">
