@@ -99,7 +99,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
     private fun onDeleteProductClicked(listIndex: Int) {
         ConfirmationDialog(this, this.deleteDialogHandler(listIndex), this.getString(R.string.dialog_delete_product_title),
                 this.getString(R.string.dialog_delete_product_message, this.productsAdapter.get(listIndex).name),
-                this.getString(R.string.dialog_delete_product_positive_button), this.getString(R.string.dialog_delete_product_negative_button))
+                this.getString(R.string.dialog_generic_delete_button), this.getString(R.string.dialog_generic_preserve_button))
             .show()
     }
 

@@ -51,7 +51,6 @@ class BillSummaryActivity : AppCompatActivity() {
         val intent = Intent(this, if(tutorialViewed) AssignationActivity::class.java else AssignationIntroActivity::class.java)
 
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
-
         this.startActivity(intent)
     }
 

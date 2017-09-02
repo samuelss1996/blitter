@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
+import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,6 +25,7 @@ import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.TipDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
+import java.util.*
 
 // TODO fix animations when exiting dialogs
 class AssignationActivity : ChoosingLayoutActivity() {
@@ -104,6 +106,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
 
         this.bill.tipPercent = tipPercent
+        this.bill.name = this.getString(R.string.bill_final_name_pattern, DateFormat.getDateFormat(this).format(Date()))
 
         this.startActivity(intent)
     }

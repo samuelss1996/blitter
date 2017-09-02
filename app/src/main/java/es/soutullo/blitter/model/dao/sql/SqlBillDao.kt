@@ -86,6 +86,9 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
         val queryBillById = "SELECT * FROM ${BILL.tableName} WHERE ${BillEntry._ID.colName} = ?"
 
         this.retrieveBillsByQuery(queryBillById, kotlin.arrayOf(billToCloneId.toString())).getOrNull(0)?.let { bill ->
+            bill.id = null
+            bill.lines.forEach { it.clearAssignations() }
+
             this.insertBill(bill)
             return bill
         }
@@ -156,6 +159,8 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
      */
     private fun generateBillValues(bill: Bill): ContentValues {
         val values = ContentValues()
+
+        bill.id?.let { values.put(BillEntry._ID.colName, it) }
 
         values.put(BillEntry.NAME.colName, bill.name)
         values.put(BillEntry.TIP_PERCENT.colName, bill.tipPercent)

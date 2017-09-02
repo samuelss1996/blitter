@@ -51,6 +51,11 @@ data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name
         persons.forEach { this.unassignPerson(it) }
     }
 
+    /** Unassigns all the persons from this line */
+    fun clearAssignations() {
+        this.persons.forEach { this.unassignPerson(it) }
+    }
+
     /**
      * Returns the assigned people to this bill line as a string like "A, B" or "A, B, C and 2 more"
      * @param context The android context

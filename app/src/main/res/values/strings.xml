@@ -64,9 +64,9 @@
     <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
     <string name="toast_manual_transcription_fill_fields">Por favor, rellene los campos correctamente</string>
     <string name="dialog_delete_product_title">Eliminar producto</string>
-    <string name="dialog_delete_product_message">¿Deseas eliminar el producto %1$s?</string>
-    <string name="dialog_delete_product_positive_button">Eliminar</string>
-    <string name="dialog_delete_product_negative_button">Conservar</string>
+    <string name="dialog_delete_product_message">¿Estás seguro de que deseas eliminar el producto %1$s?</string>
+    <string name="dialog_generic_delete_button">Eliminar</string>
+    <string name="dialog_generic_preserve_button">Conservar</string>
     <string name="edit_product_dialog_positive_button">Guardar</string>
     <string name="dialog_edit_product_title">Editar producto</string>
     <string name="toast_manual_transcription_no_products">Debes añadir al menos un producto antes de continuar</string>
@@ -92,6 +92,8 @@
     <string name="action_activity_final_result_name">Renombrar</string>
     <string name="action_activity_final_result_delete">Eliminar</string>
     <string name="activity_final_result_section_title">Tu cuenta dividida</string>
+    <string name="dialog_rename_bill_title">Renombrar cuenta</string>
+    <string name="dialog_rename_bill_edit_text_hint">Nombre de la cuenta</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
@@ -110,5 +112,15 @@
     <plurals name="assignation_dialog_title">
         <item quantity="one">%1$s</item>
         <item quantity="other">%2$s productos</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_title">
+        <item quantity="one">Eliminar cuenta</item>
+        <item quantity="other">Eliminar cuentas</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_message">
+        <item quantity="one">¿Estás seguro de que deseas eliminar esta cuenta?</item>
+        <item quantity="other">¿Estás seguro de que deseas eliminar las cuentas seleccionadas?</item>
     </plurals>
 </resources>

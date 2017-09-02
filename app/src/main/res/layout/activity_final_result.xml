@@ -15,9 +15,8 @@
 
         <TextView
             android:id="@+id/final_result_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/activity_final_result_section_title"
             style="?android:listSeparatorTextViewStyle"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -48,7 +47,8 @@
             android:drawableStart="@drawable/ic_replay_black_24dp"
             android:drawablePadding="@dimen/drawable_button_padding"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:onClick="onSplitAgainClicked"/>
 
         <Button
             android:id="@+id/splitting_finished_button"
@@ -60,7 +60,8 @@
             app:layout_constraintRight_toRightOf="parent"
             android:drawableLeft="@drawable/ic_done_black_24dp"
             android:drawableStart="@drawable/ic_done_black_24dp"
-            android:drawablePadding="@dimen/drawable_button_padding" />
+            android:drawablePadding="@dimen/drawable_button_padding"
+            android:onClick="onDoneClicked"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

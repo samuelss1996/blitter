@@ -7,6 +7,10 @@ import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.person.Person
 
 class BillPersonTraceActivity : AppCompatActivity() {
+    companion object {
+        val PERSON_INTENT_DATA_KEY = "EXTRA_PERSON"
+    }
+
     private lateinit var bill: Bill
     private lateinit var person: Person
 
