@@ -21,16 +21,19 @@ import es.soutullo.blitter.view.util.BlitterUtils
 abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableListOf(), var handler: IListHandler? = null)
         : RecyclerView.Adapter<GenericListAdapter<Item>.GenericListViewHolder>() {
     companion object {
-        private val VIEW_TYPE_ITEM = 0
-        private val VIEW_TYPE_LOADING = 1
+        private val VIEW_TYPE_STANDARD = 0
+        private val VIEW_TYPE_NULL = 1
     }
 
     protected var recyclerView: RecyclerView? = null
 
     override fun getItemCount(): Int = this.items.size
+    override fun getItemViewType(position: Int): Int = if(this.items[position] != null) VIEW_TYPE_STANDARD else VIEW_TYPE_NULL
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder =
-            GenericListViewHolder(LayoutInflater.from(parent.context).inflate(this.getItemLayout(), parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder {
+        val itemLayout = if(viewType == VIEW_TYPE_STANDARD) this.getItemLayout() else this.getNullItemLayout()
+        return GenericListViewHolder(LayoutInflater.from(parent.context).inflate(itemLayout, parent, false))
+    }
 
     override fun onBindViewHolder(holder: GenericListViewHolder, position: Int) {
         holder.binding.setVariable(BR.item, this.items[position])
@@ -139,6 +142,9 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
 
     /** @return The ID of the layout of the items of the recycler view */
     protected abstract fun getItemLayout(): Int
+
+    /** @return The ID of the layout for the null item */
+    open protected fun getNullItemLayout(): Int = 0
 
     /** Generic ViewHolder for each item of the RecyclerView */
     open inner class GenericListViewHolder(protected val view: View) : RecyclerView.ViewHolder(view) {

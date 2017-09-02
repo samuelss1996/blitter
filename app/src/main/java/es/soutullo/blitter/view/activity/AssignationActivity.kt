@@ -25,6 +25,7 @@ import es.soutullo.blitter.view.dialog.TipDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
+// TODO fix animations when exiting dialogs
 class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)
 

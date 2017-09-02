@@ -36,7 +36,7 @@
     <string name="item_assignation_persons_unassigned">Sin asignar</string>
     <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
     <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
-    <string name="tip_final_result">Toca sobre una persona para ver el desglose detallado.</string>
+    <string name="tip_final_result">Aquí tienes tu cuenta dividida. Toca sobre una persona para ver el desglose detallado</string>
     <string name="final_result_button_split_again">Volver a repartir</string>
     <string name="final_result_button_finished">Listo</string>
     <string name="content_description_button_rename_bill">Renombrar cuenta</string>
@@ -88,6 +88,10 @@
     <string name="generic_dialog_continue">Continuar</string>
     <string name="dialog_tip_title">¿Algo de propina?</string>
 
+    <string name="bill_final_name_pattern">Cuenta del %1$s</string>
+    <string name="action_activity_final_result_name">Renombrar</string>
+    <string name="action_activity_final_result_delete">Eliminar</string>
+    <string name="activity_final_result_section_title">Tu cuenta dividida</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

@@ -47,6 +47,7 @@ dependencies {
     compile 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'
     compile 'com.xw.repo:bubbleseekbar:3.4-lite'
     compile 'au.com.dardle:badgelayout:0.1.0'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
     testCompile 'junit:junit:4.12'
 }
