@@ -6,6 +6,7 @@
     <data>
         <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
         <variable name="bill" type="es.soutullo.blitter.model.vo.bill.Bill" />
+        <variable name="tipPercent" type="Float" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -28,14 +29,12 @@
             android:layout_width="344dp"
             android:layout_height="wrap_content"
             app:bsb_bubble_color="@color/colorAccent"
-            app:bsb_bubble_text_color="@color/colorPrimaryDark"
+            app:bsb_bubble_text_color="@color/colorOverPrimary"
             app:bsb_min="0"
             app:bsb_max="@integer/max_tip_percent"
-            app:bsb_progress="0"
             app:bsb_second_track_color="@color/colorAccent"
             app:bsb_section_count="6"
             app:bsb_section_text_position="bottom_sides"
-            app:bsb_show_progress_in_float="true"
             app:bsb_show_section_mark="true"
             app:bsb_show_section_text="true"
             app:bsb_show_thumb_text="true"
@@ -55,7 +54,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/dialog_tip_result_text(Math.round(bill.tipPercent * 100), utils.getPriceAsString(bill.priceWithoutTip * bill.tipPercent))}"
+            android:text="@{@string/dialog_tip_result_text(Math.round((float)(tipPercent * 100)), utils.getPriceAsString(bill.priceWithoutTip * tipPercent))}"
             app:layout_constraintLeft_toLeftOf="@+id/dialog_tip_seek_bar"
             app:layout_constraintRight_toRightOf="@+id/dialog_tip_seek_bar"
             app:layout_constraintTop_toBottomOf="@+id/dialog_tip_seek_bar"

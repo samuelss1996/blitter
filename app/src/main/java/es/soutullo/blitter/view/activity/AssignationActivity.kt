@@ -1,5 +1,6 @@
 package es.soutullo.blitter.view.activity
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
+import android.widget.Toast
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
@@ -19,6 +21,7 @@ import es.soutullo.blitter.view.adapter.AssignationAdapter
 import es.soutullo.blitter.view.dialog.AssignationDialog
 import es.soutullo.blitter.view.dialog.ConfirmationDialog
 import es.soutullo.blitter.view.dialog.PromptDialog
+import es.soutullo.blitter.view.dialog.TipDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
@@ -78,12 +81,30 @@ class AssignationActivity : ChoosingLayoutActivity() {
         Handler().postDelayed({this.itemsAdapter.notifyDataSetChanged()}, 100)
     }
 
-    fun onFinishButtonClicked() {
-        // TODO implement here
+    override fun onItemClicked(listIndex: Int, clickedViewId: Int) {
+        this.onAssignClicked(listOf(this.itemsAdapter.get(listIndex)))
     }
 
-    fun onTipPercentageConfirmed(tipPercentage: Float) {
-        // TODO implement here
+    /** Gets called when the finish button (the FAB) is clicked */
+    private fun onFinishButtonClicked() {
+        if (this.itemsAdapter.items.all { it.persons.isNotEmpty() }) {
+            TipDialog(this, this.createTipDialogHandler(), this.bill).show()
+        } else {
+            this.onTryToFinishWithMissingAssignation()
+        }
+    }
+
+    /**
+     * Gets called when the user confirms the tip percent on the tip dialog
+     * @param tipPercent The tip percent specified by the user
+     */
+    private fun onTipPercentageConfirmed(tipPercent: Float) {
+        val intent = Intent(this, FinalResultActivity::class.java)
+        intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
+
+        this.bill.tipPercent = tipPercent
+
+        this.startActivity(intent)
     }
 
     /**
@@ -122,7 +143,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * Gets called when the user confirms he/she wants to add a new person, and its name
      * @param newPersonName The name of the new person
      */
-    fun onNewPersonAdded(newPersonName: String) {
+    private fun onNewPersonAdded(newPersonName: String) {
         val newPerson = Person(null, newPersonName)
         DaoFactory.getFactory(this).getPersonDao().insertRecentPerson(newPerson)
 
@@ -140,7 +161,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * @param assignedPersons The persons whose checkboxes are marked on the assignation dialog right before clicking the 'OK' button
      * @param unassignedPersons The persons whose checkboxes are unmarked on the assignation dialog right before clicking the 'OK' button
      */
-    fun onAssignationDone(affectedBillLines: List<BillLine>, assignedPersons: List<Person>, unassignedPersons: List<Person>) {
+    private fun onAssignationDone(affectedBillLines: List<BillLine>, assignedPersons: List<Person>, unassignedPersons: List<Person>) {
         for (line in affectedBillLines) {
             line.assignAllPersons(assignedPersons)
             line.unassignAllPersons(unassignedPersons)
@@ -153,14 +174,12 @@ class AssignationActivity : ChoosingLayoutActivity() {
         this.doBackup()
     }
 
-    override fun onItemClicked(listIndex: Int, clickedViewId: Int) {
-        this.onAssignClicked(listOf(this.itemsAdapter.get(listIndex)))
-    }
-
+    /** Gets called when the user tries to finish the assignations but there is yet one or more missing assignations */
     private fun onTryToFinishWithMissingAssignation() {
-        // TODO implement here
+        Toast.makeText(this, this.getString(R.string.toast_assignation_must_assign_all), Toast.LENGTH_SHORT).show()
     }
 
+    /** Saves the bill status and its assignations on the database */
     private fun doBackup() {
         this.bill.status = EBillStatus.ASSIGNING
         DaoFactory.getFactory(this).getBillDao().updateBill(this.bill.id, this.bill)
@@ -212,10 +231,23 @@ class AssignationActivity : ChoosingLayoutActivity() {
         }
     }
 
+    /** Creates the dialog handler for the assignation clear assignations dialog, which is a confirmation dialog */
     private fun createClearAssignationsDialogHandler(affectedBillLines: List<BillLine>): IDialogHandler {
         return object : IDialogHandler {
             override fun onPositiveButtonClicked(dialog: CustomDialog) {
                 this@AssignationActivity.onAssignationDone(affectedBillLines, listOf(), affectedBillLines.map { it.persons }.flatten() )
+            }
+
+            override fun onNegativeButtonClicked(dialog: CustomDialog) { }
+            override fun onNeutralButtonClicked(dialog: CustomDialog) { }
+        }
+    }
+
+    /** Creates the dialog handler for the tip dialog */
+    private fun createTipDialogHandler(): IDialogHandler {
+        return object : IDialogHandler {
+            override fun onPositiveButtonClicked(dialog: CustomDialog) {
+                (dialog as? TipDialog)?.getTipPercent()?.let { this@AssignationActivity.onTipPercentageConfirmed(it) }
             }
 
             override fun onNegativeButtonClicked(dialog: CustomDialog) { }

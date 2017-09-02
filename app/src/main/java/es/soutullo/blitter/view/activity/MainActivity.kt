@@ -15,6 +15,9 @@ import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.view.adapter.RecentBillsAdapter
 import io.github.kobakei.materialfabspeeddial.FabSpeedDial
 
+// TODO hide FAB on all the lists activities when scroll down
+// TODO lazy loading on the MainActivity
+// TODO fix the "uncomplete" badge layout for the item bill (MainActivity)
 class MainActivity : ChoosingLayoutActivity() {
     private lateinit var binding: ActivityMainBinding
     override val itemsAdapter = RecentBillsAdapter(this)

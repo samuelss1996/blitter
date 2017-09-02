@@ -48,7 +48,7 @@
     <string name="dialog_edit_product_hint_product_price">Precio (%1$s)</string>
     <string name="dialog_edit_product_hint_product_quantity">Cantidad</string>
     <string name="dialog_tip_hint">Introduce el porcentaje (%) de propina a continuación. Es posible cambiar el valor por defecto desde los ajustes</string>
-    <string name="dialog_tip_result_text">Se añadirá un %1$d\%% de propina (%2$s) a la cuenta.</string>
+    <string name="dialog_tip_result_text">Se añadirá un %1$d%% de propina (%2$s) a la cuenta.</string>
 
     <string name="preference_category_title_settings">Ajustes</string>
     <string name="preference_category_title_about">Acerca de</string>
@@ -84,6 +84,9 @@
     <string name="app_bar_button_delete">Eliminar</string>
     <string name="app_bar_button_clear_assignations">Quitar asignaciones</string>
     <string name="dialog_clear_assignations_message">¿Estás seguro de que deseas quitar todas las asignaciones para los productos seleccionados?</string>
+    <string name="toast_assignation_must_assign_all">Debes asignar todos los productos antes de finalizar</string>
+    <string name="generic_dialog_continue">Continuar</string>
+    <string name="dialog_tip_title">¿Algo de propina?</string>
 
 
     <plurals name="dialog_product_assignation_sub_header">
