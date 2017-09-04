@@ -196,6 +196,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
         this.findViewById<CheckBox>(R.id.select_all_checkbox).setOnCheckedChangeListener(this.createCheckAllListener())
         this.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener({ onFinishButtonClicked() })
 
+        this.itemsAdapter.fab = this.findViewById(R.id.fab)
         this.itemsAdapter.addAll(this.bill.lines)
         assignationRecycler.adapter = this.itemsAdapter
     }

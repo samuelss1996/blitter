@@ -2,6 +2,7 @@ package es.soutullo.blitter.view.adapter.generic
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -20,7 +21,7 @@ import es.soutullo.blitter.view.util.BlitterUtils
  * @param handler The handler. Gets called when the user performs interactions with a recycler view item,
  *                such as a click
  */
-abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableListOf(), var handler: IListHandler? = null)
+abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableListOf(), var handler: IListHandler? = null, var fab: FloatingActionButton? = null)
         : RecyclerView.Adapter<GenericListAdapter<Item>.GenericListViewHolder>() {
     companion object {
         private val VIEW_TYPE_STANDARD = 0
@@ -43,13 +44,18 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
         this.recyclerView = recyclerView
-
         val layoutManager = LinearLayoutManager(recyclerView?.context)
-        recyclerView?.layoutManager = layoutManager
 
+        recyclerView?.layoutManager = layoutManager
         if (this.showSeparators()) {
             recyclerView?.addItemDecoration(DividerItemDecoration(recyclerView.context, layoutManager.orientation))
         }
+
+        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView?, diffX: Int, diffY: Int) {
+                this@GenericListAdapter.onScroll(diffX, diffY)
+            }
+        })
     }
 
     /**
@@ -129,8 +135,12 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     /** @return The correct item layout depending on the given view type */
     protected fun getActualItemLayout(viewType: Int): Int = if(viewType == VIEW_TYPE_STANDARD) this.getItemLayout() else this.getNullItemLayout()
 
-    private fun onScroll() {
-        // TODO implement here
+    private fun onScroll(diffX: Int, diffY: Int) {
+        if(diffY > 0) {
+            this.fab?.hide()
+        } else if (diffY < 0) {
+            this.fab?.show()
+        }
     }
 
     protected fun onLoadMore() {

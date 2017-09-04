@@ -108,10 +108,13 @@ class MainActivity : ChoosingLayoutActivity() {
 
     /** Initializes some fields of the activity */
     private fun init() {
+        val fabSpeedDial = this.findViewById<FabSpeedDial>(R.id.fab)
+
         this.findViewById<RecyclerView>(R.id.recent_bills_list).adapter = this.itemsAdapter
         this.findViewById<CheckBox>(R.id.select_all_checkbox).setOnCheckedChangeListener(this.createCheckAllListener())
 
-        this.findViewById<FabSpeedDial>(R.id.fab).addOnMenuItemClickListener({ miniFab, label, itemId ->
+        this.itemsAdapter.fab = fabSpeedDial.mainFab
+        fabSpeedDial.addOnMenuItemClickListener({ miniFab, label, itemId ->
             when(itemId) {
                 R.id.fab_mini_transcribe -> this.onManualTranscriptionClicked()
                 R.id.fab_mini_gallery -> this.onFromGalleryClicked()
