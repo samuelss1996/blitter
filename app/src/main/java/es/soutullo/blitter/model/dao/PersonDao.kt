@@ -25,4 +25,7 @@ interface PersonDao {
      * @param person The new person to insert
      */
     fun insertRecentPerson(person: Person)
+
+    /** Deletes all the person from the database */
+    fun deleteAllPersons()
 }

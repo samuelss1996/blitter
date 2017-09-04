@@ -52,4 +52,8 @@ class SqlPersonDao(private val context: Context, private val dbHelper: BlitterSq
         this.dbHelper.writableDatabase.insertWithOnConflict(PERSON.tableName, null, values, SQLiteDatabase.CONFLICT_IGNORE)
         this.dbHelper.writableDatabase.update(PERSON.tableName, values, updateWhere, null)
     }
+
+    override fun deleteAllPersons() {
+        this.dbHelper.writableDatabase.delete(PERSON.tableName, "1=1", null)
+    }
 }

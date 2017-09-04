@@ -21,7 +21,6 @@ import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import io.github.kobakei.materialfabspeeddial.FabSpeedDial
 
 // TODO fix the "uncomplete" badge layout for the item bill (MainActivity)
-// TODO add delete all bills options in settings
 class MainActivity : ChoosingLayoutActivity() {
     private lateinit var binding: ActivityMainBinding
 
@@ -60,6 +59,7 @@ class MainActivity : ChoosingLayoutActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             R.id.action_delete -> this.onDeleteClicked()
+            R.id.action_settings -> this.startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         return true

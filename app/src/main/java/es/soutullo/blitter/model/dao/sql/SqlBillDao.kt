@@ -83,6 +83,10 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
         }
     }
 
+    override fun deleteAllBills() {
+        this.dbHelper.writableDatabase.delete(BILL.tableName, "1=1", null)
+    }
+
     override fun cloneBillForReassigning(billToCloneId: Long): Bill {
         val queryBillById = "SELECT * FROM ${BILL.tableName} WHERE ${BillEntry._ID.colName} = ?"
 

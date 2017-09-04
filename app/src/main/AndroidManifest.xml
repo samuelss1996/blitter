@@ -38,6 +38,8 @@
 
         <activity android:name=".view.activity.AssignationIntroActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".view.activity.SettingsActivity"/>
     </application>
 
 </manifest>
