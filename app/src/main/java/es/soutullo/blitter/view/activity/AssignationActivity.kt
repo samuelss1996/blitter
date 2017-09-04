@@ -50,7 +50,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (this.itemsAdapter.choosingModeEnabled) {
+        if (this.itemsAdapter.isChoosingModeEnabled()) {
             this.menuInflater.inflate(R.menu.menu_app_bar_activity_assignation_choosing, menu)
         }
 
@@ -63,7 +63,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
             R.id.action_clear_assignations -> this.onClearAssignationsClicked()
             R.id.action_assign -> {
                 val selectedLines = this.itemsAdapter.items.filterIndexed {
-                    index, _ -> this.itemsAdapter.selectedIndexes.contains(index)
+                    index, _ -> this.itemsAdapter.getSelectedIndexes().contains(index)
                 }
 
                 this.onAssignClicked(selectedLines)
@@ -133,7 +133,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
     /** Gets called when the user presses the "clear assignations" button on the app bar */
     private fun onClearAssignationsClicked() {
-        val selectedLines = this.itemsAdapter.items.filterIndexed { index, _ -> this.itemsAdapter.selectedIndexes.contains(index) }
+        val selectedLines = this.itemsAdapter.items.filterIndexed { index, _ -> this.itemsAdapter.getSelectedIndexes().contains(index) }
         val dialogTitle = this.getString(R.string.app_bar_button_clear_assignations)
         val dialogMessage = this.getString(R.string.dialog_clear_assignations_message)
         val positiveButtonText = this.getString(R.string.app_bar_button_clear_assignations)

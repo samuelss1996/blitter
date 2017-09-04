@@ -42,7 +42,7 @@ class MainActivity : ChoosingLayoutActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (this.itemsAdapter.choosingModeEnabled) {
+        if (this.itemsAdapter.isChoosingModeEnabled()) {
             this.menuInflater.inflate(R.menu.menu_app_bar_activity_main_choosing, menu)
         } else {
             this.menuInflater.inflate(R.menu.menu_app_bar_activity_main, menu)

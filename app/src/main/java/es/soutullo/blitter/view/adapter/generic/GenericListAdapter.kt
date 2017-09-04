@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bignerdranch.android.multiselector.MultiSelector
+import com.bignerdranch.android.multiselector.MultiSelectorBindingHolder
 import es.soutullo.blitter.BR
 import es.soutullo.blitter.view.adapter.handler.IListHandler
 import es.soutullo.blitter.view.util.BlitterUtils
@@ -30,10 +32,8 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     override fun getItemCount(): Int = this.items.size
     override fun getItemViewType(position: Int): Int = if(this.items[position] != null) VIEW_TYPE_STANDARD else VIEW_TYPE_NULL
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder {
-        val itemLayout = if(viewType == VIEW_TYPE_STANDARD) this.getItemLayout() else this.getNullItemLayout()
-        return GenericListViewHolder(LayoutInflater.from(parent.context).inflate(itemLayout, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder =
+            GenericListViewHolder(LayoutInflater.from(parent.context).inflate(this.getActualItemLayout(viewType), parent, false))
 
     override fun onBindViewHolder(holder: GenericListViewHolder, position: Int) {
         holder.binding.setVariable(BR.item, this.items[position])
@@ -126,6 +126,9 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
         // TODO implement here
     }
 
+    /** @return The correct item layout depending on the given view type */
+    protected fun getActualItemLayout(viewType: Int): Int = if(viewType == VIEW_TYPE_STANDARD) this.getItemLayout() else this.getNullItemLayout()
+
     private fun onScroll() {
         // TODO implement here
     }
@@ -147,7 +150,7 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     open protected fun getNullItemLayout(): Int = 0
 
     /** Generic ViewHolder for each item of the RecyclerView */
-    open inner class GenericListViewHolder(protected val view: View) : RecyclerView.ViewHolder(view) {
+    open inner class GenericListViewHolder(protected val view: View, multiSelector: MultiSelector = MultiSelector()): MultiSelectorBindingHolder(view, multiSelector) {
         val binding: ViewDataBinding = DataBindingUtil.bind<ViewDataBinding>(this.view)
 
         init {
@@ -165,5 +168,10 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
         open protected fun onClick(viewId: Int) {
             this@GenericListAdapter.handler?.onItemClicked(this.adapterPosition, viewId)
         }
+
+        override fun isSelectable(): Boolean = false
+        override fun isActivated(): Boolean = false
+        override fun setSelectable(selectable: Boolean) {}
+        override fun setActivated(activated: Boolean) {}
     }
 }

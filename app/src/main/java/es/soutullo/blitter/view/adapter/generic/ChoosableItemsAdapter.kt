@@ -1,81 +1,58 @@
 package es.soutullo.blitter.view.adapter.generic
 
-import android.animation.LayoutTransition
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import com.bignerdranch.android.multiselector.MultiSelector
 import es.soutullo.blitter.R
 import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 
 abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsListHandler? = null) : GenericListAdapter<Item>(handler = choosableHandler) {
-    var choosingModeEnabled = false
-    val selectedIndexes = mutableSetOf<Int>()
+    private val multiSelector = MultiSelector()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder =
-            ChoosableItemViewHolder(LayoutInflater.from(parent.context).inflate(this.getItemLayout(), parent, false))
+            ChoosableItemViewHolder(LayoutInflater.from(parent.context).inflate(this.getActualItemLayout(viewType), parent, false))
 
-    /** Should be called to start the choosing mode. Makes the checkboxes show up and allows the items to be selected */
-    fun startChoiceMode() {
-        this.setCheckboxesVisibility(View.VISIBLE)
-        this.choosingModeEnabled = true
+    /** @return True if the choosing mode is currently enabled */
+    fun isChoosingModeEnabled() : Boolean = this.multiSelector.isSelectable
 
-        (this.handler as? IChoosableItemsListHandler)?.onChoiceModeStarted()
-    }
+    /** @return The current selected indexes as as list of integers */
+    fun getSelectedIndexes(): List<Int> = this.multiSelector.selectedPositions
 
-    /** Should be called to end the choosing mode. Deselects all the items and makes the checkboxes to hide */
+    /** Ends the choice mode and returns to the normal mode */
     fun finishChoiceMode() {
-        this.setCheckboxesVisibility(View.GONE)
-        this.choosingModeEnabled = false
         this.deselectAll()
 
+        this.multiSelector.isSelectable = false
         (this.handler as? IChoosableItemsListHandler)?.onChoiceModeFinished()
     }
 
-    /** Selects all the items */
+    /** Selects all the items on the list while in choice mode */
     fun selectAll() {
-        this.setNewStateToAll(true)
+        this.items.indices.forEach { this.multiSelector.setSelected(it, 0, true) }
+        (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
     }
 
-    /** Deselects all the items */
+    /** Deselects all the items on the list while in choice mode */
     fun deselectAll() {
-        this.setNewStateToAll(false)
-    }
-
-    /**
-     * Change the choosing checkboxes viability
-     * @param visibility The new visibility
-     */
-    private fun setCheckboxesVisibility(visibility: Int) {
-        this.items.indices.map { this.recyclerView?.findViewHolderForAdapterPosition(it)?.itemView }
-                .forEach { it?.findViewById<CheckBox>(R.id.choosing_checkbox)?.visibility = visibility }
-    }
-
-    /**
-     * Selects/Deselects all the items
-     * @param newState True if the items are supposed to be selected
-     */
-    private fun setNewStateToAll(newState: Boolean) {
-        this.items.indices.map { this.recyclerView?.findViewHolderForAdapterPosition(it) }
-                .filterIsInstance<ChoosableItemViewHolder>().forEach { it.changeState(newState) }
+        this.items.indices.forEach { this.multiSelector.setSelected(it, 0, false) }
+        (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
     }
 
     /** View holder for the choosable items */
-    inner class ChoosableItemViewHolder(itemView: View) : GenericListAdapter<Item>.GenericListViewHolder(itemView) {
-        private var itemCheckBox = this.view.findViewById<CheckBox>(R.id.choosing_checkbox)
+    inner class ChoosableItemViewHolder(itemView: View) : GenericListAdapter<Item>.GenericListViewHolder(itemView, this.multiSelector) {
+        private var isSelectable = false
+        private var isActivated = false
 
         init {
-            this.itemCheckBox.visibility = View.GONE
-
-            (this.view as? ViewGroup)?.layoutTransition?.addTransitionListener(this.createOnTransitionListener())
             this.view.setOnLongClickListener { this.onLongClick() }
-            this.itemCheckBox.setOnCheckedChangeListener {_, newState -> this.changeState(newState) }
         }
 
         override fun onClick(viewId: Int) {
-            if (this@ChoosableItemsAdapter.choosingModeEnabled) {
-                this.itemCheckBox.toggle()
+            if(this@ChoosableItemsAdapter.multiSelector.isSelectable) {
+                this@ChoosableItemsAdapter.multiSelector.setSelected(this, !this.isActivated)
             } else {
                 super.onClick(viewId)
             }
@@ -83,45 +60,50 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
 
         /** Gets called when a long click is performed on the item */
         private fun onLongClick(): Boolean {
-            if(!this@ChoosableItemsAdapter.choosingModeEnabled) {
-                this@ChoosableItemsAdapter.startChoiceMode()
+            if(!this@ChoosableItemsAdapter.multiSelector.isSelectable) {
+                (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChoiceModeStarted()
+
+                this@ChoosableItemsAdapter.multiSelector.isSelectable = true
+                this@ChoosableItemsAdapter.multiSelector.setSelected(this, true)
+
+                return true
             }
 
-            this.itemCheckBox.toggle()
-            return true
+            return false
         }
 
         /**
-         * Changes the state of a item (the state can be select or unselected)
-         * @param newState The new state
+         * Called to select or deselect the item
+         * @param activated True if the item should be selected
          */
-        fun changeState(newState: Boolean) {
-            this.itemCheckBox.isChecked = newState
-
-            if(newState) {
-                this@ChoosableItemsAdapter.selectedIndexes.add(this.adapterPosition)
-                this.view.setBackgroundColor(ContextCompat.getColor(recyclerView?.context, R.color.md_grey_100))
-            } else {
-                this@ChoosableItemsAdapter.selectedIndexes.remove(this.adapterPosition)
-                this.view.setBackgroundColor(ContextCompat.getColor(recyclerView?.context, R.color.md_white_1000))
-            }
+        override fun setActivated(activated: Boolean) {
+            this.isActivated = activated
+            val background = if(activated) R.color.md_grey_100 else R.color.md_white_1000
 
             (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
+
+            this.view.findViewById<CheckBox>(R.id.choosing_checkbox).isChecked = activated
+            this.view.setBackgroundColor(ContextCompat.getColor(this@ChoosableItemsAdapter.recyclerView?.context, background))
         }
 
         /**
-         * Creates a transition listener for the transition performed when changing to or from choice mode.
-         * Allows the items layout to be refreshed, which can be necessary for them to adapt to the new space
-         * @return The listener
+         * Called to make the item selectable. In our case, a selectable item appears with an unchecked checkbox
+         * on its left
+         * @param selectable True if the item should be selectable
          */
-        private fun createOnTransitionListener(): LayoutTransition.TransitionListener {
-            return object : LayoutTransition.TransitionListener {
-                override fun endTransition(p0: LayoutTransition?, p1: ViewGroup?, p2: View?, p3: Int) {
-                    notifyDataSetChanged()
-                }
+        override fun setSelectable(selectable: Boolean) {
+            this.isSelectable = selectable
 
-                override fun startTransition(p0: LayoutTransition?, p1: ViewGroup?, p2: View?, p3: Int) { }
+            with(this.view.findViewById<CheckBox>(R.id.choosing_checkbox)) {
+                this.visibility = if(selectable) View.VISIBLE else View.GONE
+                this.setOnCheckedChangeListener({ _, newState -> this@ChoosableItemsAdapter.multiSelector.setSelected(this@ChoosableItemViewHolder, newState) })
             }
         }
+
+        /** @return True if the item is selectable */
+        override fun isSelectable(): Boolean = this.isSelectable
+
+        /** @return True if the item is selected */
+        override fun isActivated(): Boolean = this.isActivated
     }
 }

@@ -1,8 +1,5 @@
 package es.soutullo.blitter.model.vo.bill
 
-import android.content.Context
-import android.widget.TextView
-import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.person.Person
 import java.io.Serializable
 
@@ -53,38 +50,8 @@ data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name
 
     /** Unassigns all the persons from this line */
     fun clearAssignations() {
-        this.persons.forEach { this.unassignPerson(it) }
-    }
-
-    /**
-     * Returns the assigned people to this bill line as a string like "A, B" or "A, B, C and 2 more"
-     * @param context The android context
-     * @param textView The text view where the text will be placed. Required for measurements
-     * @return The assigned people as string
-     */
-    fun getAssignedPeopleAsString(context: Context, textView: TextView) : String {
-        val separator = context.getString(R.string.persons_array_separator)
-        var result: String
-
-        if (this.persons.isNotEmpty() && textView.width > 0) {
-            result = this.persons.map { it.name }.reduce { acc, s ->  acc + separator + s}
-
-            var i = 1
-            while(textView.paint.measureText(result) > textView.width) {
-                val morePersons = context.resources.getQuantityString(R.plurals.item_assignation_persons_more, i, i)
-
-                result = when(i) {
-                    this.persons.size -> context.resources.getQuantityString(R.plurals.item_assignation_persons_assigned_all_as_number, persons.size, persons.size)
-                    else -> this.persons.map { it.name }.subList(0, persons.size - i).reduce { acc, s ->  acc + separator+ s } + morePersons
-                }
-
-                i++
-            }
-        } else {
-            result = context.getString(R.string.item_assignation_persons_unassigned)
-        }
-
-        return result
+        val personsCopy = ArrayList(this.persons)
+        personsCopy.forEach { this.unassignPerson(it) }
     }
 
     override fun equals(other: Any?): Boolean {

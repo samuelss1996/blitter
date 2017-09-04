@@ -18,7 +18,7 @@ abstract class ChoosingLayoutActivity: AppCompatActivity(), IChoosableItemsListH
     abstract val itemsAdapter: ChoosableItemsAdapter<*>
 
     override fun onBackPressed() {
-        if(this.itemsAdapter.choosingModeEnabled) {
+        if(this.itemsAdapter.isChoosingModeEnabled()) {
             this.itemsAdapter.finishChoiceMode()
         } else {
             super.onBackPressed()
@@ -35,9 +35,9 @@ abstract class ChoosingLayoutActivity: AppCompatActivity(), IChoosableItemsListH
 
     override fun onChosenItemsChanged() {
         val allCheckbox = this.findViewById<CheckBox>(R.id.select_all_checkbox)
-        val checkAll = (this.itemsAdapter.itemCount == this.itemsAdapter.selectedIndexes.size)
+        val checkAll = (this.itemsAdapter.itemCount == this.itemsAdapter.getSelectedIndexes().size)
 
-        this.findViewById<TextView>(R.id.selected_items_count_text).text = this.itemsAdapter.selectedIndexes.size.toString()
+        this.findViewById<TextView>(R.id.selected_items_count_text).text = this.itemsAdapter.getSelectedIndexes().size.toString()
 
         allCheckbox.setOnCheckedChangeListener(null)
         this.findViewById<CheckBox>(R.id.select_all_checkbox).isChecked = checkAll

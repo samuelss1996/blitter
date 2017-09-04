@@ -14,6 +14,7 @@ import es.soutullo.blitter.model.dao.sql.helper.SqlUtils
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
 import es.soutullo.blitter.model.vo.person.Person
+import java.util.*
 
 class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlDbHelper = BlitterSqlDbHelper(context)) : BillDao {
 
@@ -87,6 +88,7 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
 
         this.retrieveBillsByQuery(queryBillById, kotlin.arrayOf(billToCloneId.toString())).getOrNull(0)?.let { bill ->
             bill.id = null
+            bill.date = Date()
             bill.lines.forEach { it.clearAssignations() }
 
             this.insertBill(bill)

@@ -49,6 +49,7 @@ dependencies {
     compile 'au.com.dardle:badgelayout:0.1.0'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
+    compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
     testCompile 'junit:junit:4.12'
 }
 
