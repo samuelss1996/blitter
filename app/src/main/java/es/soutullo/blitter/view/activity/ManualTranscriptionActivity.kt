@@ -2,7 +2,6 @@ package es.soutullo.blitter.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
@@ -25,6 +24,7 @@ import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import java.util.*
 
+// TODO autoscroll when product added
 class ManualTranscriptionActivity : AppCompatActivity() {
     private val productsAdapter = ManualTranscriptionAdapter()
     private var bill: Bill? = null
@@ -78,11 +78,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
     /** Gets called when the user clicks the finish button in the action bar */
     private fun onFinishButtonClicked() {
         if(!this.productsAdapter.isEmpty()) {
-            val tutorialViewed = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(AssignationIntroActivity.FLAG_ASSIGNATION_INTRO_VIEWED, false)
-            val intent = Intent(this, if(tutorialViewed) BillSummaryActivity::class.java else AssignationIntroActivity::class.java)
-
-            intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
-            this.startActivity(intent)
+            this.startActivity(Intent(this, BillSummaryActivity::class.java).putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill))
         } else {
             this.onTryToFinishWithNoProducts()
         }
@@ -104,7 +100,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
     private fun onDeleteProductClicked(listIndex: Int) {
         ConfirmationDialog(this, this.deleteDialogHandler(listIndex), this.getString(R.string.dialog_delete_product_title),
                 this.getString(R.string.dialog_delete_product_message, this.productsAdapter.get(listIndex).name),
-                this.getString(R.string.dialog_delete_product_positive_button), this.getString(R.string.dialog_delete_product_negative_button))
+                this.getString(R.string.dialog_generic_delete_button), this.getString(R.string.dialog_generic_preserve_button))
             .show()
     }
 

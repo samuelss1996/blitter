@@ -2,7 +2,7 @@
     <string name="app_name">Blitter</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_assignation">AssignationActivity</string>
-    <string name="persons_array_separator">, </string>
+    <string name="persons_array_separator">,&#160;</string>
     <string name="main_fab_manually">Transcribir manualmente</string>
     <string name="main_fab_gallery">Desde la galería</string>
     <string name="main_fab_camera">Desde la cámara</string>
@@ -36,18 +36,19 @@
     <string name="item_assignation_persons_unassigned">Sin asignar</string>
     <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
     <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
-    <string name="tip_final_result">Toca sobre una persona para ver el desglose detallado.</string>
+    <string name="tip_final_result">Aquí tienes tu cuenta dividida. Toca sobre una persona para ver el desglose detallado</string>
     <string name="final_result_button_split_again">Volver a repartir</string>
     <string name="final_result_button_finished">Listo</string>
     <string name="content_description_button_rename_bill">Renombrar cuenta</string>
-    <string name="title_user_products">Productos de este usuario</string>
-    <string name="bill_trace_all_product">Totatilidad del producto (%1$s)</string>
+    <string name="title_user_products">Productos</string>
+    <string name="bill_trace_all_product">Totalidad del producto (%1$s)</string>
     <string name="bill_trace_partial_product">1/%1$d del producto (%2$s)</string>
+    <string name="generic_dialog_cancel">Cancelar</string>
     <string name="dialog_edit_product_hint_product_name">Nombre del producto</string>
     <string name="dialog_edit_product_hint_product_price">Precio (%1$s)</string>
     <string name="dialog_edit_product_hint_product_quantity">Cantidad</string>
     <string name="dialog_tip_hint">Introduce el porcentaje (%) de propina a continuación. Es posible cambiar el valor por defecto desde los ajustes</string>
-    <string name="dialog_tip_result_text">Se añadirá un %1$d\%% de propina (%2$s) a la cuenta.</string>
+    <string name="dialog_tip_result_text">Se añadirá un %1$d%% de propina (%2$s) a la cuenta.</string>
 
     <string name="preference_category_title_settings">Ajustes</string>
     <string name="preference_category_title_about">Acerca de</string>
@@ -63,17 +64,36 @@
     <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
     <string name="toast_manual_transcription_fill_fields">Por favor, rellene los campos correctamente</string>
     <string name="dialog_delete_product_title">Eliminar producto</string>
-    <string name="dialog_delete_product_message">¿Deseas eliminar el producto %1$s?</string>
-    <string name="dialog_delete_product_positive_button">Eliminar</string>
-    <string name="dialog_delete_product_negative_button">Conservar</string>
+    <string name="dialog_delete_product_message">¿Estás seguro de que deseas eliminar el producto %1$s?</string>
+    <string name="dialog_generic_delete_button">Eliminar</string>
+    <string name="dialog_generic_preserve_button">Conservar</string>
     <string name="edit_product_dialog_positive_button">Guardar</string>
-    <string name="edit_product_dialog_negative_button">Cancelar</string>
     <string name="dialog_edit_product_title">Editar producto</string>
     <string name="toast_manual_transcription_no_products">Debes añadir al menos un producto antes de continuar</string>
     <string name="bill_uncompleted_default_name">Cuenta sin completar</string>
     <string name="assignation_intro_title">Asignar productos a personas</string>
     <string name="assignation_intro_description">A continuación se mostrará la lista de productos. Toca sobre un producto para asignarle personas. También puedes seleccionar varios productos a la vez manteniendo pulsado sobre uno</string>
+    <string name="assignation_dialog_positive_button">OK</string>
+    <string name="assignation_dialog_neutral_button">Nueva persona</string>
+    <string name="dialog_add_person_title">Nueva persona</string>
+    <string name="dialog_add_person_positive_button">Añadir</string>
+    <string name="dialog_add_person_field_hint">Nombre de la persona</string>
+    <string name="empty_state_assignation_dialog">Todavía no has añadido ninguna persona, pulsa en \"%1$s\" para hacerlo</string>
+    <string name="choosing_bar_choose_all">Todo</string>
+    <string name="app_bar_button_assign">Asignar</string>
+    <string name="app_bar_button_delete">Eliminar</string>
+    <string name="app_bar_button_clear_assignations">Quitar asignaciones</string>
+    <string name="dialog_clear_assignations_message">¿Estás seguro de que deseas quitar todas las asignaciones para los productos seleccionados?</string>
+    <string name="toast_assignation_must_assign_all">Debes asignar todos los productos antes de finalizar</string>
+    <string name="generic_dialog_continue">Continuar</string>
+    <string name="dialog_tip_title">¿Algo de propina?</string>
 
+    <string name="bill_final_name_pattern">Cuenta del %1$s</string>
+    <string name="action_activity_final_result_name">Renombrar</string>
+    <string name="action_activity_final_result_delete">Eliminar</string>
+    <string name="activity_final_result_section_title">Tu cuenta dividida</string>
+    <string name="dialog_rename_bill_title">Renombrar cuenta</string>
+    <string name="dialog_rename_bill_edit_text_hint">Nombre de la cuenta</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
@@ -86,6 +106,21 @@
     </plurals>
 
     <plurals name="item_assignation_persons_more">
-        <item quantity="other"> y %d más</item>
+        <item quantity="other">&#160;y %d más</item>
+    </plurals>
+
+    <plurals name="assignation_dialog_title">
+        <item quantity="one">%1$s</item>
+        <item quantity="other">%2$s productos</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_title">
+        <item quantity="one">Eliminar cuenta</item>
+        <item quantity="other">Eliminar cuentas</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_message">
+        <item quantity="one">¿Estás seguro de que deseas eliminar esta cuenta?</item>
+        <item quantity="other">¿Estás seguro de que deseas eliminar las cuentas seleccionadas?</item>
     </plurals>
 </resources>

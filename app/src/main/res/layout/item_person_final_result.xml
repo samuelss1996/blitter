@@ -9,50 +9,60 @@
         <variable name="traceFlag" type="Boolean" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/list_item_horizontal_padding"
-        android:paddingRight="@dimen/list_item_horizontal_padding"
-        android:paddingTop="@dimen/list_item_vertical_padding"
-        android:paddingBottom="@dimen/list_item_vertical_padding">
+        android:layout_height="wrap_content"
+        android:background="@color/md_white_1000">
 
-        <ImageView
-            android:id="@+id/user_profile_picture"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/content_description_user_profile_picture"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/list_item_horizontal_padding"
+            android:paddingRight="@dimen/list_item_horizontal_padding"
+            android:paddingTop="@dimen/list_item_vertical_padding"
+            android:paddingBottom="@dimen/list_item_vertical_padding"
+            android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{item.name}"
-            tools:text="Samuel Soutullo"
-            app:layout_constraintBottom_toTopOf="@+id/user_paying_amount"
-            app:layout_constraintTop_toTopOf="@+id/user_profile_picture"
-            android:layout_marginTop="8dp"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintLeft_toRightOf="@+id/user_profile_picture"
-            android:layout_marginLeft="@dimen/list_item_horizontal_padding"
-            android:layout_marginStart="@dimen/list_item_horizontal_padding"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/list_title_text_size"/>
+            <ImageView
+                android:id="@+id/user_profile_picture"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/content_description_user_profile_picture"
+                app:srcCompat="@{item.generateUserProfilePhoto()}"/>
 
-        <TextView
-            android:id="@+id/user_paying_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{traceFlag != null &amp;&amp; traceFlag? utils.getPriceAsStringWithTip(context, item.payingAmountWithoutTip, item.tipPercent) : utils.getPriceAsString(item.payingAmountWithTip)}"
-            tools:text="3,07 €"
-            app:layout_constraintTop_toBottomOf="@+id/user_name"
-            app:layout_constraintBottom_toBottomOf="@+id/user_profile_picture"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintLeft_toRightOf="@+id/user_profile_picture"
-            android:layout_marginLeft="@dimen/list_item_horizontal_padding"
-            android:layout_marginStart="@dimen/list_item_horizontal_padding"
-            android:textSize="@dimen/list_caption_text_size"/>
-    </android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toRightOf="@+id/user_profile_picture"
+                android:layout_marginLeft="@dimen/list_item_horizontal_padding"
+                android:layout_marginStart="@dimen/list_item_horizontal_padding"
+                app:layout_constraintTop_toTopOf="@+id/user_profile_picture"
+                android:layout_marginTop="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/user_profile_picture"
+                android:layout_marginBottom="0dp">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{item.name}"
+                    tools:text="Samuel Soutullo"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/list_title_text_size"/>
+
+                <TextView
+                    android:id="@+id/user_paying_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{traceFlag != null &amp;&amp; traceFlag? utils.getPriceAsStringWithTip(context, item.payingAmountWithoutTip, item.tipPercent) : utils.getPriceAsString(item.payingAmountWithTip)}"
+                    tools:text="3,07 €"
+
+                    android:textSize="@dimen/list_caption_text_size"/>
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
 </layout>

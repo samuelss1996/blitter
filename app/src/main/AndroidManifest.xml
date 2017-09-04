@@ -11,7 +11,6 @@
 
         <activity
             android:name=".view.activity.AssignationActivity"
-            android:label="@string/title_activity_assignation"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 

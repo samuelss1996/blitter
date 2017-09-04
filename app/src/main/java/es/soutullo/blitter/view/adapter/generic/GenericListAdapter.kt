@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.databinding.library.baseAdapters.BR
+import com.bignerdranch.android.multiselector.MultiSelector
+import com.bignerdranch.android.multiselector.MultiSelectorBindingHolder
+import es.soutullo.blitter.BR
 import es.soutullo.blitter.view.adapter.handler.IListHandler
 import es.soutullo.blitter.view.util.BlitterUtils
 
@@ -21,14 +23,17 @@ import es.soutullo.blitter.view.util.BlitterUtils
 abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableListOf(), var handler: IListHandler? = null)
         : RecyclerView.Adapter<GenericListAdapter<Item>.GenericListViewHolder>() {
     companion object {
-        private val VIEW_TYPE_ITEM = 0
-        private val VIEW_TYPE_LOADING = 1
+        private val VIEW_TYPE_STANDARD = 0
+        private val VIEW_TYPE_NULL = 1
     }
 
+    protected var recyclerView: RecyclerView? = null
+
     override fun getItemCount(): Int = this.items.size
+    override fun getItemViewType(position: Int): Int = if(this.items[position] != null) VIEW_TYPE_STANDARD else VIEW_TYPE_NULL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder =
-            GenericListViewHolder(LayoutInflater.from(parent.context).inflate(this.getItemLayout(), parent, false))
+            GenericListViewHolder(LayoutInflater.from(parent.context).inflate(this.getActualItemLayout(viewType), parent, false))
 
     override fun onBindViewHolder(holder: GenericListViewHolder, position: Int) {
         holder.binding.setVariable(BR.item, this.items[position])
@@ -37,6 +42,8 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+        this.recyclerView = recyclerView
+
         val layoutManager = LinearLayoutManager(recyclerView?.context)
         recyclerView?.layoutManager = layoutManager
 
@@ -119,6 +126,9 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
         // TODO implement here
     }
 
+    /** @return The correct item layout depending on the given view type */
+    protected fun getActualItemLayout(viewType: Int): Int = if(viewType == VIEW_TYPE_STANDARD) this.getItemLayout() else this.getNullItemLayout()
+
     private fun onScroll() {
         // TODO implement here
     }
@@ -136,15 +146,32 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     /** @return The ID of the layout of the items of the recycler view */
     protected abstract fun getItemLayout(): Int
 
+    /** @return The ID of the layout for the null item */
+    open protected fun getNullItemLayout(): Int = 0
+
     /** Generic ViewHolder for each item of the RecyclerView */
-    open inner class GenericListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    open inner class GenericListViewHolder(protected val view: View, multiSelector: MultiSelector = MultiSelector()): MultiSelectorBindingHolder(view, multiSelector) {
         val binding: ViewDataBinding = DataBindingUtil.bind<ViewDataBinding>(this.view)
 
         init {
-            val clickListener = View.OnClickListener { handler?.onItemClicked(adapterPosition, it.id) }
+            val clickListener = View.OnClickListener { this.onClick(it.id) }
 
             this.view.setOnClickListener(clickListener)
             this@GenericListAdapter.clickableChildren().forEach { this.view.findViewById<View>(it).setOnClickListener(clickListener) }
         }
+
+        /**
+         * Gets called when the item is clicked
+         * @param viewId The clicked view id, which can be the id of the list item itself, or any of
+         *        its clickable children
+         */
+        open protected fun onClick(viewId: Int) {
+            this@GenericListAdapter.handler?.onItemClicked(this.adapterPosition, viewId)
+        }
+
+        override fun isSelectable(): Boolean = false
+        override fun isActivated(): Boolean = false
+        override fun setSelectable(selectable: Boolean) {}
+        override fun setActivated(activated: Boolean) {}
     }
 }

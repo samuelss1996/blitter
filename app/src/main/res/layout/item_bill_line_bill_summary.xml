@@ -22,7 +22,6 @@
             android:text="@{item.name.toUpperCase()}"
             tools:text="PRODUCTO A"
             app:layout_constraintTop_toTopOf="parent"
-
             app:layout_constraintLeft_toLeftOf="parent"
             android:textColor="@color/color_bill_summary_text"
             android:textSize="16sp"/>

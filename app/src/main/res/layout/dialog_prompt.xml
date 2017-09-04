@@ -10,10 +10,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="?dialogPreferredPadding"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="?dialogPreferredPadding"
         app:layout_constraintRight_toRightOf="parent">
 
         <EditText
@@ -21,8 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapSentences"
-            tools:hint="Hint"/>
+            tools:hint="Hint" />
 
+        <requestFocus />
     </android.support.design.widget.TextInputLayout>
 
 </android.support.constraint.ConstraintLayout>
