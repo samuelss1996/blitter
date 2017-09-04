@@ -30,6 +30,7 @@ import java.util.*
 // TODO fix animations when exiting dialogs
 class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)
+    override val showHomeAsUp: Boolean = true
 
     private lateinit var bill: Bill
     private var peopleAddedOnSession = mutableListOf<Person>()

@@ -15,12 +15,14 @@ import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.view.adapter.RecentBillsAdapter
 import io.github.kobakei.materialfabspeeddial.FabSpeedDial
 
-// TODO hide FAB on all the lists activities when scroll down
-// TODO lazy loading on the MainActivity
 // TODO fix the "uncomplete" badge layout for the item bill (MainActivity)
+// TODO if deleted bills == 50 notify the user he/she should go to settings
+// TODO add delete all bills options in settings
 class MainActivity : ChoosingLayoutActivity() {
     private lateinit var binding: ActivityMainBinding
+
     override val itemsAdapter = RecentBillsAdapter(this)
+    override val showHomeAsUp: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
