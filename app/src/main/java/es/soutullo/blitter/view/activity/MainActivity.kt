@@ -3,20 +3,24 @@ package es.soutullo.blitter.view.activity
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.CheckBox
+import android.widget.Toast
 import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.ActivityMainBinding
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.view.adapter.RecentBillsAdapter
+import es.soutullo.blitter.view.dialog.ConfirmationDialog
+import es.soutullo.blitter.view.dialog.generic.CustomDialog
+import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import io.github.kobakei.materialfabspeeddial.FabSpeedDial
 
 // TODO fix the "uncomplete" badge layout for the item bill (MainActivity)
-// TODO if deleted bills == 50 notify the user he/she should go to settings
 // TODO add delete all bills options in settings
 class MainActivity : ChoosingLayoutActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -40,7 +44,7 @@ class MainActivity : ChoosingLayoutActivity() {
 
         this.itemsAdapter.clear()
         this.itemsAdapter.addAll(recentBills)
-        this.binding.bills = recentBills
+        this.binding.bills = this.itemsAdapter.items
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -96,8 +100,34 @@ class MainActivity : ChoosingLayoutActivity() {
 
     /** Gets called when the user clicks the delete button on the action bar */
     private fun onDeleteClicked() {
+        val selectedBillsCount = this.itemsAdapter.getSelectedIndexes().size
+
+        val title = this.resources.getQuantityString(R.plurals.dialog_delete_bill_title, selectedBillsCount)
+        val message = this.resources.getQuantityString(R.plurals.dialog_delete_bill_message, selectedBillsCount, selectedBillsCount)
+        val positiveText = this.getString(R.string.dialog_generic_delete_button)
+        val negativeText = this.getString(R.string.dialog_generic_preserve_button)
+
+        ConfirmationDialog(this, this.createDeleteDialogHandler(), title, message, positiveText, negativeText).show()
+    }
+
+    /** Gets called when the user confirms he/she wants to delete the selected bills */
+    private fun onDeleteConfirmed() {
+        val selectedBills = this.itemsAdapter.items.filterIndexed { index, _ -> this.itemsAdapter.getSelectedIndexes().contains(index) }
+
+        DaoFactory.getFactory(this).getBillDao().deleteBills(selectedBills.mapNotNull { it.id })
         this.itemsAdapter.finishChoiceMode()
-        // TODO implement here
+
+        Handler().postDelayed({
+            val allSelected = (selectedBills.size == this.itemsAdapter.itemCount)
+
+            this.itemsAdapter.items.removeAll(selectedBills)
+            this.itemsAdapter.onLoadMore()
+            this.binding.invalidateAll()
+
+            if(this.itemsAdapter.itemCount > 0 && allSelected) {
+                Toast.makeText(this, this.getString(R.string.on_all_bills_deleted_warning), Toast.LENGTH_LONG).show()
+            }
+        }, 500)
     }
 
     /**
@@ -123,5 +153,17 @@ class MainActivity : ChoosingLayoutActivity() {
                 R.id.fab_mini_camera -> this.onFromCameraClicked()
             }
         })
+    }
+
+    /** @return The dialog handler for the bills deletion dialog */
+    private fun createDeleteDialogHandler(): IDialogHandler {
+        return object : IDialogHandler {
+            override fun onPositiveButtonClicked(dialog: CustomDialog) {
+                this@MainActivity.onDeleteConfirmed()
+            }
+
+            override fun onNegativeButtonClicked(dialog: CustomDialog) { }
+            override fun onNeutralButtonClicked(dialog: CustomDialog) { }
+        }
     }
 }

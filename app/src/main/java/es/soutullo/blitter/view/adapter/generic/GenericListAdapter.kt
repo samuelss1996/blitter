@@ -143,7 +143,7 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
         }
     }
 
-    open protected fun onLoadMore() { }
+    open fun onLoadMore() { }
 
     /** @return True if separators must be drawn between each element of the list */
     open protected fun showSeparators(): Boolean = true

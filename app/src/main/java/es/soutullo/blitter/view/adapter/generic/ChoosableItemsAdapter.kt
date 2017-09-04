@@ -37,7 +37,7 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
 
     /** Deselects all the items on the list while in choice mode */
     fun deselectAll() {
-        this.items.indices.forEach { this.multiSelector.setSelected(it, 0, false) }
+        this.multiSelector.clearSelections()
         (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
     }
 

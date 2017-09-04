@@ -94,6 +94,7 @@
     <string name="activity_final_result_section_title">Tu cuenta dividida</string>
     <string name="dialog_rename_bill_title">Renombrar cuenta</string>
     <string name="dialog_rename_bill_edit_text_hint">Nombre de la cuenta</string>
+    <string name="on_all_bills_deleted_warning">Solo se han eliminado las cuentas cargadas. Puedes eliminar todas desde ajustes</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
@@ -121,6 +122,6 @@
 
     <plurals name="dialog_delete_bill_message">
         <item quantity="one">¿Estás seguro de que deseas eliminar esta cuenta?</item>
-        <item quantity="other">¿Estás seguro de que deseas eliminar las cuentas seleccionadas?</item>
+        <item quantity="other">¿Estás seguro de que deseas eliminar las %d cuentas seleccionadas?</item>
     </plurals>
 </resources>
