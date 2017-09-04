@@ -20,7 +20,6 @@ import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
-// TODO maybe change the text of the split again button to something that suggests that actually a copy of the bill is created
 class FinalResultActivity : AppCompatActivity(), IListHandler {
     private val peopleAdapter = FinalResultAdapter(this)
 

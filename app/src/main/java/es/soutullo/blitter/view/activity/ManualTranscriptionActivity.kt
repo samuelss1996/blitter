@@ -24,6 +24,7 @@ import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import java.util.*
 
+// TODO autoscroll when product added
 class ManualTranscriptionActivity : AppCompatActivity() {
     private val productsAdapter = ManualTranscriptionAdapter()
     private var bill: Bill? = null

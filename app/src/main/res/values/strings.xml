@@ -40,8 +40,8 @@
     <string name="final_result_button_split_again">Volver a repartir</string>
     <string name="final_result_button_finished">Listo</string>
     <string name="content_description_button_rename_bill">Renombrar cuenta</string>
-    <string name="title_user_products">Productos de este usuario</string>
-    <string name="bill_trace_all_product">Totatilidad del producto (%1$s)</string>
+    <string name="title_user_products">Productos</string>
+    <string name="bill_trace_all_product">Totalidad del producto (%1$s)</string>
     <string name="bill_trace_partial_product">1/%1$d del producto (%2$s)</string>
     <string name="generic_dialog_cancel">Cancelar</string>
     <string name="dialog_edit_product_hint_product_name">Nombre del producto</string>
