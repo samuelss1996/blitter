@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
+        <variable name="item" type="es.soutullo.blitter.model.vo.bill.BillLine" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/list_bill_line_vertical_padding"
+        android:paddingBottom="@dimen/list_bill_line_vertical_padding">
+
+
+        <TextView
+            android:id="@+id/bill_line_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.name.toUpperCase()}"
+            tools:text="PRODUCTO A"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textColor="@color/color_bill_summary_text"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/bill_line_price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{utils.getPriceAsString(item.price)}"
+            tools:text="2,07 €"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/color_bill_summary_text"
+            android:textSize="@dimen/list_title_text_size" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

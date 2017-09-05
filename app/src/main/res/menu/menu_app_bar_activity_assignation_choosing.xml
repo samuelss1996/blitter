@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_assign"
+        android:title="@string/app_bar_button_assign"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_clear_assignations"
+        android:title="@string/app_bar_button_clear_assignations"
+        app:showAsAction="never"
+        />
+</menu>

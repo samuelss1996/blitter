@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable name="billLines" type="java.util.List&lt;es.soutullo.blitter.model.vo.bill.BillLine&gt;" />
+        <variable name="persons" type="java.util.List&lt;es.soutullo.blitter.view.dialog.data.AssignationDialogPerson&gt;" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="?dialogPreferredPadding"
+            android:layout_marginStart="?dialogPreferredPadding"
+            android:layout_marginTop="8dp"
+            android:id="@+id/product_assignation_sub_header"
+            android:text="@{@plurals/dialog_product_assignation_sub_header(billLines.size())}"
+            tools:text="Asignar este producto a:"
+            android:visibility="@{persons.isEmpty()? View.INVISIBLE : View.VISIBLE}"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/product_assignation_people"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="@{persons.isEmpty()? View.GONE : View.VISIBLE}"
+            tools:listitem="@layout/item_assignation_dialog_person"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/assignation_dialog_empty_text"
+            android:layout_marginLeft="?dialogPreferredPadding"
+            android:layout_marginRight="?dialogPreferredPadding"
+            android:text="@{@string/empty_state_assignation_dialog(@string/assignation_dialog_neutral_button)}"
+            android:visibility="@{persons.isEmpty()? View.VISIBLE : View.GONE}"
+            tools:text="Todavía no has añadido ninguna persona, pulsa 'Nueva persona' para hacerlo"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:visibility="invisible"
+            android:layout_weight="1" />
+    </LinearLayout>
+</layout>
