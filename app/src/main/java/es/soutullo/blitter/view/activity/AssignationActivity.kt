@@ -27,7 +27,6 @@ import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import java.util.*
 
-// TODO fix animations when exiting dialogs
 class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)
     override val showHomeAsUp: Boolean = true
@@ -167,6 +166,8 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * @param unassignedPersons The persons whose checkboxes are unmarked on the assignation dialog right before clicking the 'OK' button
      */
     private fun onAssignationDone(affectedBillLines: List<BillLine>, assignedPersons: List<Person>, unassignedPersons: List<Person>) {
+        val delay: Long = if(this.itemsAdapter.isChoosingModeEnabled()) 500 else 0
+
         for (line in affectedBillLines) {
             line.assignAllPersons(assignedPersons)
             line.unassignAllPersons(unassignedPersons)
@@ -175,8 +176,10 @@ class AssignationActivity : ChoosingLayoutActivity() {
         assignedPersons.forEach { DaoFactory.getFactory(this).getPersonDao().insertRecentPerson(it) }
 
         this.itemsAdapter.finishChoiceMode()
-        this.itemsAdapter.notifyDataSetChanged()
         this.doBackup()
+
+        Handler().postDelayed({this.itemsAdapter.notifyDataSetChanged()}, delay)
+
     }
 
     /** Gets called when the user tries to finish the assignations but there is yet one or more missing assignations */

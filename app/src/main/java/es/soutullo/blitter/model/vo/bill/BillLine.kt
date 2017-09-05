@@ -1,5 +1,7 @@
 package es.soutullo.blitter.model.vo.bill
 
+import android.content.Context
+import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.person.Person
 import java.io.Serializable
 
@@ -52,6 +54,20 @@ data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name
     fun clearAssignations() {
         val personsCopy = ArrayList(this.persons)
         personsCopy.forEach { this.unassignPerson(it) }
+    }
+
+    /**
+     * Returns the assigned people to this bill line as a string like "A, B" or "A, B, C and 2 more"
+     * @param context The android context
+     * @return The assigned people as string
+     */
+    fun getAssignedPeopleAsString(context: Context) : String {
+        val separator = context.getString(R.string.persons_array_separator)
+
+        return when(this.persons.isNotEmpty()) {
+            true -> this.persons.map { it.name }.reduce { acc, s ->  acc + separator + s}
+            false -> context.getString(R.string.item_assignation_persons_unassigned)
+        }
     }
 
     override fun equals(other: Any?): Boolean {
