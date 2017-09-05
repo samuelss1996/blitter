@@ -26,10 +26,10 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
     }
 
     override fun searchBills(partialName: String, limit: Int): List<Bill> {
-        var queryBills = "SELECT * FROM %s WHERE %s LIKE '%%?%%' ORDER BY %s DESC LIMIT ?"
+        var queryBills = "SELECT * FROM %s WHERE %s LIKE ? ORDER BY %s DESC LIMIT ?"
         queryBills = String.format(queryBills, BILL.tableName, BillEntry.NAME.colName, BillEntry.DATE.colName)
 
-        return this.retrieveBillsByQuery(queryBills, kotlin.arrayOf(partialName, limit.toString()))
+        return this.retrieveBillsByQuery(queryBills, kotlin.arrayOf("%$partialName%", limit.toString()))
     }
 
     override fun insertBill(bill: Bill): Long {

@@ -1,14 +1,23 @@
 package es.soutullo.blitter.view.activity
 
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.Toast
 import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.ActivityMainBinding
@@ -23,6 +32,8 @@ import io.github.kobakei.materialfabspeeddial.FabSpeedDial
 // TODO fix the "uncomplete" badge layout for the item bill (MainActivity)
 class MainActivity : ChoosingLayoutActivity() {
     private lateinit var binding: ActivityMainBinding
+    private var isSearchingMode: Boolean = false
+    private var lastSearchTypedTime: Long = 0
 
     override val itemsAdapter = RecentBillsAdapter(this)
     override val showHomeAsUp: Boolean = false
@@ -39,18 +50,34 @@ class MainActivity : ChoosingLayoutActivity() {
 
     override fun onResume() {
         super.onResume()
-        val recentBills = DaoFactory.getFactory(this).getBillDao().queryBills(0, 50)
+        this.fetchRecentBills()
+    }
 
-        this.itemsAdapter.clear()
-        this.itemsAdapter.addAll(recentBills)
-        this.binding.bills = this.itemsAdapter.items
+    override fun onBackPressed() {
+        if(this.isSearchingMode) {
+            val choosingMode = this.itemsAdapter.isChoosingModeEnabled()
+
+            if(this.itemsAdapter.isChoosingModeEnabled()) {
+                super.onBackPressed()
+            } else {
+                this.fetchRecentBills()
+            }
+
+            this.showSearchOnBarLayout(choosingMode)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (this.itemsAdapter.isChoosingModeEnabled()) {
             this.menuInflater.inflate(R.menu.menu_app_bar_activity_main_choosing, menu)
-        } else {
+        } else if(!this.isSearchingMode) {
             this.menuInflater.inflate(R.menu.menu_app_bar_activity_main, menu)
+
+            if (this.itemsAdapter.isEmpty()) {
+                menu?.removeItem(R.id.action_search)
+            }
         }
 
         return true
@@ -60,22 +87,29 @@ class MainActivity : ChoosingLayoutActivity() {
         when(item?.itemId) {
             R.id.action_delete -> this.onDeleteClicked()
             R.id.action_settings -> this.startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.action_search -> this.onSearchClicked()
         }
 
         return true
     }
 
     override fun onItemClicked(listIndex: Int, clickedViewId: Int) {
-        val bill = this.itemsAdapter.get(listIndex)
-        val intent = when(bill.status) {
-            EBillStatus.WRITING ->  Intent(this, ManualTranscriptionActivity::class.java)
-            EBillStatus.UNCONFIRMED -> Intent(this, BillSummaryActivity::class.java)
-            EBillStatus.ASSIGNING -> Intent(this, AssignationActivity::class.java)
-            EBillStatus.COMPLETED -> Intent(this, FinalResultActivity::class.java)
-        }
+        this.itemsAdapter.get(listIndex)?.let { bill ->
+            val intent = when(bill.status) {
+                EBillStatus.WRITING ->  Intent(this, ManualTranscriptionActivity::class.java)
+                EBillStatus.UNCONFIRMED -> Intent(this, BillSummaryActivity::class.java)
+                EBillStatus.ASSIGNING -> Intent(this, AssignationActivity::class.java)
+                EBillStatus.COMPLETED -> Intent(this, FinalResultActivity::class.java)
+            }
 
-        intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill)
-        this.startActivity(intent)
+            intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill)
+            this.startActivity(intent)
+        }
+    }
+
+    override fun onChoiceModeFinished() {
+        super.onChoiceModeFinished()
+        this.showSearchOnBarLayout(false)
     }
 
     /** Gets called when the user clicks the manual transcription mini fab */
@@ -95,7 +129,7 @@ class MainActivity : ChoosingLayoutActivity() {
 
     /** Gets called when the user clicks the search button on the action bar */
     private fun onSearchClicked() {
-        // TODO implement here
+        this.showSearchOnBarLayout(true)
     }
 
     /** Gets called when the user clicks the delete button on the action bar */
@@ -114,17 +148,15 @@ class MainActivity : ChoosingLayoutActivity() {
     private fun onDeleteConfirmed() {
         val selectedBills = this.itemsAdapter.items.filterIndexed { index, _ -> this.itemsAdapter.getSelectedIndexes().contains(index) }
 
-        DaoFactory.getFactory(this).getBillDao().deleteBills(selectedBills.mapNotNull { it.id })
+        DaoFactory.getFactory(this).getBillDao().deleteBills(selectedBills.mapNotNull { it?.id })
         this.itemsAdapter.finishChoiceMode()
 
         Handler().postDelayed({
             val allSelected = (selectedBills.size == this.itemsAdapter.itemCount)
 
-            this.itemsAdapter.items.removeAll(selectedBills)
-            this.itemsAdapter.onLoadMore()
-            this.binding.invalidateAll()
+            this.fetchRecentBills()
 
-            if(this.itemsAdapter.itemCount > 0 && allSelected) {
+            if(this.itemsAdapter.itemCount > 0 && allSelected && !this.isSearchingMode) {
                 Toast.makeText(this, this.getString(R.string.on_all_bills_deleted_warning), Toast.LENGTH_LONG).show()
             }
         }, 500)
@@ -135,15 +167,75 @@ class MainActivity : ChoosingLayoutActivity() {
      * @param newText The new text of the search field
      */
     private fun onSearchTextChanged(newText: String) {
-        // TODO implement here
+        val delay: Long = 500
+        this.lastSearchTypedTime = System.currentTimeMillis()
+
+        Handler().postDelayed({
+            if(System.currentTimeMillis() - this.lastSearchTypedTime > delay && newText.trim() != "") {
+                val results = DaoFactory.getFactory(this).getBillDao().searchBills(newText, 20)
+
+                this.itemsAdapter.clear()
+                this.itemsAdapter.addAll(if(results.isNotEmpty()) results else listOf(null))
+            }
+        }, delay + 50)
+    }
+
+    /** Fills the list with the most recent bills present on the database */
+    private fun fetchRecentBills() {
+        this.itemsAdapter.clear()
+        this.itemsAdapter.onLoadMore()
+
+        this.binding.invalidateAll()
+        this.invalidateOptionsMenu()
+    }
+
+    /**
+     * Changes the bar layout to search mode or standard mode
+     * @param showSearch True if the layout should be search mode
+     */
+    private fun showSearchOnBarLayout(showSearch: Boolean) {
+        this.isSearchingMode = showSearch
+
+        val appBarColorId = if(showSearch) R.color.md_white_1000 else R.color.colorPrimary
+        val statusBarColorId = if(showSearch) R.color.md_black_1000 else R.color.colorPrimaryDark
+
+
+        this.supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this,appBarColorId)))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.window.statusBarColor = ContextCompat.getColor(this, statusBarColorId)
+        }
+
+        this.prepareSearchEditText(showSearch)
+        this.invalidateOptionsMenu()
+    }
+
+    /**
+     * Prepares the search edit text present on the app bar in searching mode
+     * @param showSearch True if the layout is search mode
+     */
+    private fun prepareSearchEditText(showSearch: Boolean) {
+        val editText = this.findViewById<EditText>(R.id.app_bar_search)
+
+        editText.setText("")
+        editText.visibility = if(showSearch) View.VISIBLE else View.GONE
+
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if(showSearch) {
+            editText.requestFocus()
+            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+        } else {
+            imm.hideSoftInputFromWindow(editText.windowToken, 0)
+        }
     }
 
     /** Initializes some fields of the activity */
     private fun init() {
         val fabSpeedDial = this.findViewById<FabSpeedDial>(R.id.fab)
 
+        this.binding.bills = this.itemsAdapter.items
         this.findViewById<RecyclerView>(R.id.recent_bills_list).adapter = this.itemsAdapter
         this.findViewById<CheckBox>(R.id.select_all_checkbox).setOnCheckedChangeListener(this.createCheckAllListener())
+        this.findViewById<EditText>(R.id.app_bar_search).addTextChangedListener(this.createSearchTextWatcher())
 
         this.itemsAdapter.fab = fabSpeedDial.mainFab
         fabSpeedDial.addOnMenuItemClickListener({ miniFab, label, itemId ->
@@ -164,6 +256,18 @@ class MainActivity : ChoosingLayoutActivity() {
 
             override fun onNegativeButtonClicked(dialog: CustomDialog) { }
             override fun onNeutralButtonClicked(dialog: CustomDialog) { }
+        }
+    }
+
+    /** Creates the TextWatcher for the search edit text, which manages the on text changed event */
+    private fun createSearchTextWatcher(): TextWatcher {
+        return object: TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+                editable?.toString()?.let { this@MainActivity.onSearchTextChanged(it) }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
         }
     }
 }

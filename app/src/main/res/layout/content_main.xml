@@ -26,7 +26,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="1.0"
             android:id="@+id/constraintLayout"
-            android:visibility="@{bills == null || bills.isEmpty()? View.VISIBLE : View.GONE}">
+            android:visibility="@{bills == null || bills.isEmpty()? View.VISIBLE : View.INVISIBLE}">
 
             <TextView
                 android:id="@+id/welcome"
@@ -114,7 +114,7 @@
             android:id="@+id/recent_bills_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{bills == null || bills.isEmpty()? View.GONE : View.VISIBLE}"
+            android:visibility="@{bills == null || bills.isEmpty()? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"

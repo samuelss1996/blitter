@@ -51,7 +51,7 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
         }
 
         override fun onClick(viewId: Int) {
-            if(this@ChoosableItemsAdapter.multiSelector.isSelectable) {
+            if(this@ChoosableItemsAdapter.multiSelector.isSelectable && this@ChoosableItemsAdapter.items[this.adapterPosition] != null) {
                 this@ChoosableItemsAdapter.multiSelector.setSelected(this, !this.isActivated)
             } else {
                 super.onClick(viewId)
@@ -60,7 +60,7 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
 
         /** Gets called when a long click is performed on the item */
         private fun onLongClick(): Boolean {
-            if(!this@ChoosableItemsAdapter.multiSelector.isSelectable) {
+            if(!this@ChoosableItemsAdapter.multiSelector.isSelectable && this@ChoosableItemsAdapter.items[this.adapterPosition] != null) {
                 (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChoiceModeStarted()
 
                 this@ChoosableItemsAdapter.multiSelector.isSelectable = true
@@ -82,7 +82,7 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
 
             (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
 
-            this.view.findViewById<CheckBox>(R.id.choosing_checkbox).isChecked = activated
+            this.view.findViewById<CheckBox>(R.id.choosing_checkbox)?.isChecked = activated
             this.view.setBackgroundColor(ContextCompat.getColor(this@ChoosableItemsAdapter.recyclerView?.context, background))
         }
 
@@ -94,9 +94,9 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
         override fun setSelectable(selectable: Boolean) {
             this.isSelectable = selectable
 
-            with(this.view.findViewById<CheckBox>(R.id.choosing_checkbox)) {
-                this.visibility = if(selectable) View.VISIBLE else View.GONE
-                this.setOnCheckedChangeListener({ _, newState -> this@ChoosableItemsAdapter.multiSelector.setSelected(this@ChoosableItemViewHolder, newState) })
+            this.view.findViewById<CheckBox>(R.id.choosing_checkbox)?.let { checkbox ->
+                checkbox.visibility = if(selectable) View.VISIBLE else View.GONE
+                checkbox.setOnCheckedChangeListener({ _, newState -> this@ChoosableItemsAdapter.multiSelector.setSelected(this@ChoosableItemViewHolder, newState) })
             }
         }
 

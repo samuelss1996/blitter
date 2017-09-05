@@ -6,8 +6,9 @@ import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.view.adapter.generic.ChoosableItemsAdapter
 import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 
-class RecentBillsAdapter(handler: IChoosableItemsListHandler) : ChoosableItemsAdapter<Bill>(handler) {
+class RecentBillsAdapter(handler: IChoosableItemsListHandler) : ChoosableItemsAdapter<Bill?>(handler) {
     override fun getItemLayout(): Int = R.layout.item_bill_main_activity
+    override fun getNullItemLayout(): Int = R.layout.item_bill_search_not_found
 
     override fun onLoadMore() {
         this.recyclerView?.context?.let {
