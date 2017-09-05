@@ -117,14 +117,10 @@ class MainActivity : ChoosingLayoutActivity() {
     }
 
     /** Gets called when the user clicks the from gallery mini fab */
-    private fun onFromGalleryClicked() {
-        // TODO implement here
-    }
+    private fun onFromGalleryClicked() { }
 
     /** Gets called when the user clicks the from camera mini fab */
-    private fun onFromCameraClicked() {
-        // TODO implement here
-    }
+    private fun onFromCameraClicked() { }
 
     /** Gets called when the user clicks the search button on the action bar */
     private fun onSearchClicked() {
