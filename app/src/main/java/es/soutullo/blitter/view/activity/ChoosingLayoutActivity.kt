@@ -16,6 +16,7 @@ import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 /** Base class for any activity which implements the standard choosing layout on the app bar with recycler views */
 abstract class ChoosingLayoutActivity: AppCompatActivity(), IChoosableItemsListHandler {
     abstract val itemsAdapter: ChoosableItemsAdapter<*>
+    abstract val showHomeAsUp: Boolean
 
     override fun onBackPressed() {
         if(this.itemsAdapter.isChoosingModeEnabled()) {
@@ -64,7 +65,7 @@ abstract class ChoosingLayoutActivity: AppCompatActivity(), IChoosableItemsListH
         val statusBarColorId = if(choosingMode) R.color.colorPrimary else R.color.colorPrimaryDark
 
         this.invalidateOptionsMenu()
-        this.supportActionBar?.setDisplayHomeAsUpEnabled(!choosingMode)
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(!choosingMode && this.showHomeAsUp)
         this.findViewById<ViewGroup>(R.id.action_bar_content).visibility = if(choosingMode) View.VISIBLE else View.GONE
 
         this.supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this,appBarColorId)))

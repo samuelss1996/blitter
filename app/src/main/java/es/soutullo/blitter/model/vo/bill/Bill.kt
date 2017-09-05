@@ -30,4 +30,17 @@ data class Bill(var id: Long?, var name: String, var date: Date, val source: EBi
      * @return The found person or null if there isn't any match
      */
     fun findPerson(personName: String): Person? = this.lines.flatMap { line -> line.persons }.find { person -> person.name == personName }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Bill
+
+        if (id != other.id) return false
+
+        return id != null
+    }
+
+    override fun hashCode(): Int = id?.hashCode() ?: 0
 }

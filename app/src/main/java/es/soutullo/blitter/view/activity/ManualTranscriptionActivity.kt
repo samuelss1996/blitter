@@ -24,7 +24,6 @@ import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import java.util.*
 
-// TODO autoscroll when product added
 class ManualTranscriptionActivity : AppCompatActivity() {
     private val productsAdapter = ManualTranscriptionAdapter()
     private var bill: Bill? = null
@@ -65,6 +64,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
 
         if (productNameText.text.isNotBlank() && productPriceText.text.isNotBlank() && productPriceText.text.toString().toFloatOrNull() != null) {
             this.productsAdapter.add(ManualTranscriptionProduct(productNameText.text.trim().toString(), productPriceText.text.toString().toFloat(), 1))
+            this.productsAdapter.recyclerView?.scrollToPosition(this.productsAdapter.itemCount - 1)
             this.doBackup()
 
             productNameText.setText("")

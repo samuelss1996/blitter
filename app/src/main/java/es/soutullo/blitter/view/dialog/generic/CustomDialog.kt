@@ -17,6 +17,7 @@ abstract class CustomDialog protected constructor(protected val context: Context
         this.dialog = builder.show()
 
         this.addListeners()
+        this.onDialogCreated()
     }
 
     /** Closes the dialog */
@@ -46,6 +47,10 @@ abstract class CustomDialog protected constructor(protected val context: Context
 
     /** @return The text for the negative button of the dialog. Null for no button */
     open protected fun getNegativeText(): String? = null
+
+    /** Gets called when the dialog has already been created. Subclasses can implement to perform extra
+     *  steps on the dialog preparation */
+    open protected fun onDialogCreated() {}
 
     /** @return The text for the positive button of the dialog */
     protected abstract fun getPositiveText(): String

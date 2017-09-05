@@ -2,9 +2,11 @@ package es.soutullo.blitter.view.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
 import android.support.design.widget.TextInputLayout
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import es.soutullo.blitter.R
 import es.soutullo.blitter.view.dialog.generic.CustomLayoutDialog
@@ -22,6 +24,14 @@ class PromptDialog(context: Context, handler: IDialogHandler, title: String, pri
         this.view.findViewById<TextInputLayout>(R.id.text_input_layout).hint = this.editTextTitle
 
         return view
+    }
+
+    override fun onDialogCreated() {
+        val promptEditText = this.dialog.findViewById<EditText>(R.id.dialog_prompt_edit_text)
+        val inputMethod = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        promptEditText?.requestFocus()
+        Handler().postDelayed({inputMethod.showSoftInput(promptEditText, InputMethodManager.SHOW_IMPLICIT)}, 100)
     }
 
     /** @return The user input on the EditText as a String */

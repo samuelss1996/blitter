@@ -2,6 +2,7 @@ package es.soutullo.blitter.view.dialog
 
 import android.content.Context
 import android.databinding.DataBindingUtil
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import com.xw.repo.BubbleSeekBar
@@ -18,11 +19,14 @@ class TipDialog(context: Context, handler: IDialogHandler?, private val bill: Bi
     private lateinit var binding: DialogTipBinding
 
     override fun getCustomView(): View {
+        val preferenceKey = this.context.getString(R.string.preference_key_default_tip_percent)
+        val defaultPreferenceValue = this.context.resources.getInteger(R.integer.default_tip_percent)
+
         this.binding = DataBindingUtil.inflate<DialogTipBinding>(LayoutInflater.from(this.context), R.layout.dialog_tip, null, false)
 
         this.binding.utils = BlitterUtils
         this.binding.bill = this.bill
-        this.binding.tipPercent = 0f
+        this.binding.tipPercent = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(preferenceKey, defaultPreferenceValue) / 100f
 
         with(this.binding.root.findViewById<BubbleSeekBar>(R.id.dialog_tip_seek_bar)) {
             this.setProgress(this@TipDialog.binding.tipPercent * 100)
