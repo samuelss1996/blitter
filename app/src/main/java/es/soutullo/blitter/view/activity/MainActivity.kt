@@ -29,7 +29,6 @@ import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import io.github.kobakei.materialfabspeeddial.FabSpeedDial
 
-// TODO fix the "uncomplete" badge layout for the item bill (MainActivity)
 class MainActivity : ChoosingLayoutActivity() {
     private lateinit var binding: ActivityMainBinding
     private var isSearchingMode: Boolean = false
@@ -219,12 +218,12 @@ class MainActivity : ChoosingLayoutActivity() {
         editText.setText("")
         editText.visibility = if(showSearch) View.VISIBLE else View.GONE
 
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethod = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if(showSearch) {
             editText.requestFocus()
-            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+            inputMethod.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
         } else {
-            imm.hideSoftInputFromWindow(editText.windowToken, 0)
+            inputMethod.hideSoftInputFromWindow(editText.windowToken, 0)
         }
     }
 
