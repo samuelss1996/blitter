@@ -46,7 +46,7 @@
     <string name="generic_dialog_cancel">Cancelar</string>
     <string name="dialog_edit_product_hint_product_name">Nombre del producto</string>
     <string name="dialog_edit_product_hint_product_price">Precio (%1$s)</string>
-    <string name="dialog_edit_product_hint_product_quantity">Cantidad</string>
+    <string name="dialog_edit_product_hint_product_quantity">Cantidad (máx. 50)</string>
     <string name="dialog_tip_hint">Introduce el porcentaje (%) de propina a continuación. Es posible cambiar el valor por defecto desde los ajustes</string>
     <string name="dialog_tip_result_text">Se añadirá un %1$d%% de propina (%2$s) a la cuenta.</string>
 

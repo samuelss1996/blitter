@@ -10,6 +10,7 @@ import es.soutullo.blitter.databinding.DialogEditProductBinding
 import es.soutullo.blitter.view.adapter.data.ManualTranscriptionProduct
 import es.soutullo.blitter.view.dialog.generic.CustomLayoutDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
+import es.soutullo.blitter.view.filter.InputFilterMinMax
 import es.soutullo.blitter.view.util.BlitterUtils
 
 /** The dialog shown when the user clicks the edit button on a product on the manual transcription activity */
@@ -48,6 +49,10 @@ class EditProductDialog(context: Context, handler: IDialogHandler, title: String
         }
 
         return binding.root
+    }
+
+    override fun onDialogCreated() {
+        this.dialog.findViewById<EditText>(R.id.dialog_edit_product_quantity)?.filters = arrayOf(InputFilterMinMax(1, 50))
     }
 
     override fun preventDismissOnButtonClicked(): Boolean = true
