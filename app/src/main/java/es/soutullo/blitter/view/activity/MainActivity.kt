@@ -54,20 +54,26 @@ class MainActivity : ChoosingLayoutActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        this.showSearchOnBarLayout(false)
         this.fetchRecentBills()
     }
 
     override fun onBackPressed() {
         if(this.isSearchingMode) {
-            val choosingMode = this.itemsAdapter.isChoosingModeEnabled()
-
             if(this.itemsAdapter.isChoosingModeEnabled()) {
+                val searchEditText = this.findViewById<EditText>(R.id.app_bar_search)
+                val previousSearch = searchEditText.text
+
                 super.onBackPressed()
+                this.showSearchOnBarLayout(true)
+
+                searchEditText.text = previousSearch
+                searchEditText.setSelection(previousSearch.length)
             } else {
+                this.showSearchOnBarLayout(false)
                 this.fetchRecentBills()
             }
-
-            this.showSearchOnBarLayout(choosingMode)
         } else {
             super.onBackPressed()
         }
@@ -108,6 +114,17 @@ class MainActivity : ChoosingLayoutActivity() {
 
             intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill)
             this.startActivity(intent)
+        }
+    }
+
+    override fun onChoiceModeStarted() {
+        super.onChoiceModeStarted()
+
+        if(this.isSearchingMode) {
+            val searchEditText = this.findViewById<EditText>(R.id.app_bar_search)
+            val inputMethod = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+            inputMethod.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         }
     }
 
@@ -195,6 +212,7 @@ class MainActivity : ChoosingLayoutActivity() {
      */
     private fun showSearchOnBarLayout(showSearch: Boolean) {
         this.isSearchingMode = showSearch
+        this.itemsAdapter.isSearchingMode = showSearch
 
         val appBarColorId = if(showSearch) R.color.md_white_1000 else R.color.colorPrimary
         val statusBarColorId = if(showSearch) R.color.md_black_1000 else R.color.colorPrimaryDark
@@ -215,13 +233,14 @@ class MainActivity : ChoosingLayoutActivity() {
      */
     private fun prepareSearchEditText(showSearch: Boolean) {
         val editText = this.findViewById<EditText>(R.id.app_bar_search)
+        val inputMethod = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        editText.setText("")
         editText.visibility = if(showSearch) View.VISIBLE else View.GONE
 
-        val inputMethod = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if(showSearch) {
+            editText.setText("")
             editText.requestFocus()
+
             inputMethod.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
         } else {
             inputMethod.hideSoftInputFromWindow(editText.windowToken, 0)
