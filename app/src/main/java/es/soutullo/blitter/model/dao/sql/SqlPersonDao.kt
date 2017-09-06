@@ -45,12 +45,12 @@ class SqlPersonDao(private val context: Context, private val dbHelper: BlitterSq
 
     override fun insertRecentPerson(person: Person) {
         val values = ContentValues()
-        val updateWhere = "${PersonEntry.NAME.colName} LIKE '${person.name}'"
+        val updateWhere = "${PersonEntry.NAME.colName} LIKE ?"
         values.put(PersonEntry.NAME.colName, person.name)
         values.put(PersonEntry.LAST_DATE.colName, person.lastDate.time)
 
         this.dbHelper.writableDatabase.insertWithOnConflict(PERSON.tableName, null, values, SQLiteDatabase.CONFLICT_IGNORE)
-        this.dbHelper.writableDatabase.update(PERSON.tableName, values, updateWhere, null)
+        this.dbHelper.writableDatabase.update(PERSON.tableName, values, updateWhere, arrayOf(person.name))
     }
 
     override fun deleteAllPersons() {
