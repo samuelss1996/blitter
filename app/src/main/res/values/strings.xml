@@ -115,6 +115,7 @@
     <string name="intent_chooser_title_send_mail">Enviar correo</string>
     <string name="app_bar_search_hint">Buscar…</string>
     <string name="bill_search_not_found">No se ha encontrado ningún resultado para la búsqueda actual</string>
+    <string name="toast_ocr_low_storage">Insuficiente espacio de almacenamiento para realizar el reconocimiento</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

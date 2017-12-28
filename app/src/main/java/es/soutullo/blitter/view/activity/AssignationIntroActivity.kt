@@ -12,7 +12,7 @@ import es.soutullo.blitter.R
 
 class AssignationIntroActivity : AppIntro() {
     companion object {
-            val FLAG_ASSIGNATION_INTRO_VIEWED = "FLAG_INTRO_ASSIGNATION"
+        val FLAG_ASSIGNATION_INTRO_VIEWED = "FLAG_INTRO_ASSIGNATION"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "es.soutullo.blitter"
         minSdkVersion 16
@@ -38,6 +38,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.0.1'
+    compile 'com.google.android.gms:play-services-vision:11.4.0'
     compile 'com.android.support:preference-v7:26.0.1'
     compile 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
     compile 'com.github.apl-devs:appintro:v4.2.2'
