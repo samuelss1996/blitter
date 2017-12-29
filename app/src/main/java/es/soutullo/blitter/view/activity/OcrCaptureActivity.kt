@@ -12,15 +12,18 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.text.TextRecognizer
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.ocr.OcrDetectorProcessor
+import es.soutullo.blitter.view.component.CameraSourcePreview
 
+// TODO add intro activity for this
 class OcrCaptureActivity : AppCompatActivity() {
-    private lateinit var cameraSource: CameraSource
+    private var cameraSource: CameraSource? = null
+    private lateinit var cameraSourcePreview: CameraSourcePreview
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_ocr_capture)
 
-        // TODO check for camera permissions
+        this.cameraSourcePreview = this.findViewById(R.id.camera_source_preview)
         this.createCameraSource()
     }
 
@@ -55,11 +58,22 @@ class OcrCaptureActivity : AppCompatActivity() {
             GoogleApiAvailability.getInstance().getErrorDialog(this, code, 0).show()
         }
 
-        this.cameraSource.start()
+        this.cameraSource?.let {
+            try {
+                this.cameraSourcePreview.start(it)
+            } catch (e: Exception) {
+                this.cameraSource = null
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        this.cameraSourcePreview.stop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // TODO release
+        this.cameraSourcePreview.release()
     }
 }
