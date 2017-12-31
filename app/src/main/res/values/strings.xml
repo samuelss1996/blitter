@@ -89,7 +89,7 @@
     <string name="preference_category_title_about">Acerca de</string>
     <string name="preference_title_default_tip">Porcentaje de propina</string>
     <string name="preference_summary_default_tip">Establecer el procentaje de propina por defecto</string>
-    <string name="preference_title_delete_bills">Eliminar todas las cuentas</string>
+    <string name="preference_title_delete_data">Eliminar datos de aplicación</string>
     <string name="preference_summary_delete_bills">Se eliminarán todas las cuentas y personas introducidas</string>
     <string name="preference_title_remove_ads">Eliminar anuncios</string>
     <string name="preference_summary_remove_ads">¡No más publicidad!</string>
@@ -115,6 +115,10 @@
     <string name="intent_chooser_title_send_mail">Enviar correo</string>
     <string name="app_bar_search_hint">Buscar…</string>
     <string name="bill_search_not_found">No se ha encontrado ningún resultado para la búsqueda actual</string>
+    <string name="toast_ocr_low_storage">Insuficiente espacio de almacenamiento para realizar el reconocimiento</string>
+    <string name="product_name_taxes">Impuestos</string>
+    <string name="camera_intro_title">Escanear un ticket</string>
+    <string name="camera_intro_description">A continuación se abrirá la cámara. Enfoca al ticket durante unos segundos, sin tocar nada hasta que la aplicación reconozca los productos. Intenta que todos los nombres de los productos y sus precios estén dentro de la imagen. También debe ser visible el precio total.</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

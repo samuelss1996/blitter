@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
     /** Gets called when the user clicks the delete all bills entry */
     private fun onDeleteAllBillsClicked(): Boolean {
-        val title = this.getString(R.string.preference_title_delete_bills)
+        val title = this.getString(R.string.preference_title_delete_data)
         val message = this.getString(R.string.dialog_delete_all_bills_message)
         val positiveText = this.getString(R.string.dialog_generic_delete_button)
         val negativeText = this.getString(R.string.dialog_generic_preserve_button)
