@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatDelegate
@@ -160,10 +161,16 @@ class MainActivity : ChoosingLayoutActivity() {
 
     /** Gets called when the user clicks the from camera mini fab */
     private fun onFromCameraClicked() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            this.startActivity(Intent(this, OcrCaptureActivity::class.java))
+        val tutorialViewed = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(CameraIntroActivity.FLAG_CAMERA_INTRO_VIEWED, false)
+
+        if (tutorialViewed) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                this.startActivity(Intent(this, OcrCaptureActivity::class.java))
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSIONS_REQUEST_CAMERA)
+            }
         } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSIONS_REQUEST_CAMERA)
+            this.startActivity(Intent(this, CameraIntroActivity::class.java))
         }
     }
 

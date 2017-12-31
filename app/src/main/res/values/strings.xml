@@ -117,6 +117,8 @@
     <string name="bill_search_not_found">No se ha encontrado ningún resultado para la búsqueda actual</string>
     <string name="toast_ocr_low_storage">Insuficiente espacio de almacenamiento para realizar el reconocimiento</string>
     <string name="product_name_taxes">Impuestos</string>
+    <string name="camera_intro_title">Escanear un ticket</string>
+    <string name="camera_intro_description">A continuación se abrirá la cámara. Enfoca al ticket durante unos segundos, sin tocar nada hasta que la aplicación reconozca los productos. Intenta que todos los nombres de los productos y sus precios estén dentro de la imagen. También debe ser visible el precio total.</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

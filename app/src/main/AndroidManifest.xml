@@ -43,6 +43,9 @@
         <activity
             android:name=".view.activity.AssignationIntroActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.activity.CameraIntroActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.activity.SettingsActivity" />
         <activity android:name=".view.activity.OcrCaptureActivity"
             android:theme="@style/AppTheme.Fullscreen"/>

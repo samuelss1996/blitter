@@ -1,6 +1,5 @@
 package es.soutullo.blitter.model.ocr
 
-import android.util.Log
 import android.util.SparseArray
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.text.Text
@@ -32,8 +31,6 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             val maxX = bounds.map { it.right }.max()!!
             val pricesBlock = this.findPricesBlock(items, minX, maxX)
 
-            (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }.forEach { Log.i("COMP", it.value) }
-
             if(pricesBlock != null) {
                 this.findProducts(items, pricesBlock)?.let { recognizedData ->
                     val sampleCount = this.countedSamples.getOrDefault(recognizedData, 0)
@@ -52,7 +49,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
 
     private fun findPricesBlock(items: SparseArray<TextBlock>, minX: Int, maxX: Int): List<Product>? {
         val leftColumnThreshold = (9 * minX + maxX) / 10
-        val rightColumnThreshold = (minX + 9 * maxX) / 10
+        val rightColumnThreshold = (3 * minX + 7 * maxX) / 10
         val numericComponentBlocks = mutableListOf<List<Product>>()
 
         val leftColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
@@ -69,12 +66,12 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             if(value != null) {
                 val name = this.findProductName(leftColumnComponents, it)
                 currentBlock.add(Product(name, value))
-            } else {
+            } /*else {
                 if(currentBlock.isNotEmpty()) {
                     numericComponentBlocks.add(currentBlock)
                     currentBlock = mutableListOf()
                 }
-            }
+            }*/
         }
 
         if(currentBlock.isNotEmpty()) {
@@ -86,7 +83,6 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
 
     private fun findProductName(leftColumnComponents: List<Text>, priceBlock: Text): String {
         val firstCandidate = leftColumnComponents.minBy { nameBlock -> abs(priceBlock.boundingBox.top - nameBlock.boundingBox.top) }?.value
-                //?.value?.removeNumeric() ?: ""
         val secondCandidate = leftColumnComponents.minBy { nameBlock -> abs(priceBlock.boundingBox.top - nameBlock.boundingBox.bottom) }?.value
 
         if((firstCandidate?.removeNumeric()?.trim() ?: "") == "") {
@@ -163,7 +159,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             .replace(".", ",").replace("#", ".").preserveNumeric().toDoubleOrNull()
 
     private fun String.findPriceOrNull() = this.trimDecimalSeparator().trim().split(Regex(" +"))
-            .lastOrNull { it.toPriceOrNull() != null && it.removeNumeric().length < 3 && !it.contains(Regex("[#%&/():]"))
+            .lastOrNull { it.toPriceOrNull() != null && it.preserveNumeric().matches(Regex("[0-9]+[.,][0-9]{2}")) && it.removeNumeric().length < 3 && !it.contains(Regex("[#%&/():]"))
                 && (it.contains(Regex("[.,]")) || it.preserveNumeric().length < 4)}?.toPrice()
 
     private data class RecognizedData(val products: List<Product>, val taxes: Double)
