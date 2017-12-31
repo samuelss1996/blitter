@@ -15,9 +15,10 @@ import es.soutullo.blitter.view.component.OcrGraphic
 import java.util.*
 import kotlin.math.abs
 
+// TODO maybe take tax name from the receipt itself
+// TODO http://i.imgur.com/gyGY1TP.jpg - zero price and one product not on the very left
 class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val overlay: GraphicOverlay<OcrGraphic>) : Detector.Processor<TextBlock> {
-    private data class ProductsPrices(val prices: List<Double>, val taxes: Double)
-    private val countedSamples = mutableMapOf<ProductsPrices, Int>()
+    private val countedSamples = mutableMapOf<RecognizedData, Int>()
 
     override fun receiveDetections(detections: Detector.Detections<TextBlock>?) {
         val items = detections?.detectedItems
@@ -32,34 +33,42 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }.forEach { Log.i("COMP", it.value) }
 
             if(pricesBlock != null) {
-                this.findProductsPrices(items, pricesBlock)?.let { productsPrices ->
-                    val sampleCount = this.countedSamples.getOrDefault(productsPrices, 0)
+                this.findProducts(items, pricesBlock)?.let { recognizedData ->
+                    val sampleCount = this.countedSamples.getOrDefault(recognizedData, 0)
 
-                    if(sampleCount >= 2) {
-                        val bill = this.createBill(productsPrices)
+                    if(sampleCount >= 1) {
+                        val bill = this.createBill(recognizedData)
                         this.activity.billRecognized(bill)
                     } else {
-                        this.countedSamples.put(productsPrices, sampleCount + 1)
+                        this.countedSamples.put(recognizedData, sampleCount + 1)
                     }
                 }
             }
         }
     }
 
-    private fun findPricesBlock(items: SparseArray<TextBlock>, minX: Int, maxX: Int): List<Double>? {
+    private fun findPricesBlock(items: SparseArray<TextBlock>, minX: Int, maxX: Int): List<Product>? {
+        val leftColumnThreshold = (9 * minX + maxX) / 10
         val rightColumnThreshold = (minX + 9 * maxX) / 10
-        val numericComponentBlocks = mutableListOf<List<Double>>()
-        val rightColumnComponents = (0 until items.size()).map { items.valueAt(it) }
-                .filter { it.boundingBox.right > rightColumnThreshold }.flatMap { it.components }
-                .sortedBy { it.boundingBox.top }
+        val numericComponentBlocks = mutableListOf<List<Product>>()
 
-        var currentBlock = mutableListOf<Double>()
+        val leftColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
+                .filter { it.boundingBox.left < leftColumnThreshold }
+
+        val rightColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
+                .filter { it.boundingBox.right > rightColumnThreshold }.sortedBy { it.boundingBox.top }
+
+
+        var currentBlock = mutableListOf<Product>()
         rightColumnComponents.forEach {
             val value = it.value.trimDecimalSeparator().trim().split(Regex(" +")).last()
 
             if(value.removeNumeric().length <= 3 && value.toPriceOrNull() != null && !it.value.contains(Regex("[#%&/():]"))
                     && (value.contains(Regex("[.,]")) || value.preserveNumeric().length < 4)) {
-                currentBlock.add(value.toPrice())
+                val name = leftColumnComponents.minBy { nameBlock -> abs(it.boundingBox.top - nameBlock.boundingBox.top) }
+                        ?.value?.removeNumeric() ?: ""
+
+                currentBlock.add(Product(name, value.toPrice()))
             } else {
                 if(currentBlock.isNotEmpty()) {
                     numericComponentBlocks.add(currentBlock)
@@ -75,19 +84,19 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         return numericComponentBlocks.maxBy { it.size }
     }
 
-    private fun findProductsPrices(items: SparseArray<TextBlock>, pricesBlock: List<Double>): ProductsPrices? {
-        val totalExpectedPrice = pricesBlock.sum()
+    private fun findProducts(items: SparseArray<TextBlock>, pricesBlock: List<Product>): RecognizedData? {
+        val totalExpectedPrice = pricesBlock.sumByDouble { it.price }
         val totalReadPrice = this.findTotalPrice(items, totalExpectedPrice)
 
         for(topIndex in pricesBlock.size downTo 1) {
-            val validPrices = pricesBlock.subList(0, topIndex)
-            val sum = validPrices.sum()
+            val validProducts = pricesBlock.subList(0, topIndex)
+            val validProductsSum = validProducts.sumByDouble { it.price }
 
-            for(taxesIndex in 0..3) {
-                val possibleTaxes = pricesBlock.getOrNull(pricesBlock.size - taxesIndex) ?: 0.0
+            for(taxesIndex in 0..5) {
+                val possibleTaxes = pricesBlock.map { it.price }.getOrNull(pricesBlock.size - taxesIndex) ?: 0.0
 
-                if(totalReadPrice!= null && abs(sum + possibleTaxes - totalReadPrice) <= 1e-6) {
-                    return ProductsPrices(validPrices, possibleTaxes)
+                if(totalReadPrice!= null && abs(validProductsSum + possibleTaxes - totalReadPrice) <= 1e-6) {
+                    return RecognizedData(validProducts, possibleTaxes)
                 }
             }
         }
@@ -95,15 +104,15 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         return null
     }
 
-    private fun createBill(productsPrices: ProductsPrices): Bill {
+    private fun createBill(recognizedData: RecognizedData): Bill {
         val bill = Bill(null, this.activity.getString(R.string.bill_uncompleted_default_name), Date(), EBillSource.CAMERA, EBillStatus.UNCONFIRMED)
 
-        productsPrices.prices.forEachIndexed { index, price ->
-            bill.addLine(BillLine(null, bill, index, "Product " + index, price.toFloat()))
+        recognizedData.products.forEachIndexed { index, product ->
+            bill.addLine(BillLine(null, bill, index, product.name, product.price.toFloat()))
         }
 
-        if(productsPrices.taxes > 0) {
-            bill.addLine(BillLine(null, bill, productsPrices.prices.size, "Taxes", productsPrices.taxes.toFloat()))
+        if(recognizedData.taxes > 0) {
+            bill.addLine(BillLine(null, bill, recognizedData.products.size, this.activity.getString(R.string.product_name_taxes), recognizedData.taxes.toFloat()))
         }
 
         return bill
@@ -135,4 +144,11 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
     private fun String.toPrice() = this.toPriceOrNull()!!
     private fun String.toPriceOrNull() = this.preserveNumeric().toDoubleOrNull() ?: this.replace(",", "#")
             .replace(".", ",").replace("#", ".").preserveNumeric().toDoubleOrNull()
+
+    private data class RecognizedData(val products: List<Product>, val taxes: Double)
+
+    private data class Product(val name: String, val price: Double) {
+        override fun equals(other: Any?): Boolean = other is Product && other.price == this.price
+        override fun hashCode(): Int = this.price.hashCode()
+    }
 }

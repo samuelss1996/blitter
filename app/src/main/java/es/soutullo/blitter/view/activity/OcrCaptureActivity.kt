@@ -19,6 +19,7 @@ import es.soutullo.blitter.view.component.OcrGraphic
 
 // TODO add intro activity for this
 // TODO maybe add flash button
+// TODO maybe add grid to the view
 class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var cameraSourcePreview: CameraSourcePreview
     private lateinit var graphicOverlay: GraphicOverlay<OcrGraphic>
