@@ -12,18 +12,25 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.text.TextRecognizer
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.ocr.OcrDetectorProcessor
+import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.view.component.CameraSourcePreview
+import es.soutullo.blitter.view.component.GraphicOverlay
+import es.soutullo.blitter.view.component.OcrGraphic
 
 // TODO add intro activity for this
+// TODO maybe add flash button
 class OcrCaptureActivity : AppCompatActivity() {
-    private var cameraSource: CameraSource? = null
     private lateinit var cameraSourcePreview: CameraSourcePreview
+    private lateinit var graphicOverlay: GraphicOverlay<OcrGraphic>
+    private var cameraSource: CameraSource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_ocr_capture)
 
         this.cameraSourcePreview = this.findViewById(R.id.camera_source_preview)
+        this.graphicOverlay = this.findViewById(R.id.graphic_overlay)
+
         this.createCameraSource()
     }
 
@@ -32,9 +39,14 @@ class OcrCaptureActivity : AppCompatActivity() {
         this.startCameraSource()
     }
 
+    fun billRecognized(bill: Bill) {
+        this.startActivity(Intent(this, BillSummaryActivity::class.java).putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill))
+        this.finish()
+    }
+
     private fun createCameraSource() {
         val textRecognizer = TextRecognizer.Builder(this.applicationContext).build()
-        textRecognizer.setProcessor(OcrDetectorProcessor())
+        textRecognizer.setProcessor(OcrDetectorProcessor(this, this.graphicOverlay))
 
         if(!textRecognizer.isOperational) {
             val lowStorageFilter = IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW)
@@ -60,7 +72,7 @@ class OcrCaptureActivity : AppCompatActivity() {
 
         this.cameraSource?.let {
             try {
-                this.cameraSourcePreview.start(it)
+                this.cameraSourcePreview.start(it, this.graphicOverlay)
             } catch (e: Exception) {
                 this.cameraSource = null
             }

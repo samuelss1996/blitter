@@ -33,7 +33,7 @@ class BillSummaryActivity : AppCompatActivity() {
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_bill_summary)
-        this.bill = intent.getSerializableExtra(BILL_INTENT_DATA_KEY) as Bill
+        this.bill = this.intent.getSerializableExtra(BILL_INTENT_DATA_KEY) as Bill
         this.linesAdapter = BillSummaryAdapter(this.bill.lines, this.assets)
 
         this.doBackup()

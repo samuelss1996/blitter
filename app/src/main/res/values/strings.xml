@@ -89,7 +89,7 @@
     <string name="preference_category_title_about">Acerca de</string>
     <string name="preference_title_default_tip">Porcentaje de propina</string>
     <string name="preference_summary_default_tip">Establecer el procentaje de propina por defecto</string>
-    <string name="preference_title_delete_bills">Eliminar todas las cuentas</string>
+    <string name="preference_title_delete_data">Eliminar datos de aplicación</string>
     <string name="preference_summary_delete_bills">Se eliminarán todas las cuentas y personas introducidas</string>
     <string name="preference_title_remove_ads">Eliminar anuncios</string>
     <string name="preference_summary_remove_ads">¡No más publicidad!</string>

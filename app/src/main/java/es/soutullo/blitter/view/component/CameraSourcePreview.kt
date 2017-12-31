@@ -8,10 +8,13 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
 import com.google.android.gms.vision.CameraSource
+import kotlin.math.max
+import kotlin.math.min
 
 class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
-    private var cameraSource: CameraSource? = null
     private val surfaceView = SurfaceView(context)
+    private var cameraSource: CameraSource? = null
+    private var graphicOverlay: GraphicOverlay<OcrGraphic>? = null
     private var surfaceAvailable = false
     private var startRequested = false
 
@@ -47,9 +50,11 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(con
         } catch (e: Exception) { }
     }
 
-    fun start(cameraSource: CameraSource) {
+    fun start(cameraSource: CameraSource, graphicOverlay: GraphicOverlay<OcrGraphic>) {
         this.cameraSource = cameraSource
+        this.graphicOverlay = graphicOverlay
         this.startRequested = true
+
         this.startIfReady()
     }
 
@@ -67,6 +72,22 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(con
         if (this.startRequested && this.surfaceAvailable) {
             this.cameraSource?.start(this.surfaceView.holder)
             this.startRequested = false
+
+            this.graphicOverlay?.let { graphicOverlay ->
+                this.cameraSource?.let { cameraSource ->
+                    val size = cameraSource.previewSize
+                    val min = min(size.width, size.height)
+                    val max = max(size.width, size.height)
+
+                    if(this.isPortraitMode()) {
+                        graphicOverlay.setCameraInfo(min, max, cameraSource.cameraFacing)
+                    } else {
+                        graphicOverlay.setCameraInfo(max, min, cameraSource.cameraFacing)
+                    }
+
+                    graphicOverlay.clear()
+                }
+            }
         }
     }
 
