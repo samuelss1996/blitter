@@ -290,7 +290,7 @@ class MainActivity : ChoosingLayoutActivity() {
         fabSpeedDial.addOnMenuItemClickListener({ miniFab, label, itemId ->
             when(itemId) {
                 R.id.fab_mini_transcribe -> this.onManualTranscriptionClicked()
-                R.id.fab_mini_gallery -> this.onFromGalleryClicked()
+//                R.id.fab_mini_gallery -> this.onFromGalleryClicked()
                 R.id.fab_mini_camera -> this.onFromCameraClicked()
             }
         })
