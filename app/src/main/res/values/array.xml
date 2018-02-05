@@ -2,7 +2,7 @@
 <resources>
     <array name="fab_mini_labels">
         <item>@drawable/fab_mini_label</item>
-        <item>@drawable/fab_mini_label</item>
+        <!--<item>@drawable/fab_mini_label</item>-->
         <item>@drawable/fab_mini_label</item>
     </array>
 </resources>

@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "es.soutullo.blitter"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -35,10 +35,11 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
-    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.0.1'
-    compile 'com.android.support:preference-v7:26.0.1'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.google.android.gms:play-services-vision:11.8.0'
+    compile 'com.android.support:preference-v7:26.1.0'
     compile 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'

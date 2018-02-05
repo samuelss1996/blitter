@@ -33,10 +33,9 @@ class BillSummaryActivity : AppCompatActivity() {
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_bill_summary)
-        this.bill = intent.getSerializableExtra(BILL_INTENT_DATA_KEY) as Bill
+        this.bill = this.intent.getSerializableExtra(BILL_INTENT_DATA_KEY) as Bill
         this.linesAdapter = BillSummaryAdapter(this.bill.lines, this.assets)
 
-        this.doBackup()
         this.init()
     }
 
@@ -63,6 +62,7 @@ class BillSummaryActivity : AppCompatActivity() {
     }
 
     /** Saves the bill status on the database */
+    @Deprecated("It is not helpful to save the bill here, this method should not be used")
     private fun doBackup() {
         this.bill.status = EBillStatus.UNCONFIRMED
         DaoFactory.getFactory(this).getBillDao().updateBill(this.bill.id, this.bill)

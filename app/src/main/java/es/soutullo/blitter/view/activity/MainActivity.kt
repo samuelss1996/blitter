@@ -1,12 +1,16 @@
 package es.soutullo.blitter.view.activity
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.RecyclerView
@@ -37,6 +41,10 @@ class MainActivity : ChoosingLayoutActivity() {
 
     override val itemsAdapter = RecentBillsAdapter(this)
     override val showHomeAsUp: Boolean = false
+
+    companion object {
+        val PERMISSIONS_REQUEST_CAMERA = 200
+    }
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -103,6 +111,16 @@ class MainActivity : ChoosingLayoutActivity() {
         return true
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode) {
+            PERMISSIONS_REQUEST_CAMERA -> {
+                if(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {
+                    this.onFromCameraClicked()
+                }
+            }
+        }
+    }
+
     override fun onItemClicked(listIndex: Int, clickedViewId: Int) {
         this.itemsAdapter.get(listIndex)?.let { bill ->
             val intent = when(bill.status) {
@@ -142,7 +160,19 @@ class MainActivity : ChoosingLayoutActivity() {
     private fun onFromGalleryClicked() { }
 
     /** Gets called when the user clicks the from camera mini fab */
-    private fun onFromCameraClicked() { }
+    private fun onFromCameraClicked() {
+        val tutorialViewed = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(CameraIntroActivity.FLAG_CAMERA_INTRO_VIEWED, false)
+
+        if (tutorialViewed) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                this.startActivity(Intent(this, OcrCaptureActivity::class.java))
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSIONS_REQUEST_CAMERA)
+            }
+        } else {
+            this.startActivity(Intent(this, CameraIntroActivity::class.java))
+        }
+    }
 
     /** Gets called when the user clicks the search button on the action bar */
     private fun onSearchClicked() {
@@ -260,7 +290,7 @@ class MainActivity : ChoosingLayoutActivity() {
         fabSpeedDial.addOnMenuItemClickListener({ miniFab, label, itemId ->
             when(itemId) {
                 R.id.fab_mini_transcribe -> this.onManualTranscriptionClicked()
-                R.id.fab_mini_gallery -> this.onFromGalleryClicked()
+//                R.id.fab_mini_gallery -> this.onFromGalleryClicked()
                 R.id.fab_mini_camera -> this.onFromCameraClicked()
             }
         })

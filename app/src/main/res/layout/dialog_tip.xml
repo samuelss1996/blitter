@@ -26,7 +26,7 @@
             android:id="@+id/dialog_tip_hint" />
 
         <com.xw.repo.BubbleSeekBar
-            android:layout_width="344dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:bsb_bubble_color="@color/colorAccent"
             app:bsb_bubble_text_color="@color/colorOverPrimary"
