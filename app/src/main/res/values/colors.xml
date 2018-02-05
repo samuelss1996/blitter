@@ -19,7 +19,7 @@
 
     <array name="mini_fab_background_color_list">
         <item>@color/fab_mini_receipt</item>
-        <item>@color/fab_mini_photo_library</item>
+        <!--<item>@color/fab_mini_photo_library</item>-->
         <item>@color/fab_mini_camera</item>
     </array>
 
