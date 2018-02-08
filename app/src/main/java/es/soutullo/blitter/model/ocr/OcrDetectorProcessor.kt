@@ -1,6 +1,9 @@
 package es.soutullo.blitter.model.ocr
 
+import android.os.Handler
+import android.util.Log
 import android.util.SparseArray
+import android.widget.Toast
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.text.Text
 import com.google.android.gms.vision.text.TextBlock
@@ -16,12 +19,11 @@ import java.util.*
 import kotlin.math.abs
 
 // TODO maybe take tax name from the receipt itself
-// TODO http://i.imgur.com/gyGY1TP.jpg - zero price and one product not on the very left
-// TODO find the total by searching the "total" word in different languages
 // TODO what if "total" text is above the actual total amount
 // TODO maybe add button on bill summary to edit taxes
-// TODO add condition for lines. Price must be greater than zero
 class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val overlay: GraphicOverlay<OcrGraphic>) : Detector.Processor<TextBlock> {
+    private val TOTAL_KEYWORDS = arrayOf("合計", "합계", "共计", "कुल", "итог", "total", "amount", "summe", "jumlah", "toplam", "suma", "totale")
+
     private val countedSamples = mutableMapOf<RecognizedData, Int>()
     private var successfulScans = 0
 
@@ -51,12 +53,12 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         val rightColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
                 .filter { it.boundingBox.right > rightColumnThreshold }.sortedBy { it.boundingBox.top }
 
-        return rightColumnComponents.mapNotNull { it.value.findPriceOrNull()?.let { price -> Pair(it, price) }}
+        return rightColumnComponents.mapNotNull { it.value.findPriceOrNull()?.let { price -> Pair(it, price) }}.filter { (_, price) -> price > 0 }
                 .map { (it, price) -> ReceiptLine(this.findProductName(leftColumnComponents, it), price, this.findBlockHorizontalCoordinate(it)) }
     }
 
     private fun processReceipt(receiptLines: List<ReceiptLine>): RecognizedData {
-        val totalLine = receiptLines.firstOrNull { it.name.toLowerCase().contains("total") } // TODO change this crap
+        val totalLine = receiptLines.firstOrNull { line -> TOTAL_KEYWORDS.any { line.name.toLowerCase().contains(it) } }
         val linesBeforeTotal = receiptLines.filter { it.horizontalCoordinate < totalLine?.horizontalCoordinate ?: Double.MAX_VALUE }
 
         return RecognizedData(linesBeforeTotal, linesBeforeTotal.sumByDouble { it.price }, totalLine?.price, null) // TODO recognize taxes
@@ -65,12 +67,16 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
     private fun confirmScan(recognizedData: RecognizedData) {
         if(recognizedData.receiptLines.isNotEmpty()) {
             val sampleCount = this.countedSamples[recognizedData] ?: 0
+            val totalMatching = recognizedData.computedTotal == recognizedData.recognizedTotal
             this.successfulScans++
 
-            if((recognizedData.computedTotal == recognizedData.recognizedTotal && recognizedData.receiptLines.size > 1)
-                || (sampleCount >= 2 && this.successfulScans > 3)) {
-
+            if((totalMatching && recognizedData.receiptLines.size > 1) || (sampleCount >= 2 && this.successfulScans > 3)) {
                 val bill = this.createBill(recognizedData)
+
+                if(totalMatching) {
+                    Log.i("INFO", "Total recognized")
+                }
+
                 this.activity.billRecognized(bill)
             } else {
                 this.countedSamples[recognizedData] = sampleCount + 1
@@ -112,15 +118,15 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         this.overlay.clear()
     }
 
-    private fun String.removeNumeric() = this.replace(Regex("[0-9,.]"), "").trim()
-    private fun String.preserveNumeric() = this.replace(Regex("[^0-9,.]"), "").trim()
+    private fun String.removeNumeric() = this.replace(Regex("[0-9,.\\-]"), "").trim()
+    private fun String.preserveNumeric() = this.replace(Regex("[^0-9,.\\-]"), "").trim()
     private fun String.trimDecimalSeparator() = this.replace(Regex(" *([,.]) *"), {result ->  result.groupValues[1] })
     private fun String.toPrice() = this.toPriceOrNull()!!
     private fun String.toPriceOrNull() = this.preserveNumeric().toDoubleOrNull() ?: this.replace(",", "#")
             .replace(".", ",").replace("#", ".").preserveNumeric().toDoubleOrNull()
 
     private fun String.findPriceOrNull() = this.trimDecimalSeparator().trim().split(Regex(" +"))
-            .lastOrNull { it.toPriceOrNull() != null && it.preserveNumeric().matches(Regex("[0-9]+[.,][0-9]{2}")) && it.removeNumeric().length < 3 && !it.contains(Regex("[#%&/():]"))
+            .lastOrNull { it.toPriceOrNull() != null && it.preserveNumeric().matches(Regex("-?[0-9]+[.,][0-9]{2}")) && it.removeNumeric().length < 3 && !it.contains(Regex("[#%&/():]"))
                 && (it.contains(Regex("[.,]")) || it.preserveNumeric().length < 4)}?.toPrice()
 
     private data class RecognizedData(val receiptLines: List<ReceiptLine>, val computedTotal: Double, val recognizedTotal: Double?, val taxes: Double?)
