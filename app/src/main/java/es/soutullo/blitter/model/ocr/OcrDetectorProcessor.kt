@@ -48,7 +48,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         val rightColumnThreshold = (3 * minX + 7 * maxX) / 10
 
         val leftColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
-                .filter { it.boundingBox.left < leftColumnThreshold }
+                .filter { it.boundingBox.left < leftColumnThreshold || this.isTotalText(it.value) }
 
         val rightColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
                 .filter { it.boundingBox.right > rightColumnThreshold }.sortedBy { it.boundingBox.top }
@@ -58,7 +58,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
     }
 
     private fun processReceipt(receiptLines: List<ReceiptLine>): RecognizedData {
-        val totalLine = receiptLines.firstOrNull { line -> TOTAL_KEYWORDS.any { line.name.toLowerCase().contains(it) } }
+        val totalLine = receiptLines.firstOrNull { this.isTotalText(it.name) }
         val linesBeforeTotal = receiptLines.filter { it.horizontalCoordinate < totalLine?.horizontalCoordinate ?: Double.MAX_VALUE }
 
         return RecognizedData(linesBeforeTotal, linesBeforeTotal.sumByDouble { it.price }, totalLine?.price, null) // TODO recognize taxes
@@ -103,6 +103,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             leftColumnComponents.minBy { abs(this.findBlockHorizontalCoordinate(it) - this.findBlockHorizontalCoordinate(priceBlock)) }?.value ?: ""
 
     private fun findBlockHorizontalCoordinate(block: Text) = (block.boundingBox.top + block.boundingBox.bottom) / 2.0
+    private fun isTotalText(text: String) = TOTAL_KEYWORDS.any { text.toLowerCase().contains(it) }
 
     private fun drawOverlay(items: SparseArray<TextBlock>?) {
         this.overlay.clear()
