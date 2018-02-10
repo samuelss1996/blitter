@@ -59,7 +59,6 @@
                     android:layout_height="wrap_content"
                     android:text="@{traceFlag != null &amp;&amp; traceFlag? utils.getPriceAsStringWithTip(context, item.payingAmountWithoutTip, item.tipPercent) : utils.getPriceAsString(item.payingAmountWithTip)}"
                     tools:text="3,07 €"
-
                     android:textSize="@dimen/list_caption_text_size"/>
             </LinearLayout>
 

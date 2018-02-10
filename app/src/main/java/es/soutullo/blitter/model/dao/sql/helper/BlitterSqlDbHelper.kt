@@ -5,9 +5,9 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import es.soutullo.blitter.model.BlitterSqlDbContract
 
-class BlitterSqlDbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+class BlitterSqlDbHelper(private val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
-        val DB_VERSION = 1
+        val DB_VERSION = 2
         val DB_NAME = "Bills.db"
     }
 
@@ -15,8 +15,9 @@ class BlitterSqlDbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, 
         BlitterSqlDbContract.Table.values().forEach({table ->  db.execSQL(this.createTableQuery(table))})
     }
 
-    override fun onUpgrade(sqLiteDatabase: SQLiteDatabase, i: Int, i1: Int) {
-
+    override fun onUpgrade(db: SQLiteDatabase, i: Int, i1: Int) {
+        BlitterSqlDbContract.Table.values().reversed().forEach { db.execSQL("DROP TABLE IF EXISTS ${it.tableName};") }
+        this.onCreate(db)
     }
 
     override fun onConfigure(db: SQLiteDatabase?) {

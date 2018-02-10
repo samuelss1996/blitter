@@ -26,10 +26,10 @@ class TipDialog(context: Context, handler: IDialogHandler?, private val bill: Bi
 
         this.binding.utils = BlitterUtils
         this.binding.bill = this.bill
-        this.binding.tipPercent = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(preferenceKey, defaultPreferenceValue) / 100f
+        this.binding.tipPercent = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(preferenceKey, defaultPreferenceValue) / 100.0
 
         with(this.binding.root.findViewById<BubbleSeekBar>(R.id.dialog_tip_seek_bar)) {
-            this.setProgress(this@TipDialog.binding.tipPercent * 100)
+            this.setProgress(this@TipDialog.binding.tipPercent.toFloat() * 100)
             this.onProgressChangedListener = this@TipDialog.createSeekBarListener()
         }
 
@@ -37,13 +37,13 @@ class TipDialog(context: Context, handler: IDialogHandler?, private val bill: Bi
     }
 
     /** @return The tip percent chosen by the user */
-    fun getTipPercent(): Float? = this.binding.tipPercent
+    fun getTipPercent(): Double? = this.binding.tipPercent
 
     /** Creates the listener which manages changes on the seek bar value */
     private fun createSeekBarListener(): BubbleSeekBar.OnProgressChangedListener {
         return object : BubbleSeekBar.OnProgressChangedListener {
             override fun onProgressChanged(progress: Int, progressFloat: Float) {
-                this@TipDialog.binding.tipPercent = progress / 100f
+                this@TipDialog.binding.tipPercent = progress / 100.0
             }
 
             override fun getProgressOnActionUp(progress: Int, progressFloat: Float) { }

@@ -95,16 +95,11 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         }
     }
 
-    // TODO manage taxes
     private fun createBill(recognizedData: RecognizedData): Bill {
-        val bill = Bill(null, this.activity.getString(R.string.bill_uncompleted_default_name), Date(), EBillSource.CAMERA, EBillStatus.UNCONFIRMED)
+        val bill = Bill(null, this.activity.getString(R.string.bill_uncompleted_default_name), Date(), EBillSource.CAMERA, EBillStatus.UNCONFIRMED, recognizedData.tax)
 
         recognizedData.receiptLines.forEachIndexed { index, product ->
-            bill.addLine(BillLine(null, bill, index, product.name.take(21), product.price.toFloat()))
-        }
-
-        if(recognizedData.tax > 0) { // TODO do this properly
-            bill.addLine(BillLine(null, bill, recognizedData.receiptLines.size, this.activity.getString(R.string.product_name_taxes), recognizedData.tax.toFloat()))
+            bill.addLine(BillLine(null, bill, index, product.name.take(21), product.price))
         }
 
         return bill

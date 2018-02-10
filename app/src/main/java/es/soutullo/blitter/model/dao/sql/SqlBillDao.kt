@@ -169,6 +169,7 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
         bill.id?.let { values.put(BillEntry._ID.colName, it) }
 
         values.put(BillEntry.NAME.colName, bill.name)
+        values.put(BillEntry.TAX.colName, bill.tax)
         values.put(BillEntry.TIP_PERCENT.colName, bill.tipPercent)
         values.put(BillEntry.DATE.colName, bill.date.time)
         values.put(BillEntry.SOURCE.colName, bill.source.sourceId)

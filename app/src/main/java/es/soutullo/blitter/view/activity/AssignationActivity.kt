@@ -101,7 +101,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * Gets called when the user confirms the tip percent on the tip dialog
      * @param tipPercent The tip percent specified by the user
      */
-    private fun onTipPercentageConfirmed(tipPercent: Float) {
+    private fun onTipPercentageConfirmed(tipPercent: Double) {
         val intent = Intent(this, FinalResultActivity::class.java)
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
 

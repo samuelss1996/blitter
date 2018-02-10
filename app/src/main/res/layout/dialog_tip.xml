@@ -6,7 +6,7 @@
     <data>
         <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
         <variable name="bill" type="es.soutullo.blitter.model.vo.bill.Bill" />
-        <variable name="tipPercent" type="Float" />
+        <variable name="tipPercent" type="Double" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -54,7 +54,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/dialog_tip_result_text(Math.round((float)(tipPercent * 100)), utils.getPriceAsString(bill.priceWithoutTip * tipPercent))}"
+            android:text="@{@string/dialog_tip_result_text(Math.round((float)(tipPercent * 100)), utils.getPriceAsString(bill.subtotal * tipPercent))}"
             app:layout_constraintLeft_toLeftOf="@+id/dialog_tip_seek_bar"
             app:layout_constraintRight_toRightOf="@+id/dialog_tip_seek_bar"
             app:layout_constraintTop_toBottomOf="@+id/dialog_tip_seek_bar"

@@ -29,6 +29,8 @@
     <string name="bill_summary_header">TU CUENTA - BLITTER</string>
     <string name="bill_summary_total_products_text">NUM. TOTAL DE PRODUCTOS:</string>
     <string name="bill_summary_products_header">PRODUCTOS</string>
+    <string name="bill_summary_subtotal_text">SUBTOTAL:</string>
+    <string name="bill_summary_tax_text">IMPUESTOS:</string>
     <string name="bill_summary_total_price_text">PRECIO TOTAL:</string>
     <string name="bill_summary_separator_product_count">-</string>
     <string name="bill_summary_separator_products_title">=</string>

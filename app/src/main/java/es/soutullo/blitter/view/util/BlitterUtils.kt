@@ -23,14 +23,14 @@ object BlitterUtils {
      * @param price The price to convert
      * @return The converted price as string
      */
-    fun getPriceAsString(price: Float): String = NumberFormat.getCurrencyInstance().format(price)
+    fun getPriceAsString(price: Double): String = NumberFormat.getCurrencyInstance().format(price)
 
     /**
      * Converts a floating number to a string representing a price, without its symbol, based on the device's locale
      * @param price The price to convert
      * @return The converted price as string
      */
-    fun getEditablePriceAsString(price: Float): String = NumberFormat.getCurrencyInstance().parse(getPriceAsString(price)).toString()
+    fun getEditablePriceAsString(price: Double): String = NumberFormat.getCurrencyInstance().parse(getPriceAsString(price)).toString()
 
     /**
      * Returns a date as a long string, working with internationalization
@@ -47,8 +47,8 @@ object BlitterUtils {
      * @param tipPercent The tip percentage
      * @return The human readable string
      */
-    fun getPriceAsStringWithTip(context: Context, priceWithoutTip: Float, tipPercent: Float): String {
-        return if(tipPercent == 0f) context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
+    fun getPriceAsStringWithTip(context: Context, priceWithoutTip: Double, tipPercent: Double): String {
+        return if(tipPercent == 0.0) context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
             else context.getString(R.string.bill_beautiful_price_with_tip, getPriceAsString(priceWithoutTip), getPriceAsString(priceWithoutTip * tipPercent))
     }
 

@@ -6,7 +6,7 @@ import es.soutullo.blitter.model.vo.person.Person
 import java.io.Serializable
 
 /** Represents a bill line, with its assigned persons if any */
-data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name: String, val price: Float, val persons: MutableList<Person> = mutableListOf()): Serializable {
+data class BillLine(val id: Long?, val bill: Bill, val lineNumber: Int, val name: String, val price: Double, val persons: MutableList<Person> = mutableListOf()): Serializable {
 
     /**
      * Assigns a new person to the bill line. If the person already exists on any line of the bill, then
