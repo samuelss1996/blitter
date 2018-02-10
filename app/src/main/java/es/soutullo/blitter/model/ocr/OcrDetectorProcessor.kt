@@ -1,9 +1,7 @@
 package es.soutullo.blitter.model.ocr
 
-import android.os.Handler
 import android.util.Log
 import android.util.SparseArray
-import android.widget.Toast
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.text.Text
 import com.google.android.gms.vision.text.TextBlock
@@ -21,8 +19,12 @@ import kotlin.math.abs
 // TODO maybe take tax name from the receipt itself
 // TODO what if "total" text is above the actual total amount
 // TODO maybe add button on bill summary to edit taxes
+// TODO test text recognition with non roman languages
 class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val overlay: GraphicOverlay<OcrGraphic>) : Detector.Processor<TextBlock> {
-    private val TOTAL_KEYWORDS = arrayOf("合計", "합계", "共计", "कुल", "итог", "total", "amount", "summe", "jumlah", "toplam", "suma", "totale")
+    companion object {
+        private val TOTAL_KEYWORDS = arrayOf("合計", "합계", "共计", "कुल", "итог", "total", "amount", "summe", "jumlah", "toplam", "suma", "totale")
+        private val TAX_KEYWORDS = arrayOf("tax", "impuesto")
+    }
 
     private val countedSamples = mutableMapOf<RecognizedData, Int>()
     private var successfulScans = 0
@@ -48,7 +50,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         val rightColumnThreshold = (3 * minX + 7 * maxX) / 10
 
         val leftColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
-                .filter { it.boundingBox.left < leftColumnThreshold || this.isTotalText(it.value) }
+                .filter { it.boundingBox.left < leftColumnThreshold || this.isTotalText(it.value) || this.isTaxText(it.value) }
 
         val rightColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
                 .filter { it.boundingBox.right > rightColumnThreshold }.sortedBy { it.boundingBox.top }
@@ -58,23 +60,32 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
     }
 
     private fun processReceipt(receiptLines: List<ReceiptLine>): RecognizedData {
-        val totalLine = receiptLines.firstOrNull { this.isTotalText(it.name) }
+        var totalLine = receiptLines.firstOrNull { this.isTotalText(it.name) }
+        val taxLines = receiptLines.filter { this.isTaxText(it.name) }
         val linesBeforeTotal = receiptLines.filter { it.horizontalCoordinate < totalLine?.horizontalCoordinate ?: Double.MAX_VALUE }
+        val computedTotal = linesBeforeTotal.sumByDouble { it.price }
 
-        return RecognizedData(linesBeforeTotal, linesBeforeTotal.sumByDouble { it.price }, totalLine?.price, null) // TODO recognize taxes
+        var taxesValue = 0.0
+
+        if(taxLines.isNotEmpty() && totalLine != null && receiptLines.any { it.price > (totalLine?.price ?: 0.0) }) {
+            taxesValue = taxLines.sumByDouble { it.price }
+            totalLine = receiptLines.firstOrNull { this.isTotalText(it.name) && it.price == computedTotal + taxesValue } ?: totalLine
+        }
+
+        return RecognizedData(linesBeforeTotal, computedTotal, totalLine?.price, taxesValue)
     }
 
     private fun confirmScan(recognizedData: RecognizedData) {
         if(recognizedData.receiptLines.isNotEmpty()) {
             val sampleCount = this.countedSamples[recognizedData] ?: 0
-            val totalMatching = recognizedData.computedTotal == recognizedData.recognizedTotal
+            val totalMatching = recognizedData.computedTotal + recognizedData.tax == recognizedData.recognizedTotal
             this.successfulScans++
 
             if((totalMatching && recognizedData.receiptLines.size > 1) || (sampleCount >= 2 && this.successfulScans > 3)) {
                 val bill = this.createBill(recognizedData)
 
                 if(totalMatching) {
-                    Log.i("INFO", "Total recognized")
+                    Log.i("INFO", "Total recognized") // TODO show this on the GUI
                 }
 
                 this.activity.billRecognized(bill)
@@ -92,9 +103,9 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             bill.addLine(BillLine(null, bill, index, product.name.take(21), product.price.toFloat()))
         }
 
-//        if(recognizedData.taxes > 0) {
-//            bill.addLine(BillLine(null, bill, recognizedData.receiptLines.size, this.activity.getString(R.string.product_name_taxes), recognizedData.taxes.toFloat()))
-//        }
+        if(recognizedData.tax > 0) { // TODO do this properly
+            bill.addLine(BillLine(null, bill, recognizedData.receiptLines.size, this.activity.getString(R.string.product_name_taxes), recognizedData.tax.toFloat()))
+        }
 
         return bill
     }
@@ -104,6 +115,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
 
     private fun findBlockHorizontalCoordinate(block: Text) = (block.boundingBox.top + block.boundingBox.bottom) / 2.0
     private fun isTotalText(text: String) = TOTAL_KEYWORDS.any { text.toLowerCase().contains(it) }
+    private fun isTaxText(text: String) = TAX_KEYWORDS.any { text.toLowerCase().contains(it) }
 
     private fun drawOverlay(items: SparseArray<TextBlock>?) {
         this.overlay.clear()
@@ -130,7 +142,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             .lastOrNull { it.toPriceOrNull() != null && it.preserveNumeric().matches(Regex("-?[0-9]+[.,][0-9]{2}")) && it.removeNumeric().length < 3 && !it.contains(Regex("[#%&/():]"))
                 && (it.contains(Regex("[.,]")) || it.preserveNumeric().length < 4)}?.toPrice()
 
-    private data class RecognizedData(val receiptLines: List<ReceiptLine>, val computedTotal: Double, val recognizedTotal: Double?, val taxes: Double?)
+    private data class RecognizedData(val receiptLines: List<ReceiptLine>, val computedTotal: Double, val recognizedTotal: Double?, val tax: Double)
 
     private data class ReceiptLine(val name: String, val price: Double, val horizontalCoordinate: Double) {
         override fun equals(other: Any?): Boolean = other is ReceiptLine && other.price == this.price
