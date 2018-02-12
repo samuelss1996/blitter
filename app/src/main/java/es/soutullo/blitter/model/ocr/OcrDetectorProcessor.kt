@@ -16,9 +16,7 @@ import es.soutullo.blitter.view.component.OcrGraphic
 import java.util.*
 import kotlin.math.abs
 
-// TODO maybe take tax name from the receipt itself
 // TODO what if "total" text is above the actual total amount
-// TODO maybe add button on bill summary to edit taxes
 // TODO test text recognition with non roman languages
 class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val overlay: GraphicOverlay<OcrGraphic>) : Detector.Processor<TextBlock> {
     companion object {
