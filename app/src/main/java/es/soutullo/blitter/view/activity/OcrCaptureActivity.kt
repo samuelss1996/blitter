@@ -3,30 +3,39 @@ package es.soutullo.blitter.view.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentFilter
+import android.databinding.BindingAdapter
+import android.databinding.DataBindingUtil
+import android.graphics.drawable.Drawable
+import android.hardware.Camera
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.ImageButton
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.vision.CameraSource
+import es.soutullo.blitter.view.component.CameraSource
 import com.google.android.gms.vision.text.TextRecognizer
 import es.soutullo.blitter.R
+import es.soutullo.blitter.databinding.ActivityOcrCaptureBinding
 import es.soutullo.blitter.model.ocr.OcrDetectorProcessor
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.view.component.CameraSourcePreview
 import es.soutullo.blitter.view.component.GraphicOverlay
 import es.soutullo.blitter.view.component.OcrGraphic
 
-// TODO maybe add flash button
 // TODO maybe add grid to the view
 class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var cameraSourcePreview: CameraSourcePreview
     private lateinit var graphicOverlay: GraphicOverlay<OcrGraphic>
     private var cameraSource: CameraSource? = null
+    private lateinit var binding: ActivityOcrCaptureBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.setContentView(R.layout.activity_ocr_capture)
+
+        this.binding = DataBindingUtil.setContentView(this, R.layout.activity_ocr_capture)
+        this.binding.flashEnabled = false
 
         this.cameraSourcePreview = this.findViewById(R.id.camera_source_preview)
         this.graphicOverlay = this.findViewById(R.id.graphic_overlay)
@@ -37,6 +46,15 @@ class OcrCaptureActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         this.startCameraSource()
+    }
+
+    fun switchFlash(view: View) {
+        this.cameraSource?.let {
+            this.binding.flashEnabled = !this.binding.flashEnabled
+            it.flashMode = if(this.binding.flashEnabled) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF
+
+            this.binding.notifyChange()
+        }
     }
 
     fun billRecognized(bill: Bill) {
@@ -59,7 +77,7 @@ class OcrCaptureActivity : AppCompatActivity() {
 
         this.cameraSource = CameraSource.Builder(this.applicationContext, textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK).setRequestedPreviewSize(1280, 1024)
-                .setRequestedFps(30.0f).setAutoFocusEnabled(true).build()
+                .setRequestedFps(30.0f).setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE).build()
     }
 
     @SuppressLint("MissingPermission")
@@ -87,5 +105,12 @@ class OcrCaptureActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         this.cameraSourcePreview.release()
+    }
+
+    companion object {
+        @JvmStatic @BindingAdapter("app:srcCompat")
+        fun setImageDrawable(imageButton: ImageButton, drawable: Drawable) {
+            imageButton.setImageDrawable(drawable)
+        }
     }
 }

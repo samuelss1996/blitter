@@ -124,6 +124,7 @@
     <string name="camera_intro_description">A continuación se abrirá la cámara. Enfoca al ticket durante unos segundos, sin tocar nada hasta que la aplicación reconozca los productos. Intenta que todos los nombres de los productos y sus precios estén dentro de la imagen. También debe ser visible el precio total.</string>
     <string name="app_bar_button_tax">Impuestos</string>
     <string name="content_description_button_tax_clear">Eliminar impuestos</string>
+    <string name="content_description_button_switch_flash">Habilitar o deshabilitar flash</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
