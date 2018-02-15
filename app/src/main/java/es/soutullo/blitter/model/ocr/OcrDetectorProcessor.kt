@@ -53,7 +53,8 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
         val rightColumnComponents = (0 until items.size()).map { items.valueAt(it) }.flatMap { it.components }
                 .filter { it.boundingBox.right > rightColumnThreshold }.sortedBy { it.boundingBox.top }
 
-        return rightColumnComponents.mapNotNull { it.value.findPriceOrNull()?.let { price -> Pair(it, price) }}.filter { (_, price) -> price > 0 }
+        return rightColumnComponents.mapNotNull { it.value.findPriceOrNull()?.let { price -> Pair(it, price) }}
+                .filter { (component, price) -> price > 0 && !rightColumnComponents.any { component.boundingBox.right < it.boundingBox.left } }
                 .map { (it, price) -> ReceiptLine(this.findProductName(leftColumnComponents, it), price, this.findBlockHorizontalCoordinate(it)) }
     }
 
