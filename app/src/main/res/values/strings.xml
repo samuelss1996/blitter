@@ -39,7 +39,7 @@
     <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
     <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
     <string name="tip_final_result">Aquí tienes tu cuenta dividida. Toca sobre una persona para ver el desglose detallado</string>
-    <string name="final_result_button_split_again">Volver a repartir</string>
+    <string name="final_result_button_edit_split">Editar reparto</string>
     <string name="final_result_button_finished">Listo</string>
     <string name="content_description_button_rename_bill">Renombrar cuenta</string>
     <string name="title_user_products">Productos</string>
@@ -57,7 +57,6 @@
     <string name="dialog_delete_product_title">Eliminar producto</string>
     <string name="dialog_delete_product_message">¿Estás seguro de que deseas eliminar el producto %1$s?</string>
     <string name="dialog_generic_delete_button">Eliminar</string>
-    <string name="dialog_generic_preserve_button">Conservar</string>
     <string name="edit_product_dialog_positive_button">Guardar</string>
     <string name="dialog_edit_product_title">Editar producto</string>
     <string name="toast_manual_transcription_no_products">Debes añadir al menos un producto antes de continuar</string>
@@ -125,6 +124,9 @@
     <string name="app_bar_button_tax">Impuestos</string>
     <string name="content_description_button_tax_clear">Eliminar impuestos</string>
     <string name="content_description_button_switch_flash">Habilitar o deshabilitar flash</string>
+    <string name="matching_total_message_positive">El total leído y la suma de los productos coinciden</string>
+    <string name="action_activity_final_result_clone">Clonar</string>
+    <string name="cloned_bill_prefix">[Copia]</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

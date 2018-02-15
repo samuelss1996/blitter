@@ -3,6 +3,7 @@ package es.soutullo.blitter.model.dao.sql
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import es.soutullo.blitter.R
 import es.soutullo.blitter.model.BlitterSqlDbContract.BillEntry
 import es.soutullo.blitter.model.BlitterSqlDbContract.BillLineEntry
 import es.soutullo.blitter.model.BlitterSqlDbContract.BillLinePersonEntry
@@ -87,15 +88,22 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
         this.dbHelper.writableDatabase.delete(BILL.tableName, "1=1", null)
     }
 
-    override fun cloneBillForReassigning(billToCloneId: Long): Bill {
+    override fun cloneBill(billToCloneId: Long) {
+        val bill = this.generateClonedBill(billToCloneId)
+        val newNamePrefix = this.context.getString(R.string.cloned_bill_prefix)
+
+        bill.name = "$newNamePrefix ${bill.name}"
+
+        this.insertBill(bill)
+    }
+
+    private fun generateClonedBill(billToCloneId: Long): Bill {
         val queryBillById = "SELECT * FROM ${BILL.tableName} WHERE ${BillEntry._ID.colName} = ?"
 
-        this.retrieveBillsByQuery(queryBillById, kotlin.arrayOf(billToCloneId.toString())).getOrNull(0)?.let { bill ->
+        this.retrieveBillsByQuery(queryBillById, arrayOf(billToCloneId.toString())).getOrNull(0)?.let { bill ->
             bill.id = null
             bill.date = Date()
-            bill.lines.forEach { it.clearAssignations() }
 
-            this.insertBill(bill)
             return bill
         }
 

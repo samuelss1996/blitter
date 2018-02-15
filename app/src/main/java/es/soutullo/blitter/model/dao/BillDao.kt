@@ -43,12 +43,5 @@ interface BillDao {
     /** Deletes all the bills from the database */
     fun deleteAllBills()
 
-    /**
-     * Clones the bill for reassigning. In other words, creates a new bill with the exact same attributes
-     * as the given, except for the status, which is changed to [es.soutullo.blitter.model.vo.bill.EBillStatus.UNCONFIRMED].
-     * @param billToCloneId The ID of the bill to be cloned
-     * @return The new generated bill
-     */
-    fun cloneBillForReassigning(billToCloneId: Long): Bill
-
+    fun cloneBill(billToCloneId: Long)
 }
