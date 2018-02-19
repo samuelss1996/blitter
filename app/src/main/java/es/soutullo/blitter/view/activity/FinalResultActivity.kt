@@ -93,7 +93,7 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         val editTextHint = this.getString(R.string.dialog_rename_bill_edit_text_hint)
 
         PromptDialog(this, this.createRenameDialogHandler(), dialogTitle, negativeButtonText,
-                positiveButtonText, editTextHint).show()
+                positiveButtonText, editTextHint, this.bill.name).show()
     }
 
     private fun onCloneClicked() {

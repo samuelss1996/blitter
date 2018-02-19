@@ -13,13 +13,20 @@ import es.soutullo.blitter.view.dialog.generic.CustomLayoutDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
 open class PromptDialog(context: Context, handler: IDialogHandler, title: String, private val negativeText: String,
-                   private val positiveText: String, private val editTextTitle: String) : CustomLayoutDialog(context, handler, title) {
+                   private val positiveText: String, private val editTextTitle: String, private val defaultText: String? = null) : CustomLayoutDialog(context, handler, title) {
     protected lateinit var view: View
 
     @SuppressLint("InflateParams")
     override fun getCustomView(): View {
         this.view = LayoutInflater.from(this.context).inflate(R.layout.dialog_prompt, null)
         this.view.findViewById<TextInputLayout>(R.id.text_input_layout).hint = this.editTextTitle
+
+        this.defaultText?.let {
+            val editText = this.view.findViewById<EditText>(R.id.dialog_prompt_edit_text)
+
+            editText.setText(it)
+            editText.selectAll()
+        }
 
         return view
     }

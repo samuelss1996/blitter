@@ -13,8 +13,8 @@
     <string name="content_description_receipt_icon">Icono de factura</string>
     <string name="content_description_button_start">Botón principal</string>
     <string name="badge_bill_status_not_completed">Sin completar</string>
-    <string name="bill_beautiful_price_without_tip">%1$s, sin propina</string>
-    <string name="bill_beautiful_price_with_tip">%1$s + %2$s de propina</string>
+    <string name="bill_beautiful_price_without_tip">%1$s</string>
+    <string name="bill_beautiful_price_with_tip">%1$s (%2$s + %3$s de propina)</string>
     <string name="action_activity_main_search">Buscar</string>
     <string name="action_activity_main_settings">Ajustes</string>
     <string name="hint_edit_text_product_name">Producto</string>

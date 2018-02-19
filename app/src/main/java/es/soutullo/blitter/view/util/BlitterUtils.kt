@@ -48,8 +48,14 @@ object BlitterUtils {
      * @return The human readable string
      */
     fun getPriceAsStringWithTip(context: Context, priceWithoutTip: Double, tipPercent: Double): String {
-        return if(tipPercent == 0.0) context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
-            else context.getString(R.string.bill_beautiful_price_with_tip, getPriceAsString(priceWithoutTip), getPriceAsString(priceWithoutTip * tipPercent))
+        val tipPrice = priceWithoutTip * tipPercent
+
+        if(tipPercent == 0.0) {
+            return context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
+        } else {
+            return context.getString(R.string.bill_beautiful_price_with_tip, getPriceAsString(priceWithoutTip + tipPrice),
+                    getPriceAsString(priceWithoutTip), getPriceAsString(priceWithoutTip * tipPercent))
+        }
     }
 
     /**
