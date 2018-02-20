@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
@@ -45,13 +46,18 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
         this.findViewById<View>(R.id.assignation_root).post { this.itemsAdapter.notifyDataSetChanged() }
 
-        this.doBackup()
+        if (this.bill.status != EBillStatus.COMPLETED) {
+            this.doBackup()
+        }
+
         this.init()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (this.itemsAdapter.isChoosingModeEnabled()) {
             this.menuInflater.inflate(R.menu.menu_app_bar_activity_assignation_choosing, menu)
+        } else {
+            this.menuInflater.inflate(R.menu.menu_app_bar_activity_assignation, menu)
         }
 
         return true
@@ -60,6 +66,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
+            R.id.action_done -> this.onFinishButtonClicked()
             R.id.action_clear_assignations -> this.onClearAssignationsClicked()
             R.id.action_assign -> {
                 val selectedLines = this.itemsAdapter.items.filterIndexed {
@@ -88,7 +95,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
         this.onAssignClicked(listOf(this.itemsAdapter.get(listIndex)))
     }
 
-    /** Gets called when the finish button (the FAB) is clicked */
+    /** Gets called when the finish button is clicked */
     private fun onFinishButtonClicked() {
         if (this.itemsAdapter.items.all { it.persons.isNotEmpty() }) {
             TipDialog(this, this.createTipDialogHandler(), this.bill).show()
@@ -198,9 +205,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
         val assignationRecycler = this.findViewById<RecyclerView>(R.id.assignation_bill_lines)
 
         this.findViewById<CheckBox>(R.id.select_all_checkbox).setOnCheckedChangeListener(this.createCheckAllListener())
-        this.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener({ onFinishButtonClicked() })
 
-        this.itemsAdapter.fab = this.findViewById(R.id.fab)
         this.itemsAdapter.addAll(this.bill.lines)
         assignationRecycler.adapter = this.itemsAdapter
     }
