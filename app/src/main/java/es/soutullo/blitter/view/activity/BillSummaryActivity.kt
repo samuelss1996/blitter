@@ -69,6 +69,7 @@ class BillSummaryActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
+            android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_edit_tax -> EditTaxDialog(this, this.createNewEditTaxDialogHandler(), this.bill.tax).show()
         }
 
