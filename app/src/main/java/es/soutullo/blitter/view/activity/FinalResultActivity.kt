@@ -77,9 +77,9 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         this.startActivity(intent)
     }
 
-    /** Gets called when the "edit split" button at the bottom of the activity is clicked */
-    fun onEditSplitClicked(view: View?) {
-        val intent = Intent(this, AssignationActivity::class.java)
+    /** Gets called when the "modify" button at the bottom of the activity is clicked */
+    fun onModifyClicked(view: View?) {
+        val intent = Intent(this, BillSummaryActivity::class.java)
 
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
         this.startActivity(intent)

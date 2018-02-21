@@ -48,7 +48,7 @@
             android:drawablePadding="@dimen/drawable_button_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:onClick="onEditSplitClicked"/>
+            android:onClick="onModifyClicked"/>
 
         <Button
             android:id="@+id/splitting_finished_button"

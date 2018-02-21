@@ -75,7 +75,6 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
                 this.onAssignClicked(selectedLines)
             }
-
         }
 
         return true

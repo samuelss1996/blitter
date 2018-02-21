@@ -39,7 +39,7 @@
     <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
     <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
     <string name="tip_final_result">Aquí tienes tu cuenta dividida. Toca sobre una persona para ver el desglose detallado</string>
-    <string name="final_result_button_edit_split">Editar reparto</string>
+    <string name="final_result_button_edit_split">Modificar</string>
     <string name="final_result_button_finished">Listo</string>
     <string name="content_description_button_rename_bill">Renombrar cuenta</string>
     <string name="title_user_products">Productos</string>
