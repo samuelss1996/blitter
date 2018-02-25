@@ -29,7 +29,7 @@
             android:id="@+id/final_result_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/split_again_button"
+            app:layout_constraintBottom_toTopOf="@+id/edit_split_button"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -38,17 +38,17 @@
             tools:listitem="@layout/item_person_final_result" />
 
         <Button
-            android:id="@+id/split_again_button"
+            android:id="@+id/edit_split_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/final_result_button_split_again"
-            android:drawableLeft="@drawable/ic_replay_black_24dp"
-            android:drawableStart="@drawable/ic_replay_black_24dp"
+            android:text="@string/final_result_button_edit_split"
+            android:drawableLeft="@drawable/format_list_checks"
+            android:drawableStart="@drawable/format_list_checks"
             android:drawablePadding="@dimen/drawable_button_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:onClick="onSplitAgainClicked"/>
+            android:onClick="onModifyClicked"/>
 
         <Button
             android:id="@+id/splitting_finished_button"

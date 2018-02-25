@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Whenever changing any of these, also review settings.xml. Some of these values can not be referenced there, and, as a consequence, they are hardcoded -->
     <integer name="max_tip_percent">30</integer>
-    <integer name="default_tip_percent">10</integer>
+    <integer name="default_tip_percent">0</integer>
 </resources>

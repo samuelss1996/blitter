@@ -38,7 +38,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         val title = this.getString(R.string.preference_title_delete_data)
         val message = this.getString(R.string.dialog_delete_all_bills_message)
         val positiveText = this.getString(R.string.dialog_generic_delete_button)
-        val negativeText = this.getString(R.string.dialog_generic_preserve_button)
+        val negativeText = this.getString(R.string.generic_dialog_cancel)
 
         ConfirmationDialog(this, this.createDeleteAllBillsDialogHandler(), title, message,
                 positiveText, negativeText).show()

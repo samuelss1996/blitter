@@ -13,8 +13,8 @@
     <string name="content_description_receipt_icon">Icono de factura</string>
     <string name="content_description_button_start">Botón principal</string>
     <string name="badge_bill_status_not_completed">Sin completar</string>
-    <string name="bill_beautiful_price_without_tip">%1$s, sin propina</string>
-    <string name="bill_beautiful_price_with_tip">%1$s + %2$s de propina</string>
+    <string name="bill_beautiful_price_without_tip">%1$s</string>
+    <string name="bill_beautiful_price_with_tip">%1$s (%2$s + %3$s de propina)</string>
     <string name="action_activity_main_search">Buscar</string>
     <string name="action_activity_main_settings">Ajustes</string>
     <string name="hint_edit_text_product_name">Producto</string>
@@ -24,11 +24,13 @@
     <string name="manual_transcription_product_quantity">Unidades: %1$d</string>
     <string name="manual_transcription_product_price">Precio/unidad: %1$s</string>
     <string name="action_activity_manual_done">Hecho</string>
-    <string name="button_amend_bill_summary">Corregir</string>
+    <string name="button_amend_bill_summary">Editar</string>
     <string name="button_continue_bill_summary">Continuar</string>
     <string name="bill_summary_header">TU CUENTA - BLITTER</string>
     <string name="bill_summary_total_products_text">NUM. TOTAL DE PRODUCTOS:</string>
     <string name="bill_summary_products_header">PRODUCTOS</string>
+    <string name="bill_summary_subtotal_text">SUBTOTAL:</string>
+    <string name="bill_summary_tax_text">IMPUESTOS:</string>
     <string name="bill_summary_total_price_text">PRECIO TOTAL:</string>
     <string name="bill_summary_separator_product_count">-</string>
     <string name="bill_summary_separator_products_title">=</string>
@@ -37,7 +39,7 @@
     <string name="content_description_assignation_green_tick">Tick verde que representa que este producto está asignado correctamente</string>
     <string name="content_description_user_profile_picture">Imagen de perfil de usuario</string>
     <string name="tip_final_result">Aquí tienes tu cuenta dividida. Toca sobre una persona para ver el desglose detallado</string>
-    <string name="final_result_button_split_again">Volver a repartir</string>
+    <string name="final_result_button_edit_split">Modificar</string>
     <string name="final_result_button_finished">Listo</string>
     <string name="content_description_button_rename_bill">Renombrar cuenta</string>
     <string name="title_user_products">Productos</string>
@@ -49,20 +51,20 @@
     <string name="dialog_edit_product_hint_product_quantity">Cantidad (máx. 50)</string>
     <string name="dialog_tip_hint">Introduce el porcentaje (%) de propina a continuación. Es posible cambiar el valor por defecto desde los ajustes</string>
     <string name="dialog_tip_result_text">Se añadirá un %1$d%% de propina (%2$s) a la cuenta.</string>
-
+    <string name="dialog_edit_tax_hint">Impuestos (%1$s)</string>
 
     <string name="toast_manual_transcription_fill_fields">Por favor, rellene los campos correctamente</string>
     <string name="dialog_delete_product_title">Eliminar producto</string>
     <string name="dialog_delete_product_message">¿Estás seguro de que deseas eliminar el producto %1$s?</string>
     <string name="dialog_generic_delete_button">Eliminar</string>
-    <string name="dialog_generic_preserve_button">Conservar</string>
     <string name="edit_product_dialog_positive_button">Guardar</string>
     <string name="dialog_edit_product_title">Editar producto</string>
     <string name="toast_manual_transcription_no_products">Debes añadir al menos un producto antes de continuar</string>
     <string name="bill_uncompleted_default_name">Cuenta sin completar</string>
+    <string name="dialog_edit_tax_title">Editar impuestos</string>
     <string name="assignation_intro_title">Asignar productos a personas</string>
     <string name="assignation_intro_description">A continuación se mostrará la lista de productos. Toca sobre un producto para asignarle personas. También puedes seleccionar varios productos a la vez manteniendo pulsado sobre uno</string>
-    <string name="assignation_dialog_positive_button">OK</string>
+    <string name="generic_dialog_positive_button">OK</string>
     <string name="assignation_dialog_neutral_button">Nueva persona</string>
     <string name="dialog_add_person_title">Nueva persona</string>
     <string name="dialog_add_person_positive_button">Añadir</string>
@@ -119,6 +121,12 @@
     <string name="product_name_taxes">Impuestos</string>
     <string name="camera_intro_title">Escanear un ticket</string>
     <string name="camera_intro_description">A continuación se abrirá la cámara. Enfoca al ticket durante unos segundos, sin tocar nada hasta que la aplicación reconozca los productos. Intenta que todos los nombres de los productos y sus precios estén dentro de la imagen. También debe ser visible el precio total.</string>
+    <string name="app_bar_button_tax">Impuestos</string>
+    <string name="content_description_button_tax_clear">Eliminar impuestos</string>
+    <string name="content_description_button_switch_flash">Habilitar o deshabilitar flash</string>
+    <string name="matching_total_message_positive">El total leído y la suma de los productos coinciden</string>
+    <string name="action_activity_final_result_clone">Clonar</string>
+    <string name="cloned_bill_prefix">[Copia]</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

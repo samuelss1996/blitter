@@ -186,7 +186,7 @@ class MainActivity : ChoosingLayoutActivity() {
         val title = this.resources.getQuantityString(R.plurals.dialog_delete_bill_title, selectedBillsCount)
         val message = this.resources.getQuantityString(R.plurals.dialog_delete_bill_message, selectedBillsCount, selectedBillsCount)
         val positiveText = this.getString(R.string.dialog_generic_delete_button)
-        val negativeText = this.getString(R.string.dialog_generic_preserve_button)
+        val negativeText = this.getString(R.string.generic_dialog_cancel)
 
         ConfirmationDialog(this, this.createDeleteDialogHandler(), title, message, positiveText, negativeText).show()
     }

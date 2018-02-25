@@ -45,6 +45,7 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         when(item?.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_rename -> this.onRenameClicked()
+            R.id.action_clone -> this.onCloneClicked()
             R.id.action_delete -> this.onDeleteClicked()
         }
 
@@ -76,17 +77,12 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         this.startActivity(intent)
     }
 
-    /** Gets called when the "split again" button at the bottom of the activity is clicked */
-    fun onSplitAgainClicked(view: View?) {
-        this.bill.id?.let {
-            val bill = DaoFactory.getFactory(this).getBillDao().cloneBillForReassigning(it)
-            val intent = Intent(this@FinalResultActivity, BillSummaryActivity::class.java)
+    /** Gets called when the "modify" button at the bottom of the activity is clicked */
+    fun onModifyClicked(view: View?) {
+        val intent = Intent(this, BillSummaryActivity::class.java)
 
-            bill.name = this.getString(R.string.bill_uncompleted_default_name)
-            intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill)
-
-            this@FinalResultActivity.startActivity(intent)
-        }
+        intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
+        this.startActivity(intent)
     }
 
     /** Gets called when the rename button on the app bar is clicked */
@@ -97,7 +93,15 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         val editTextHint = this.getString(R.string.dialog_rename_bill_edit_text_hint)
 
         PromptDialog(this, this.createRenameDialogHandler(), dialogTitle, negativeButtonText,
-                positiveButtonText, editTextHint).show()
+                positiveButtonText, editTextHint, this.bill.name).show()
+    }
+
+    /** Gets called when the clone menu entry is clicked */
+    private fun onCloneClicked() {
+        this.bill.id?.let {
+            DaoFactory.getFactory(this).getBillDao().cloneBill(it)
+            this.onDoneClicked(null)
+        }
     }
 
     /** Gets called when the delete button on the app bar is clicked */
@@ -105,7 +109,7 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         val title = this.resources.getQuantityString(R.plurals.dialog_delete_bill_title, 1)
         val message = this.resources.getQuantityString(R.plurals.dialog_delete_bill_message, 1)
         val positiveButtonText = this.getString(R.string.dialog_generic_delete_button)
-        val negativeButtonText = this.getString(R.string.dialog_generic_preserve_button)
+        val negativeButtonText = this.getString(R.string.generic_dialog_cancel)
 
         ConfirmationDialog(this, this.createDeleteDialogHandler(), title, message,
                 positiveButtonText, negativeButtonText).show()

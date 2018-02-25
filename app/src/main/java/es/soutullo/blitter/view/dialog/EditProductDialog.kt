@@ -24,7 +24,7 @@ class EditProductDialog(context: Context, handler: IDialogHandler, title: String
      */
     fun getNewProduct(): ManualTranscriptionProduct? {
         val name = this.dialog.findViewById<EditText>(R.id.dialog_edit_product_name)?.text?.trim()?.toString()
-        val price = this.dialog.findViewById<EditText>(R.id.dialog_edit_product_price)?.text?.toString()?.toFloatOrNull()
+        val price = this.dialog.findViewById<EditText>(R.id.dialog_edit_product_price)?.text?.toString()?.toDoubleOrNull()
         val quantity = this.dialog.findViewById<EditText>(R.id.dialog_edit_product_quantity)?.text?.toString()?.toIntOrNull()
 
         if(name != null && name.isNotBlank() && price != null && quantity != null) {

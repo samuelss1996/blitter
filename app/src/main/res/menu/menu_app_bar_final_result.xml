@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_delete_forever_over_primary_24dp"
         android:title="@string/action_activity_final_result_delete"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_clone"
+        android:icon="@drawable/ic_content_copy_over_primary_24dp"
+        android:title="@string/action_activity_final_result_clone"
+        app:showAsAction="never" />
 </menu>

@@ -31,7 +31,7 @@ class AssignationDialog(context: Context, handler: IDialogHandler, val billLines
     private val personsAdapter = AssignationDialogAdapter()
     private lateinit var binding: DialogProductAssignationBinding
 
-    override fun getPositiveText(): String = this.context.getString(R.string.assignation_dialog_positive_button)
+    override fun getPositiveText(): String = this.context.getString(R.string.generic_dialog_positive_button)
     override fun getNegativeText(): String? = this.context.getString(R.string.generic_dialog_cancel)
     override fun getNeutralText(): String? = this.context.getString(R.string.assignation_dialog_neutral_button)
     override fun preventDismissOnButtonClicked(): Boolean = true

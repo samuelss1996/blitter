@@ -41,8 +41,6 @@
         app:layout_constraintHorizontal_weight="5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/product_price_field">
-
-        <requestFocus />
     </EditText>
 
     <EditText

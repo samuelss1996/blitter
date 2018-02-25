@@ -7,10 +7,11 @@ import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
-import com.google.android.gms.vision.CameraSource
+import es.soutullo.blitter.view.component.CameraSource
 import kotlin.math.max
 import kotlin.math.min
 
+/** This class is a modified version of the Google Cloud OCR example */
 class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
     private val surfaceView = SurfaceView(context)
     private var cameraSource: CameraSource? = null
