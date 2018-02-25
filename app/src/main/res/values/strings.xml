@@ -24,7 +24,7 @@
     <string name="manual_transcription_product_quantity">Unidades: %1$d</string>
     <string name="manual_transcription_product_price">Precio/unidad: %1$s</string>
     <string name="action_activity_manual_done">Hecho</string>
-    <string name="button_amend_bill_summary">Corregir</string>
+    <string name="button_amend_bill_summary">Editar</string>
     <string name="button_continue_bill_summary">Continuar</string>
     <string name="bill_summary_header">TU CUENTA - BLITTER</string>
     <string name="bill_summary_total_products_text">NUM. TOTAL DE PRODUCTOS:</string>
