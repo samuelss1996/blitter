@@ -82,11 +82,6 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
 
             if((totalMatching && recognizedData.receiptLines.size > 1) || (sampleCount >= 2 && this.successfulScans > 3)) {
                 val bill = this.createBill(recognizedData)
-
-                if(totalMatching) {
-                    Log.i("INFO", "Total recognized") // TODO show this on the GUI
-                }
-
                 this.activity.billRecognized(bill)
             } else {
                 this.countedSamples[recognizedData] = sampleCount + 1

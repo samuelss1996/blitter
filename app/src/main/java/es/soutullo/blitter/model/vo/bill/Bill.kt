@@ -6,7 +6,7 @@ import java.util.*
 
 /** Represents a bill, with its lines and persons */
 data class Bill(var id: Long?, var name: String, var date: Date, val source: EBillSource, var status: EBillStatus, var tax: Double = 0.0,
-                val lines: MutableList<BillLine> = mutableListOf(), var subtotal: Double = 0.0, var tipPercent: Double = 0.0): Serializable {
+                val lines: MutableList<BillLine> = mutableListOf(), var subtotal: Double = 0.0, var tipPercent: Double = -1.0): Serializable {
 
     /**
      * Adds a bill line to the bill
