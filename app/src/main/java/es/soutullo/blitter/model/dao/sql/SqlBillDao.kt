@@ -97,6 +97,11 @@ class SqlBillDao(private val context: Context, private val dbHelper: BlitterSqlD
         this.insertBill(bill)
     }
 
+    /**
+     * Retrieves a bill and all its attributes from the database. Sets its ID to null and its date to now.
+     * @param billToCloneId The ID of the bill to be retrieved
+     * @return The retrieved and modified bill object
+     */
     private fun generateClonedBill(billToCloneId: Long): Bill {
         val queryBillById = "SELECT * FROM ${BILL.tableName} WHERE ${BillEntry._ID.colName} = ?"
 

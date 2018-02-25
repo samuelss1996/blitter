@@ -96,6 +96,10 @@ class BillSummaryActivity : AppCompatActivity() {
         this.fillSeparators(root)
     }
 
+    /**
+     * Changes the tax value of the bill. Gets called after the user changes this value
+     * @param newValue The new tax value, specified by the user
+     */
     private fun changeTaxValue(newValue: Double) {
         this.bill.tax = newValue
         this.binding.bill = this.bill
@@ -121,6 +125,7 @@ class BillSummaryActivity : AppCompatActivity() {
         })
     }
 
+    /** Creates the handler for the edit tax dialog, which allows the user to change the tax value of the bill */
     private fun createNewEditTaxDialogHandler(): IDialogHandler {
         return object : IDialogHandler {
             override fun onPositiveButtonClicked(dialog: CustomDialog) {

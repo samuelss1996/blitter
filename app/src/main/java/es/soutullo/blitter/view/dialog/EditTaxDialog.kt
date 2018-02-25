@@ -13,7 +13,7 @@ import es.soutullo.blitter.databinding.DialogEditTaxBinding
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import es.soutullo.blitter.view.util.BlitterUtils
 
-
+/** Dialog which allows the user to edit the tax value of the receipt */
 class EditTaxDialog(context: Context, handler: IDialogHandler, private val currentTax: Double)
     : PromptDialog(context, handler, context.getString(R.string.dialog_edit_tax_title),
         context.getString(R.string.generic_dialog_cancel), context.getString(R.string.generic_dialog_positive_button), "") {

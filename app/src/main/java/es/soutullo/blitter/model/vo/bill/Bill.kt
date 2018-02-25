@@ -31,6 +31,10 @@ data class Bill(var id: Long?, var name: String, var date: Date, val source: EBi
      */
     fun findPerson(personName: String): Person? = this.lines.flatMap { line -> line.persons }.find { person -> person.name == personName }
 
+    /**
+     * Calculates the tax percent, based on the actual tax value and the subtotal
+     * @return The tax percent
+     */
     fun calculateTaxPercent() = this.tax / this.subtotal
 
     override fun equals(other: Any?): Boolean {

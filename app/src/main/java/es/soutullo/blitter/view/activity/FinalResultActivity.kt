@@ -96,6 +96,7 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
                 positiveButtonText, editTextHint, this.bill.name).show()
     }
 
+    /** Gets called when the clone menu entry is clicked */
     private fun onCloneClicked() {
         this.bill.id?.let {
             DaoFactory.getFactory(this).getBillDao().cloneBill(it)

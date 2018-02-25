@@ -43,5 +43,11 @@ interface BillDao {
     /** Deletes all the bills from the database */
     fun deleteAllBills()
 
+    /**
+     * Clones the bill. In other words, creates a new bill with the exact same attributes and stores it
+     * in the database with a new auto-generated ID. A prefix is added to the name, making it possible to
+     * the user to distinguish between the original bill and the copy.
+     * @param billToCloneId The ID of the bill to be cloned
+     */
     fun cloneBill(billToCloneId: Long)
 }

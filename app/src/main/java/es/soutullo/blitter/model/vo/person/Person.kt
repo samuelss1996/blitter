@@ -40,6 +40,10 @@ data class Person(val id: Long?, val name: String, val lastDate: Date = Date(), 
         return TextDrawable.builder().buildRound(initials, colorGenerator.getColor(this.name))
     }
 
+    /**
+     * Calculates the tax percent, based on the actual tax value and the subtotal
+     * @return The tax percent
+     */
     private fun calculateTaxPercent() = this.lines.firstOrNull()?.bill?.calculateTaxPercent() ?: 0.0
 
     override fun equals(other: Any?): Boolean {

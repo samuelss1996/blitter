@@ -24,7 +24,7 @@ import es.soutullo.blitter.view.component.CameraSourcePreview
 import es.soutullo.blitter.view.component.GraphicOverlay
 import es.soutullo.blitter.view.component.OcrGraphic
 
-// TODO maybe add grid to the view
+/** The activity where the receipt is scanned using the camera */
 class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var cameraSourcePreview: CameraSourcePreview
     private lateinit var graphicOverlay: GraphicOverlay<OcrGraphic>
@@ -48,6 +48,7 @@ class OcrCaptureActivity : AppCompatActivity() {
         this.startCameraSource()
     }
 
+    /** Gets called when the flash button is clicked. Switches the flashlight status (turns it on if it's off, and also the opposite) */
     fun switchFlash(view: View) {
         this.cameraSource?.let {
             this.binding.flashEnabled = !this.binding.flashEnabled
@@ -57,11 +58,13 @@ class OcrCaptureActivity : AppCompatActivity() {
         }
     }
 
+    /** Gets called from the OCR processor when the receipt data is recognized */
     fun billRecognized(bill: Bill) {
         this.startActivity(Intent(this, BillSummaryActivity::class.java).putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, bill))
         this.finish()
     }
 
+    /** Creates the camera source object, which manages the camera image input */
     private fun createCameraSource() {
         val textRecognizer = TextRecognizer.Builder(this.applicationContext).build()
         textRecognizer.setProcessor(OcrDetectorProcessor(this, this.graphicOverlay))
@@ -80,6 +83,7 @@ class OcrCaptureActivity : AppCompatActivity() {
                 .setRequestedFps(30.0f).setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE).build()
     }
 
+    /** Starts the camera and the preview */
     @SuppressLint("MissingPermission")
     private fun startCameraSource() {
         val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this.applicationContext)
