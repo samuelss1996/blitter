@@ -127,6 +127,7 @@
     <string name="matching_total_message_positive">El total leído y la suma de los productos coinciden</string>
     <string name="action_activity_final_result_clone">Clonar</string>
     <string name="cloned_bill_prefix">[Copia]</string>
+    <string name="action_activity_final_result_share">Compartir</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

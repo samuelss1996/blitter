@@ -15,6 +15,16 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="es.soutullo.blitter.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
         <activity
             android:name=".view.activity.AssignationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

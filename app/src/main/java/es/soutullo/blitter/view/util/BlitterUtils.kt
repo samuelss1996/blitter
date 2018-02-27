@@ -13,7 +13,7 @@ import java.util.*
 
 /** Provides some useful methods relative to the presentation logic */
 object BlitterUtils {
-    private val BILL_FONT_PATH = "fonts/fake_receipt.ttf"
+    const val BILL_FONT_PATH = "fonts/fake_receipt.ttf"
 
     /** @return The currency symbol based on the device's locale (e.g. €, $) */
     fun getCurrencySymbol(): String = Currency.getInstance(Locale.getDefault()).symbol
