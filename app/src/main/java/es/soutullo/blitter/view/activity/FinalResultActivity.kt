@@ -23,6 +23,7 @@ import es.soutullo.blitter.view.dialog.ConfirmationDialog
 import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
+import es.soutullo.blitter.view.util.BillBitmapGenerator
 import es.soutullo.blitter.view.util.BlitterUtils
 import java.io.File
 import java.io.FileOutputStream
@@ -114,45 +115,15 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
 
     /** Gets called when the share button on the app bar is clicked */
     private fun onShareClicked() {
-        val cachePath = File(this.cacheDir, "images")
-        cachePath.mkdirs()
+        val contentUri = BillBitmapGenerator(this, this.bill).generateBillBitmap()
+        val shareIntent = Intent()
 
-        val stream = FileOutputStream("$cachePath/image.png")
-        val bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        val typeface = Typeface.createFromAsset(this.assets, BlitterUtils.BILL_FONT_PATH)
-        val textPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        val backgroundPaint = Paint()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        shareIntent.setDataAndType(contentUri, this.contentResolver.getType(contentUri))
+        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
 
-        textPaint.typeface = typeface
-        textPaint.color = Color.WHITE
-        textPaint.textSize = 20f
-        backgroundPaint.color = Color.RED
-
-        val bounds = Rect()
-        textPaint.getTextBounds("text", 0, "text".length, bounds)
-
-        canvas.drawRect(0f, 0f, 500f, 500f, backgroundPaint)
-        canvas.drawText("text", 20f, 20f, textPaint)
-
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        stream.flush()
-        stream.close()
-
-        val imagePath = File(this.cacheDir, "images")
-        val newFile = File(imagePath, "image.png")
-        val contentUri = FileProvider.getUriForFile(this, "es.soutullo.blitter.fileprovider", newFile)
-
-        if(contentUri != null) {
-            val shareIntent = Intent()
-
-            shareIntent.action = Intent.ACTION_SEND
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            shareIntent.setDataAndType(contentUri, this.contentResolver.getType(contentUri))
-            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
-
-            this.startActivity(Intent.createChooser(shareIntent, "Choose an app")) // TODO change this
-        }
+        this.startActivity(Intent.createChooser(shareIntent, "Choose an app")) // TODO change this
     }
 
     /** Gets called when the delete button on the app bar is clicked */
