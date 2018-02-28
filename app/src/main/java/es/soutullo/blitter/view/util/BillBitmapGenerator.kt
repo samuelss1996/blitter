@@ -15,6 +15,10 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
         const val RECEIPT_WIDTH = 428
         const val RECEIPT_PADDING = 16f
         const val SEPARATORS_WIDTH = 36
+        const val HEADER_HEIGHT = 140
+        const val PRODUCT_HEIGHT = 16
+        const val STANDARD_BOTTOM_HEIGHT = 74
+        const val TAXED_BOTTOM_HEIGHT = 106
     }
 
     private var lastTextLinePosition = 0f
@@ -23,7 +27,7 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
 
     fun generateBillBitmap(): Uri {
         val cachePath = File(this.context.cacheDir, "images")
-        val bitmap = Bitmap.createBitmap(RECEIPT_WIDTH, 500, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(RECEIPT_WIDTH, this.receiptHeight(), Bitmap.Config.ARGB_8888)
         val stream = this.prepareOutputStream(cachePath)
 
         this.canvas = Canvas(bitmap)
@@ -51,13 +55,20 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
         this.drawThinSeparator(8f)
         this.drawProductsCount()
         this.drawThinSeparator(0f)
+
+        this.drawProductsHeader()
+        this.drawProducts()
+
+        this.drawThickSeparator(24f)
+        this.drawTotal()
+        this.drawThickSeparator(0f)
     }
 
     private fun drawBackground() {
         val backgroundPaint = Paint()
 
         backgroundPaint.color = Color.WHITE
-        this.canvas.drawRect(0f, 0f, RECEIPT_WIDTH.toFloat(), 500f, backgroundPaint)
+        this.canvas.drawRect(0f, 0f, RECEIPT_WIDTH.toFloat(), this.receiptHeight().toFloat(), backgroundPaint)
     }
 
     private fun drawBlitterTitle() {
@@ -72,6 +83,38 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
     private fun drawProductsCount() {
         this.drawText(this.context.getString(R.string.bill_summary_total_products_text), true, Paint.Align.LEFT)
         this.drawText(this.bill.lines.size.toString(), false, Paint.Align.RIGHT)
+    }
+
+    private fun drawProductsHeader() {
+        val separator = this.context.getString(R.string.bill_summary_separator_products_title).repeat(SEPARATORS_WIDTH)
+
+        this.drawText(this.context.getString(R.string.bill_summary_products_header), true, Paint.Align.CENTER, 20f, 8f)
+        this.drawText(separator, true, Paint.Align.CENTER)
+    }
+
+    private fun drawProducts() {
+        this.bill.lines.forEach {
+            this.drawText(it.name.toUpperCase(), true, Paint.Align.LEFT)
+            this.drawText(BlitterUtils.getPriceAsString(it.price), false, Paint.Align.RIGHT)
+        }
+    }
+
+    private fun drawThickSeparator(marginTop: Float) {
+        val separator = this.context.getString(R.string.bill_summary_separator_total_price).repeat(SEPARATORS_WIDTH)
+        this.drawText(separator, true, Paint.Align.CENTER, marginTop = marginTop)
+    }
+
+    private fun drawTotal() {
+        if(this.bill.tax > 0) {
+            this.drawText(this.context.getString(R.string.bill_summary_subtotal_text), true, Paint.Align.LEFT)
+            this.drawText(BlitterUtils.getPriceAsString(this.bill.subtotal), false, Paint.Align.RIGHT)
+
+            this.drawText(this.context.getString(R.string.bill_summary_tax_text), true, Paint.Align.LEFT)
+            this.drawText(BlitterUtils.getPriceAsString(this.bill.tax), false, Paint.Align.RIGHT)
+        }
+
+        this.drawText(this.context.getString(R.string.bill_summary_total_price_text), true, Paint.Align.LEFT, 18f)
+        this.drawText(BlitterUtils.getPriceAsString(this.bill.subtotal + this.bill.tax), false, Paint.Align.RIGHT, 18f)
     }
 
     private fun drawText(text: String, drawOnNewLine: Boolean, align: Paint.Align, size: Float = 16f, marginTop: Float = 0f) {
@@ -90,5 +133,10 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
         textPaint.textSize = size
 
         this.canvas.drawText(text, horizontalPosition, this.lastTextLinePosition, textPaint)
+    }
+
+    private fun receiptHeight(): Int {
+        val bottomHeight = if(this.bill.tax > 0) TAXED_BOTTOM_HEIGHT else STANDARD_BOTTOM_HEIGHT
+        return HEADER_HEIGHT + this.bill.lines.size * PRODUCT_HEIGHT + bottomHeight
     }
 }

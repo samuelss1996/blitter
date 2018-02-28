@@ -50,11 +50,11 @@ object BlitterUtils {
     fun getPriceAsStringWithTip(context: Context, priceWithoutTip: Double, tipPercent: Double): String {
         val tipPrice = priceWithoutTip * tipPercent
 
-        if(tipPercent == 0.0) {
-            return context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
-        } else {
+        if (tipPercent > 0) {
             return context.getString(R.string.bill_beautiful_price_with_tip, getPriceAsString(priceWithoutTip + tipPrice),
                     getPriceAsString(priceWithoutTip), getPriceAsString(priceWithoutTip * tipPercent))
+        } else {
+            return context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
         }
     }
 
