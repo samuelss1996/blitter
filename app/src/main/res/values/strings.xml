@@ -130,6 +130,7 @@
     <string name="action_activity_final_result_share">Compartir</string>
 
     <string name="bill_share_breakdown">DESGLOSE</string>
+    <string name="bill_share_tip_line_name">PROPINA</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

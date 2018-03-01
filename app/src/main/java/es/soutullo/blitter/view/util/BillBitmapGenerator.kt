@@ -10,7 +10,7 @@ import es.soutullo.blitter.model.vo.bill.Bill
 import java.io.File
 import java.io.FileOutputStream
 
-class BillBitmapGenerator(private val context: Context, private val bill: Bill) {
+class BillBitmapGenerator(private val context: Context, private val bill: Bill, private val includeDetails: Boolean) {
     companion object{
         const val RECEIPT_WIDTH = 428
         const val RECEIPT_PADDING = 16f
@@ -20,6 +20,7 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
         const val STANDARD_TOTAL_PRICE_HEIGHT = 74
         const val TAXED_TOTAL_PRICE_HEIGHT = 106
         const val BREAKDOWN_HEADER_HEIGHT = 60
+        const val DETAILED_BREAKDOWN_LINE_HEIGHT = 14
     }
 
     private var lastTextLinePosition = 0f
@@ -108,6 +109,7 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
         this.drawText(separator, true, Paint.Align.CENTER, marginTop = marginTop)
     }
 
+    // TODO maybe add tip value too
     private fun drawTotal() {
         if(this.bill.tax > 0) {
             this.drawText(this.context.getString(R.string.bill_summary_subtotal_text), true, Paint.Align.LEFT)
@@ -122,9 +124,26 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
     }
 
     private fun drawBreakdown() {
-        this.persons().forEach {
-            this.drawText(it.name.toUpperCase(), true, Paint.Align.LEFT)
+        this.persons().forEachIndexed { index, it ->
+            this.drawText(it.name.toUpperCase(), true, Paint.Align.LEFT, marginTop = if(this.includeDetails && index > 0) 14f else 0f)
             this.drawText(BlitterUtils.getPriceAsString(it.getPayingAmountWithTip()), false, Paint.Align.RIGHT)
+
+            if(this.includeDetails) {
+                it.lines.forEach { line ->
+                    val priceText = (if(line.persons.size > 1) "(1/${line.persons.size}) " else "") +
+                            BlitterUtils.getPriceAsString(line.price / line.persons.size)
+
+                    this.drawText("  ${line.name}", true, Paint.Align.LEFT, 14f)
+                    this.drawText(priceText, false, Paint.Align.RIGHT, 14f)
+                }
+
+                if(it.getTipPercent() > 0) {
+                    val tipValue = it.getTipPercent() * it.getPayingAmountWithoutTip()
+
+                    this.drawText("  " + this.context.getString(R.string.bill_share_tip_line_name), true, Paint.Align.LEFT, 14f)
+                    this.drawText(BlitterUtils.getPriceAsString(tipValue), false, Paint.Align.RIGHT, 14f)
+                }
+            }
         }
     }
 
@@ -150,8 +169,12 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill) 
         val totalPriceHeight = if(this.bill.tax > 0) TAXED_TOTAL_PRICE_HEIGHT else STANDARD_TOTAL_PRICE_HEIGHT
         val productsHeight = this.bill.lines.size * LINE_HEIGHT
         val breakdownHeight = this.persons().size * LINE_HEIGHT
+        val detailedBreakdownHeight = DETAILED_BREAKDOWN_LINE_HEIGHT * when(this.includeDetails) {
+            true -> this.persons().flatMap { it.lines }.size + this.persons().size - 1 + if(this.bill.tipPercent > 0) this.persons().size else 0
+            false -> 0
+        }
 
-        return HEADER_HEIGHT + productsHeight + totalPriceHeight + BREAKDOWN_HEADER_HEIGHT + breakdownHeight
+        return HEADER_HEIGHT + productsHeight + totalPriceHeight + BREAKDOWN_HEADER_HEIGHT + breakdownHeight + detailedBreakdownHeight
     }
 
     private fun persons() = this.bill.lines.map { it.persons }.flatten().distinct()

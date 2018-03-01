@@ -115,7 +115,7 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
 
     /** Gets called when the share button on the app bar is clicked */
     private fun onShareClicked() {
-        val contentUri = BillBitmapGenerator(this, this.bill).generateBillBitmap()
+        val contentUri = BillBitmapGenerator(this, this.bill, true).generateBillBitmap() // TODO change this
         val shareIntent = Intent()
 
         shareIntent.action = Intent.ACTION_SEND
