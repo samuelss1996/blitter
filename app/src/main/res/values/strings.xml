@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">Blitter</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_assignation">AssignationActivity</string>
+    <string name="ad_mob_app_id_layouts" translatable="false">ca-app-pub-7211217453116351/2440181261</string>
+
+    <string name="preference_key_default_tip_percent" translatable="false">preference_default_tip_percent</string>
+    <string name="preference_key_delete_all_bills" translatable="false">preference_delete_all_bills</string>
+    <string name="preference_key_remove_ads" translatable="false">preference_remove_ads</string>
+    <string name="preference_key_developer" translatable="false">preference_developer</string>
+    <string name="preference_key_contact" translatable="false">preference_contact</string>
+    <string name="preference_key_version" translatable="false">preference_version</string>
+    <string name="preference_key_privacy_policy" translatable="false">preference_privacy_policy</string>
+
+    <string name="app_name" translatable="false">Blitter</string>
+    <string name="preference_summary_developer" translatable="false">Samuel Soutullo Sobral</string>
+    <string name="developer_email" translatable="false">samuelsoutullosobral@gmail.com</string>
+
     <string name="persons_array_separator">,&#160;</string>
     <string name="main_fab_manually">Transcribir manualmente</string>
     <string name="main_fab_gallery">Desde la galería</string>
@@ -97,24 +108,16 @@
     <string name="preference_title_remove_ads">Eliminar anuncios</string>
     <string name="preference_summary_remove_ads">¡No más publicidad!</string>
     <string name="preference_title_developer">Desarrollador</string>
-    <string name="preference_summary_developer" translatable="false">Samuel Soutullo Sobral</string>
     <string name="preference_title_contact">Contacto</string>
     <string name="preference_title_version">Versión</string>
     <string name="preference_title_privacy_policy">Política de privacidad</string>
     <string name="preference_summary_privacy_policy">Revisar la política de privacidad</string>
 
-    <string name="preference_key_default_tip_percent" translatable="false">preference_default_tip_percent</string>
-    <string name="preference_key_delete_all_bills" translatable="false">preference_delete_all_bills</string>
-    <string name="preference_key_remove_ads" translatable="false">preference_remove_ads</string>
-    <string name="preference_key_developer" translatable="false">preference_developer</string>
-    <string name="preference_key_contact" translatable="false">preference_contact</string>
-    <string name="preference_key_version" translatable="false">preference_version</string>
-    <string name="preference_key_privacy_policy" translatable="false">preference_privacy_policy</string>
+
 
     <string name="dialog_delete_all_bills_message">¿Estás seguro de que deseas eliminar todas las cuentas y personas introducidas en la aplicación?</string>
     <string name="toast_delete_all_bills_success">Los datos han sido borrados correctamente</string>
 
-    <string name="developer_email" translatable="false">samuelsoutullosobral@gmail.com</string>
     <string name="intent_chooser_title_send_mail">Enviar correo</string>
     <string name="app_bar_search_hint">Buscar…</string>
     <string name="bill_search_not_found">No se ha encontrado ningún resultado para la búsqueda actual</string>

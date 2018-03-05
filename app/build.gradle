@@ -39,6 +39,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.1.0'
     compile 'com.google.android.gms:play-services-vision:11.8.0'
+    compile 'com.google.android.gms:play-services-ads:11.8.0'
     compile 'com.android.support:preference-v7:26.1.0'
     compile 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
     compile 'com.github.apl-devs:appintro:v4.2.2'
@@ -55,3 +56,5 @@ apply plugin: 'kotlin-kapt'
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'kotlin-android-extensions'
