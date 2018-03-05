@@ -32,6 +32,7 @@
     <string name="bill_summary_subtotal_text">SUBTOTAL:</string>
     <string name="bill_summary_tax_text">IMPUESTOS:</string>
     <string name="bill_summary_total_price_text">PRECIO TOTAL:</string>
+    <string name="bill_summary_tip_value">PROPINA:</string>
     <string name="bill_summary_separator_product_count">-</string>
     <string name="bill_summary_separator_products_title">=</string>
     <string name="bill_summary_separator_total_price">*</string>
@@ -127,6 +128,11 @@
     <string name="matching_total_message_positive">El total leído y la suma de los productos coinciden</string>
     <string name="action_activity_final_result_clone">Clonar</string>
     <string name="cloned_bill_prefix">[Copia]</string>
+    <string name="action_activity_final_result_share">Compartir</string>
+
+    <string name="bill_share_breakdown">DESGLOSE</string>
+    <string name="bill_share_tip_line_name">PROPINA</string>
+    <string name="intent_share_title">Compartir a</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

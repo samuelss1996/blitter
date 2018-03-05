@@ -13,7 +13,7 @@ import java.util.*
 
 /** Provides some useful methods relative to the presentation logic */
 object BlitterUtils {
-    private val BILL_FONT_PATH = "fonts/fake_receipt.ttf"
+    const val BILL_FONT_PATH = "fonts/fake_receipt.ttf"
 
     /** @return The currency symbol based on the device's locale (e.g. €, $) */
     fun getCurrencySymbol(): String = Currency.getInstance(Locale.getDefault()).symbol
@@ -50,11 +50,11 @@ object BlitterUtils {
     fun getPriceAsStringWithTip(context: Context, priceWithoutTip: Double, tipPercent: Double): String {
         val tipPrice = priceWithoutTip * tipPercent
 
-        if(tipPercent == 0.0) {
-            return context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
-        } else {
+        if (tipPercent > 0) {
             return context.getString(R.string.bill_beautiful_price_with_tip, getPriceAsString(priceWithoutTip + tipPrice),
                     getPriceAsString(priceWithoutTip), getPriceAsString(priceWithoutTip * tipPercent))
+        } else {
+            return context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
         }
     }
 

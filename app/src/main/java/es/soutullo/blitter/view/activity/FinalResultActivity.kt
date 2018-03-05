@@ -2,12 +2,16 @@ package es.soutullo.blitter.view.activity
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.graphics.*
 import android.os.Bundle
+import android.os.Environment
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.ActivityFinalResultBinding
 import es.soutullo.blitter.model.dao.DaoFactory
@@ -19,6 +23,10 @@ import es.soutullo.blitter.view.dialog.ConfirmationDialog
 import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
+import es.soutullo.blitter.view.util.BillBitmapGenerator
+import es.soutullo.blitter.view.util.BlitterUtils
+import java.io.File
+import java.io.FileOutputStream
 
 class FinalResultActivity : AppCompatActivity(), IListHandler {
     private val peopleAdapter = FinalResultAdapter(this)
@@ -45,8 +53,9 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         when(item?.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_rename -> this.onRenameClicked()
-            R.id.action_clone -> this.onCloneClicked()
+            R.id.action_share -> this.onShareClicked()
             R.id.action_delete -> this.onDeleteClicked()
+            R.id.action_clone -> this.onCloneClicked()
         }
 
         return true
@@ -102,6 +111,19 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
             DaoFactory.getFactory(this).getBillDao().cloneBill(it)
             this.onDoneClicked(null)
         }
+    }
+
+    /** Gets called when the share button on the app bar is clicked */
+    private fun onShareClicked() {
+        val contentUri = BillBitmapGenerator(this, this.bill, true).generateBillBitmap()
+        val shareIntent = Intent()
+
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        shareIntent.setDataAndType(contentUri, this.contentResolver.getType(contentUri))
+        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+
+        this.startActivity(Intent.createChooser(shareIntent, this.getString(es.soutullo.blitter.R.string.intent_share_title)))
     }
 
     /** Gets called when the delete button on the app bar is clicked */
