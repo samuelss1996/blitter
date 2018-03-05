@@ -136,6 +136,8 @@
     <string name="bill_share_breakdown">DESGLOSE</string>
     <string name="bill_share_tip_line_name">PROPINA</string>
     <string name="intent_share_title">Compartir a</string>
+    <string name="activity_ad_mob_message">Este anuncio permite que Blitter sea una aplicación gratuita</string>
+    <string name="button_text_wait">Espera</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
@@ -164,5 +166,10 @@
     <plurals name="dialog_delete_bill_message">
         <item quantity="one">¿Estás seguro de que deseas eliminar esta cuenta?</item>
         <item quantity="other">¿Estás seguro de que deseas eliminar las %d cuentas seleccionadas?</item>
+    </plurals>
+
+    <plurals name="button_text_wait_seconds">
+        <item quantity="one">Espera %d segundo</item>
+        <item quantity="other">Espera %d segundos</item>
     </plurals>
 </resources>
