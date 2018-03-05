@@ -115,7 +115,7 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
 
     /** Gets called when the share button on the app bar is clicked */
     private fun onShareClicked() {
-        val contentUri = BillBitmapGenerator(this, this.bill, true).generateBillBitmap() // TODO change this
+        val contentUri = BillBitmapGenerator(this, this.bill, true).generateBillBitmap()
         val shareIntent = Intent()
 
         shareIntent.action = Intent.ACTION_SEND
@@ -123,7 +123,7 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         shareIntent.setDataAndType(contentUri, this.contentResolver.getType(contentUri))
         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
 
-        this.startActivity(Intent.createChooser(shareIntent, "Choose an app")) // TODO change this
+        this.startActivity(Intent.createChooser(shareIntent, this.getString(es.soutullo.blitter.R.string.intent_share_title)))
     }
 
     /** Gets called when the delete button on the app bar is clicked */

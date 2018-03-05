@@ -19,6 +19,7 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill, 
         const val LINE_HEIGHT = 16
         const val STANDARD_TOTAL_PRICE_HEIGHT = 74
         const val TAXED_TOTAL_PRICE_HEIGHT = 106
+        const val TIP_PRICE_HEIGHT = 16
         const val BREAKDOWN_HEADER_HEIGHT = 60
         const val DETAILED_BREAKDOWN_LINE_HEIGHT = 14
     }
@@ -109,7 +110,6 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill, 
         this.drawText(separator, true, Paint.Align.CENTER, marginTop = marginTop)
     }
 
-    // TODO maybe add tip value too
     private fun drawTotal() {
         if(this.bill.tax > 0) {
             this.drawText(this.context.getString(R.string.bill_summary_subtotal_text), true, Paint.Align.LEFT)
@@ -121,6 +121,11 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill, 
 
         this.drawText(this.context.getString(R.string.bill_summary_total_price_text), true, Paint.Align.LEFT, 18f)
         this.drawText(BlitterUtils.getPriceAsString(this.bill.subtotal + this.bill.tax), false, Paint.Align.RIGHT, 18f)
+
+        if(this.bill.tipPercent > 0) {
+            this.drawText(this.context.getString(R.string.bill_summary_tip_value), true, Paint.Align.LEFT, 18f)
+            this.drawText(BlitterUtils.getPriceAsString((this.bill.subtotal + this.bill.tax) * this.bill.tipPercent), false, Paint.Align.RIGHT, 18f)
+        }
     }
 
     private fun drawBreakdown() {
@@ -166,13 +171,15 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill, 
     }
 
     private fun receiptHeight(): Int {
-        val totalPriceHeight = if(this.bill.tax > 0) TAXED_TOTAL_PRICE_HEIGHT else STANDARD_TOTAL_PRICE_HEIGHT
+        var totalPriceHeight = if(this.bill.tax > 0) TAXED_TOTAL_PRICE_HEIGHT else STANDARD_TOTAL_PRICE_HEIGHT
         val productsHeight = this.bill.lines.size * LINE_HEIGHT
         val breakdownHeight = this.persons().size * LINE_HEIGHT
         val detailedBreakdownHeight = DETAILED_BREAKDOWN_LINE_HEIGHT * when(this.includeDetails) {
             true -> this.persons().flatMap { it.lines }.size + this.persons().size - 1 + if(this.bill.tipPercent > 0) this.persons().size else 0
             false -> 0
         }
+
+        totalPriceHeight += if(this.bill.tipPercent > 0) TIP_PRICE_HEIGHT else 0
 
         return HEADER_HEIGHT + productsHeight + totalPriceHeight + BREAKDOWN_HEADER_HEIGHT + breakdownHeight + detailedBreakdownHeight
     }
