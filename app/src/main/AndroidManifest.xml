@@ -3,6 +3,7 @@
     package="es.soutullo.blitter">
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -18,8 +19,8 @@
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="es.soutullo.blitter.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
@@ -57,8 +58,13 @@
             android:name=".view.activity.CameraIntroActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.activity.SettingsActivity" />
-        <activity android:name=".view.activity.OcrCaptureActivity"
-            android:theme="@style/AppTheme.Fullscreen"/>
+        <activity
+            android:name=".view.activity.OcrCaptureActivity"
+            android:theme="@style/AppTheme.Fullscreen" />
+        <activity
+            android:name=".view.activity.AdMobActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:noHistory="true"/>
     </application>
 
 </manifest>

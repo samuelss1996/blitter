@@ -108,12 +108,10 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * @param tipPercent The tip percent specified by the user
      */
     private fun onTipPercentageConfirmed(tipPercent: Double) {
-        val intent = Intent(this, FinalResultActivity::class.java)
+        val intent = Intent(this, AdMobActivity::class.java)
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
 
         this.bill.tipPercent = tipPercent
-        this.bill.name = this.getString(R.string.bill_final_name_pattern, DateFormat.getDateFormat(this).format(Date()))
-
         this.startActivity(intent)
     }
 

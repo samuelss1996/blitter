@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "85185672443",
+    "firebase_url": "https://blitter-2cbf8.firebaseio.com",
+    "project_id": "blitter-2cbf8",
+    "storage_bucket": "blitter-2cbf8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85185672443:android:109786733e505ff6",
+        "android_client_info": {
+          "package_name": "es.soutullo.blitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85185672443-tbpc08m98donb8502t1vlqgtsq8tkhpf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.soutullo.blitter",
+            "certificate_hash": "d2652112e595d36557c9a56fd3128a48f07ecf96"
+          }
+        },
+        {
+          "client_id": "85185672443-6fb9gkc3ug2cq2scr47cndlg172v2jrm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEJXET5J8qAHuMErU07ngFl1mKkHW2Svk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85185672443-6fb9gkc3ug2cq2scr47cndlg172v2jrm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
