@@ -28,7 +28,6 @@ import es.soutullo.blitter.view.util.BlitterUtils
 import java.io.File
 import java.io.FileOutputStream
 
-// TODO make back button go to assignation activity
 class FinalResultActivity : AppCompatActivity(), IListHandler {
     private val peopleAdapter = FinalResultAdapter(this)
 

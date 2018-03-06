@@ -23,15 +23,20 @@ class AdMobActivity : AppCompatActivity() {
     private lateinit var bill: Bill
     private var remainingSeconds = SECONDS_TO_WAIT
 
-    // TODO add back button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_ad_mob)
 
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         this.bill = this.intent.getSerializableExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY) as Bill
 
         this.loadAds()
         this.waitSeconds()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        this.onBackPressed()
+        return true
     }
 
     fun onContinueClicked(view: View) {

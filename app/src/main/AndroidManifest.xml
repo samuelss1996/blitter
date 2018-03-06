@@ -63,7 +63,8 @@
             android:theme="@style/AppTheme.Fullscreen" />
         <activity
             android:name=".view.activity.AdMobActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:noHistory="true"/>
     </application>
 
 </manifest>
