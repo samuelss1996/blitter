@@ -40,6 +40,8 @@ class OcrCaptureActivity : AppCompatActivity() {
         this.cameraSourcePreview = this.findViewById(R.id.camera_source_preview)
         this.graphicOverlay = this.findViewById(R.id.graphic_overlay)
 
+        this.findViewById<ImageButton>(R.id.switch_flash_button).visibility = if(this.hashFlash()) View.VISIBLE else View.GONE
+
         this.createCameraSource()
     }
 
@@ -99,6 +101,22 @@ class OcrCaptureActivity : AppCompatActivity() {
                 this.cameraSource = null
             }
         }
+    }
+
+    /** Checks if the device has flash hardware */
+    private fun hashFlash(): Boolean {
+        val camera = Camera.open() ?: return false
+        val parameters = camera.parameters
+
+        if (parameters.flashMode == null) {
+            camera.release()
+            return false
+        }
+
+        val supportedFlashModes = parameters.supportedFlashModes
+
+        camera.release()
+        return !(supportedFlashModes == null || supportedFlashModes.isEmpty() || supportedFlashModes.size == 1 && supportedFlashModes[0] == Camera.Parameters.FLASH_MODE_OFF)
     }
 
     override fun onPause() {

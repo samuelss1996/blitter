@@ -24,6 +24,7 @@
         </es.soutullo.blitter.view.component.CameraSourcePreview>
 
         <ImageButton
+            android:id="@+id/switch_flash_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_button_switch_flash"
@@ -35,6 +36,7 @@
             android:layout_marginEnd="12dp"
             android:padding="10dp"
             app:srcCompat="@{flashEnabled? @drawable/ic_flash_off_white_32dp : @drawable/ic_flash_on_white_32dp}"
+            android:visibility="gone"
             android:onClick="switchFlash"/>
 
     </android.support.constraint.ConstraintLayout>
