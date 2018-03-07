@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -40,6 +41,7 @@ class OcrCaptureActivity : AppCompatActivity() {
         this.cameraSourcePreview = this.findViewById(R.id.camera_source_preview)
         this.graphicOverlay = this.findViewById(R.id.graphic_overlay)
 
+        this.graphicOverlay.activity = this
         this.findViewById<ImageButton>(R.id.switch_flash_button).visibility = if(this.hashFlash()) View.VISIBLE else View.GONE
 
         this.createCameraSource()
@@ -58,6 +60,11 @@ class OcrCaptureActivity : AppCompatActivity() {
 
             this.binding.notifyChange()
         }
+    }
+
+    /** Gets called when the receipt appears or disappears from the camera preview */
+    fun onReceiptPresenceChanged(isPresent: Boolean) {
+        this.findViewById<TextView>(R.id.overlay_finding_ticket).visibility = if(isPresent) View.GONE else View.VISIBLE
     }
 
     /** Gets called from the OCR processor when the receipt data is recognized */

@@ -16,8 +16,6 @@ import es.soutullo.blitter.view.component.GraphicOverlay
 import es.soutullo.blitter.view.component.OcrGraphic
 import java.util.*
 import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.floor
 
 /**
  * Processes the received image from the camera and applies OCR techniques to get the receipt data
@@ -28,15 +26,15 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
     companion object {
         private val TOTAL_KEYWORDS = arrayOf("合計", "합계", "共计", "कुल", "итог", "total", "amount", "summe", "jumlah", "toplam", "suma", "totale")
         private val TAX_KEYWORDS = arrayOf("tax", "impuesto")
-        private val OVERLAY_DEBUG_MODE = true
     }
 
-    private lateinit var receiptBounds :Rect //= Rect(0, 0, 0, 0)
     private val countedSamples = mutableMapOf<RecognizedData, Int>()
     private var successfulScans = 0
 
     override fun receiveDetections(detections: Detector.Detections<TextBlock>?) {
         val items = detections?.detectedItems
+
+        this.drawOverlay(items)
 
         if (items != null && items.size() > 0) {
             val bounds = (0 until items.size()).map { items.valueAt(it).boundingBox }
@@ -45,8 +43,6 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
 
             val receiptLines = this.findReceiptLines(items, minX, maxX)
             val recognizedData = this.processReceipt(receiptLines)
-
-            this.drawOverlay(items, Rect(minX, bounds.map { it.top }.min()!!, maxX, bounds.map { it.bottom }.max()!!))
 
             this.confirmScan(recognizedData)
         }
@@ -116,6 +112,8 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             } else {
                 this.countedSamples[recognizedData] = sampleCount + 1
             }
+
+            this.activity.onReceiptPresenceChanged(true)
         }
     }
 
@@ -138,17 +136,13 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
      * Draws the required boxes and texts over the preview
      * @param items The text blocks recognized by the OCR
      */
-    private fun drawOverlay(items: SparseArray<TextBlock>?, bounding: Rect) {
+    private fun drawOverlay(items: SparseArray<TextBlock>?) {
         this.overlay.clear()
 
-        if (OVERLAY_DEBUG_MODE) {
-            if (items != null) {
-                for(i in 0 until items.size()) {
-                    this.overlay.add(OcrGraphic(this.overlay, items.valueAt(i)))
-                }
+        if (items != null) {
+            for(i in 0 until items.size()) {
+                this.overlay.add(OcrGraphic(this.overlay, items.valueAt(i)))
             }
-        } else {
-            this.overlay.add(DefaultOcrGraphic(this.overlay, bounding))
         }
     }
 

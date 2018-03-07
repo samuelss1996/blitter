@@ -140,6 +140,7 @@
     <string name="intent_share_title">Compartir a</string>
     <string name="activity_ad_mob_message">Este anuncio permite que Blitter sea una aplicación gratuita</string>
     <string name="button_text_wait">Espera</string>
+    <string name="activity_ocr_finding_receipt">Buscando ticket…</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
