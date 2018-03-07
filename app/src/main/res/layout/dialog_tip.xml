@@ -20,9 +20,9 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="7dp"
             android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/dialog_tip_hint" />
 
         <com.xw.repo.BubbleSeekBar
@@ -41,10 +41,11 @@
             app:bsb_track_color="@color/light_icon_tint"
             android:id="@+id/dialog_tip_seek_bar"
             android:layout_marginLeft="0dp"
-            app:layout_constraintLeft_toLeftOf="@+id/dialog_tip_hint"
+            app:layout_constraintStart_toStartOf="@+id/dialog_tip_hint"
             android:layout_marginRight="0dp"
-            app:layout_constraintRight_toRightOf="@+id/dialog_tip_hint"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_tip_hint"
             android:layout_marginTop="32dp"
+            app:bsb_rtl="@bool/is_rtl"
             app:layout_constraintTop_toBottomOf="@+id/dialog_tip_hint" />
 
         <TextView
@@ -54,9 +55,9 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginTop="8dp"
-            android:text="@{@string/dialog_tip_result_text(Math.round((float)(tipPercent * 100)), utils.getPriceAsString(bill.subtotal * tipPercent))}"
-            app:layout_constraintLeft_toLeftOf="@+id/dialog_tip_seek_bar"
-            app:layout_constraintRight_toRightOf="@+id/dialog_tip_seek_bar"
+            android:text="@{@string/dialog_tip_result_text(Math.round((float)(tipPercent * 100)), utils.getPriceAsString((bill.subtotal + bill.tax) * tipPercent))}"
+            app:layout_constraintStart_toStartOf="@+id/dialog_tip_seek_bar"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_tip_seek_bar"
             app:layout_constraintTop_toBottomOf="@+id/dialog_tip_seek_bar"
             tools:text="Se añadirá un 20% de propina (5,71 €) a la cuenta." />
 

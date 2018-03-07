@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:layout_marginStart="0dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/bill_line_name_text"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/bill_line_price_text"
@@ -49,7 +49,7 @@
                 android:textSize="@dimen/list_title_text_size"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox" />
+                app:layout_constraintStart_toEndOf="@+id/choosing_checkbox" />
 
             <TextView
                 android:id="@+id/bill_line_assignations_text"
@@ -59,11 +59,13 @@
                 android:text="@{item.getAssignedPeopleAsString(context)}"
                 tools:text="Todavía sin asignar"
                 app:layout_constraintTop_toBottomOf="@+id/bill_line_name_text"
+                android:textAlignment="viewStart"
+                android:gravity="start"
                 android:textSize="@dimen/list_caption_text_size"
-                app:layout_constraintRight_toLeftOf="@+id/bill_line_ok"
+                app:layout_constraintEnd_toStartOf="@+id/bill_line_ok"
                 android:layout_marginRight="@dimen/list_item_horizontal_padding"
                 android:layout_marginEnd="@dimen/list_item_horizontal_padding"
-                app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
+                app:layout_constraintStart_toEndOf="@+id/choosing_checkbox"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:maxLines="1"
@@ -78,7 +80,7 @@
                 tools:text="2,37 €"
                 app:layout_constraintTop_toBottomOf="@+id/bill_line_assignations_text"
                 android:textSize="@dimen/list_caption_text_size"
-                app:layout_constraintLeft_toRightOf="@+id/choosing_checkbox"
+                app:layout_constraintStart_toEndOf="@+id/choosing_checkbox"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp" />
 
@@ -90,7 +92,7 @@
                 app:layout_constraintTop_toTopOf="@+id/bill_line_name_text"
                 android:layout_marginTop="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/bill_line_price_text"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:tint="@color/md_green_500"
                 android:visibility="@{item.persons.isEmpty()? View.INVISIBLE : View.VISIBLE}"
                 android:contentDescription="@string/content_description_assignation_green_tick"/>

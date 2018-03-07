@@ -17,14 +17,21 @@
 
         <TextView
             android:id="@+id/bill_line_name_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{item.name.toUpperCase()}"
             tools:text="PRODUCTO A"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bill_line_price_text"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:textColor="@color/color_bill_summary_text"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textAlignment="viewStart"
+            android:gravity="start" />
 
         <TextView
             android:id="@+id/bill_line_price_text"
@@ -32,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="@{utils.getPriceAsString(item.price)}"
             tools:text="2,07 €"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:textColor="@color/color_bill_summary_text"
             android:textSize="@dimen/list_title_text_size" />

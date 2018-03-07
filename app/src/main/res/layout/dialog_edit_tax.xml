@@ -18,9 +18,9 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="?dialogPreferredPadding"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginRight="?dialogPreferredPadding"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:hint="@{@string/dialog_edit_tax_hint(utils.currencySymbol)}">
 
             <EditText
@@ -43,7 +43,7 @@
             android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="@id/text_input_layout"
             app:layout_constraintBottom_toBottomOf="@id/text_input_layout"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginRight="?dialogPreferredPadding"
             android:layout_marginEnd="?dialogPreferredPadding"
             android:contentDescription="@string/content_description_button_tax_clear" />

@@ -12,9 +12,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="?dialogPreferredPadding"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginRight="?dialogPreferredPadding"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <EditText
             android:id="@+id/dialog_prompt_edit_text"
