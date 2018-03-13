@@ -1,6 +1,5 @@
 package es.soutullo.blitter.model.ocr
 
-import android.graphics.Rect
 import android.util.SparseArray
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.text.Text
@@ -11,7 +10,6 @@ import es.soutullo.blitter.model.vo.bill.BillLine
 import es.soutullo.blitter.model.vo.bill.EBillSource
 import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.view.activity.OcrCaptureActivity
-import es.soutullo.blitter.view.component.DefaultOcrGraphic
 import es.soutullo.blitter.view.component.GraphicOverlay
 import es.soutullo.blitter.view.component.OcrGraphic
 import java.util.*
@@ -30,13 +28,13 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
 
     private val countedSamples = mutableMapOf<RecognizedData, Int>()
     private var successfulScans = 0
+    private var finished = false
 
     override fun receiveDetections(detections: Detector.Detections<TextBlock>?) {
         val items = detections?.detectedItems
-
         this.drawOverlay(items)
 
-        if (items != null && items.size() > 0) {
+        if (items != null && items.size() > 0 && !this.finished) {
             val bounds = (0 until items.size()).map { items.valueAt(it).boundingBox }
             val minX = bounds.map { it.left }.min()!!
             val maxX = bounds.map { it.right }.max()!!
@@ -45,6 +43,8 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
             val recognizedData = this.processReceipt(receiptLines)
 
             this.confirmScan(recognizedData)
+        } else if(!this.finished) {
+            this.activity.onReceiptPresenceChanged(false)
         }
     }
 
@@ -108,12 +108,16 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
 
             if((totalMatching && recognizedData.receiptLines.size > 1) || (sampleCount >= 2 && this.successfulScans > 3)) {
                 val bill = this.createBill(recognizedData)
+
                 this.activity.billRecognized(bill)
+                this.finished = true
             } else {
                 this.countedSamples[recognizedData] = sampleCount + 1
             }
 
             this.activity.onReceiptPresenceChanged(true)
+        } else {
+            this.activity.onReceiptPresenceChanged(false)
         }
     }
 

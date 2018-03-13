@@ -9,7 +9,9 @@ import android.graphics.drawable.Drawable
 import android.hardware.Camera
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -29,8 +31,9 @@ import es.soutullo.blitter.view.component.OcrGraphic
 class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var cameraSourcePreview: CameraSourcePreview
     private lateinit var graphicOverlay: GraphicOverlay<OcrGraphic>
-    private var cameraSource: CameraSource? = null
     private lateinit var binding: ActivityOcrCaptureBinding
+    private var cameraSource: CameraSource? = null
+    private var previousReceiptPresenceState = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,7 @@ class OcrCaptureActivity : AppCompatActivity() {
         this.graphicOverlay.activity = this
         this.findViewById<ImageButton>(R.id.switch_flash_button).visibility = if(this.hashFlash()) View.VISIBLE else View.GONE
 
+        this.onReceiptPresenceChanged(false)
         this.createCameraSource()
     }
 
@@ -64,7 +68,22 @@ class OcrCaptureActivity : AppCompatActivity() {
 
     /** Gets called when the receipt appears or disappears from the camera preview */
     fun onReceiptPresenceChanged(isPresent: Boolean) {
-        this.findViewById<TextView>(R.id.overlay_finding_ticket).visibility = if(isPresent) View.GONE else View.VISIBLE
+        if (this.previousReceiptPresenceState != isPresent) {
+            this.previousReceiptPresenceState = isPresent
+
+            this.runOnUiThread {
+                val finding = this.findViewById<TextView>(R.id.overlay_finding_ticket)
+                val recognising = this.findViewById<TextView>(R.id.overlay_recognising_ticket)
+                val shown = if(isPresent) recognising else finding
+                val hidden = if(isPresent) finding else recognising
+
+                shown.animation = AnimationUtils.loadAnimation(this, R.anim.text_overlay_breathe)
+                hidden.clearAnimation()
+
+                shown.visibility = View.VISIBLE
+                hidden.visibility = View.GONE
+            }
+        }
     }
 
     /** Gets called from the OCR processor when the receipt data is recognized */

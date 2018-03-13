@@ -184,10 +184,6 @@ class GraphicOverlay<T : GraphicOverlay.Graphic>(context: Context, attrs: Attrib
             for (graphic in mGraphics) {
                 graphic.draw(canvas)
             }
-
-            if(mGraphics.isEmpty()) {
-                this.activity.onReceiptPresenceChanged(false)
-            }
         }
     }
 }
