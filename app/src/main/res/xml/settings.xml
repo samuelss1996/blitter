@@ -5,7 +5,7 @@
     <PreferenceCategory android:title="@string/preference_category_title_settings">
         <com.pavelsikun.seekbarpreference.SeekBarPreference
             android:key="@string/preference_key_default_tip_percent"
-            android:defaultValue="10"
+            android:defaultValue="0"
             sample:msbp_minValue="0"
             sample:msbp_maxValue="@integer/max_tip_percent"
             sample:msbp_interval="1"
@@ -30,6 +30,11 @@
             android:key="@string/preference_key_developer"
             android:title="@string/preference_title_developer"
             android:summary="@string/preference_summary_developer"/>
+
+        <Preference
+            android:key="@string/preference_key_patreon"
+            android:title="@string/preference_title_patreon"
+            android:summary="@string/preference_summary_patreon" />
 
         <Preference
             android:key="@string/preference_key_contact"

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
         <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
         <variable name="bill" type="es.soutullo.blitter.model.vo.bill.Bill" />
     </data>
@@ -27,9 +29,9 @@
             android:text="@string/bill_summary_header"
             android:textColor="@color/color_bill_summary_text"
             android:textSize="24sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/bill_summary_separator1"
@@ -41,8 +43,8 @@
             android:textSize="16sp"
             android:typeface="monospace"
             app:layout_constraintHorizontal_bias="0.509"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/blitter_header"
             tools:text="--------------------------------" />
 
@@ -53,7 +55,7 @@
             android:text="@string/bill_summary_total_products_text"
             android:textColor="@color/color_bill_summary_text"
             android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="@+id/bill_summary_separator1"
+            app:layout_constraintStart_toStartOf="@id/bill_summary_separator1"
             app:layout_constraintTop_toBottomOf="@+id/bill_summary_separator1" />
 
         <TextView
@@ -65,7 +67,7 @@
             android:text="@{String.valueOf(bill.lines.size())}"
             android:textColor="@color/color_bill_summary_text"
             android:textSize="16sp"
-            app:layout_constraintRight_toRightOf="@+id/bill_summary_separator1"
+            app:layout_constraintEnd_toEndOf="@id/bill_summary_separator1"
             app:layout_constraintTop_toBottomOf="@+id/bill_summary_separator1"
             tools:text="20" />
 
@@ -78,8 +80,8 @@
             android:textSize="16sp"
             android:typeface="monospace"
             app:layout_constraintHorizontal_bias="0.505"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_products_text"
             tools:text="--------------------------------" />
 
@@ -91,8 +93,8 @@
             android:text="@string/bill_summary_products_header"
             android:textColor="@color/color_bill_summary_text"
             android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bill_summary_separator2" />
 
         <TextView
@@ -103,8 +105,8 @@
             android:textColor="@color/color_bill_summary_text"
             android:textSize="16sp"
             android:typeface="monospace"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/products_header"
             tools:text="================================" />
 
@@ -117,8 +119,8 @@
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
             app:layout_constraintBottom_toTopOf="@+id/bill_summary_separator4"
-            app:layout_constraintLeft_toLeftOf="@+id/bill_summary_separator3"
-            app:layout_constraintRight_toRightOf="@+id/bill_summary_separator3"
+            app:layout_constraintStart_toStartOf="@+id/bill_summary_separator3"
+            app:layout_constraintEnd_toEndOf="@+id/bill_summary_separator3"
             app:layout_constraintTop_toBottomOf="@+id/bill_summary_separator3"
             tools:listitem="@layout/item_bill_line_bill_summary" />
 
@@ -130,10 +132,56 @@
             android:textColor="@color/color_bill_summary_text"
             android:textSize="16sp"
             android:typeface="monospace"
-            app:layout_constraintBottom_toTopOf="@+id/total_price_text"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/subtotal_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="********************************" />
+
+        <TextView
+            android:id="@+id/subtotal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bill_summary_subtotal_text"
+            android:textColor="@color/color_bill_summary_text"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tax_text"
+            app:layout_constraintStart_toStartOf="@id/tax_text"
+            android:visibility="@{bill.tax > 0? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/subtotal_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{utils.getPriceAsString(bill.subtotal)}"
+            android:textColor="@color/color_bill_summary_text"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/tax_text"
+            app:layout_constraintEnd_toEndOf="@id/tax_value"
+            android:visibility="@{bill.tax > 0? View.VISIBLE : View.GONE}"
+            tools:text="2,00€"/>
+
+        <TextView
+            android:id="@+id/tax_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bill_summary_tax_text"
+            android:textColor="@color/color_bill_summary_text"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/total_price_text"
+            app:layout_constraintStart_toStartOf="@id/total_price_text"
+            android:visibility="@{bill.tax > 0? View.VISIBLE : View.GONE}" />
+
+        <TextView
+            android:id="@+id/tax_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{utils.getPriceAsString(bill.tax)}"
+            android:textColor="@color/color_bill_summary_text"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/total_price_text"
+            app:layout_constraintEnd_toEndOf="@id/total_price_value"
+            android:visibility="@{bill.tax > 0? View.VISIBLE : View.GONE}"
+            tools:text="0,07€"/>
 
         <TextView
             android:id="@+id/total_price_text"
@@ -141,21 +189,19 @@
             android:layout_height="wrap_content"
             android:text="@string/bill_summary_total_price_text"
             android:textColor="@color/color_bill_summary_text"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/bill_summary_separator5"
-            app:layout_constraintLeft_toLeftOf="@+id/bill_summary_separator5" />
+            app:layout_constraintStart_toStartOf="@+id/bill_summary_separator5" />
 
         <TextView
             android:id="@+id/total_price_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
-            android:text="@{utils.getPriceAsString(bill.priceWithoutTip)}"
+            android:text="@{utils.getPriceAsString(bill.subtotal + bill.tax)}"
             android:textColor="@color/color_bill_summary_text"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/bill_summary_separator5"
-            app:layout_constraintRight_toRightOf="@+id/bill_summary_separator5"
+            app:layout_constraintEnd_toEndOf="@+id/bill_summary_separator5"
             tools:text="2,07€" />
 
         <TextView
@@ -167,8 +213,8 @@
             android:textSize="16sp"
             android:typeface="monospace"
             app:layout_constraintBottom_toTopOf="@+id/amend"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="********************************" />
 
         <Button
@@ -181,7 +227,7 @@
             android:drawableStart="@drawable/ic_edit_black_24dp"
             android:text="@string/button_amend_bill_summary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:onClick="onAmendClicked"/>
 
         <Button
@@ -194,7 +240,7 @@
             android:drawableStart="@drawable/ic_done_black_24dp"
             android:text="@string/button_continue_bill_summary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:onClick="onConfirmClicked"/>
 
     </android.support.constraint.ConstraintLayout>

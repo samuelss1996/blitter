@@ -1,19 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:keepScreenOn="true">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-    <es.soutullo.blitter.view.component.CameraSourcePreview
-        android:id="@+id/camera_source_preview"
+    <data>
+        <variable name="flashEnabled" type="Boolean" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:keepScreenOn="true">
 
-        <es.soutullo.blitter.view.component.GraphicOverlay
-            android:id="@+id/graphic_overlay"
+        <es.soutullo.blitter.view.component.CameraSourcePreview
+            android:id="@+id/camera_source_preview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
 
-    </es.soutullo.blitter.view.component.CameraSourcePreview>
+            <es.soutullo.blitter.view.component.GraphicOverlay
+                android:id="@+id/graphic_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-</LinearLayout>
+        </es.soutullo.blitter.view.component.CameraSourcePreview>
+
+        <ImageButton
+            android:id="@+id/switch_flash_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_button_switch_flash"
+            android:background="@drawable/flash_button_background"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:padding="10dp"
+            app:srcCompat="@{flashEnabled? @drawable/ic_flash_off_white_32dp : @drawable/ic_flash_on_white_32dp}"
+            android:visibility="gone"
+            android:onClick="switchFlash"/>
+
+        <TextView
+            android:id="@+id/overlay_finding_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:text="@string/activity_ocr_finding_receipt"
+            android:textAlignment="center"
+            android:background="@drawable/text_overlay_background"
+            android:textColor="@color/md_grey_300"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.95"/>
+
+        <TextView
+            android:id="@+id/overlay_recognising_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textSize="16sp"
+            android:text="@string/activity_ocr_recognising_receipt"
+            android:textAlignment="center"
+            android:background="@drawable/text_overlay_background"
+            android:textColor="@color/md_grey_300"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.95"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

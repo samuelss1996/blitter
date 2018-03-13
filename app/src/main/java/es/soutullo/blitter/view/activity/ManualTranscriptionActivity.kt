@@ -63,7 +63,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
         val productPriceText = this.findViewById<EditText>(R.id.product_price_field)
 
         if (productNameText.text.isNotBlank() && productPriceText.text.isNotBlank() && productPriceText.text.toString().toFloatOrNull() != null) {
-            this.productsAdapter.add(ManualTranscriptionProduct(productNameText.text.trim().toString(), productPriceText.text.toString().toFloat(), 1))
+            this.productsAdapter.add(ManualTranscriptionProduct(productNameText.text.trim().toString(), productPriceText.text.toString().toDouble(), 1))
             this.productsAdapter.recyclerView?.scrollToPosition(this.productsAdapter.itemCount - 1)
             this.doBackup()
 
@@ -100,7 +100,7 @@ class ManualTranscriptionActivity : AppCompatActivity() {
     private fun onDeleteProductClicked(listIndex: Int) {
         ConfirmationDialog(this, this.deleteDialogHandler(listIndex), this.getString(R.string.dialog_delete_product_title),
                 this.getString(R.string.dialog_delete_product_message, this.productsAdapter.get(listIndex).name),
-                this.getString(R.string.dialog_generic_delete_button), this.getString(R.string.dialog_generic_preserve_button))
+                this.getString(R.string.dialog_generic_delete_button), this.getString(R.string.generic_dialog_cancel))
             .show()
     }
 

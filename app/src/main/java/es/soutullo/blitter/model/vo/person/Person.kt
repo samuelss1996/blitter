@@ -18,19 +18,19 @@ data class Person(val id: Long?, val name: String, val lastDate: Date = Date(), 
     }
 
     /**
-     * Calculates the amount of money this person has to pay, considering his assigned lines and the tip percent of the bill
+     * Calculates the amount of money this person has to pay, considering his assigned lines, taxes and the tip percent of the bill
      * @return The amount of money this person has to pay
      */
-    fun getPayingAmountWithTip(): Float = this.getPayingAmountWithoutTip() * ((this.lines.firstOrNull()?.bill?.tipPercent ?: 0f) + 1)
+    fun getPayingAmountWithTip() = this.getPayingAmountWithoutTip() * (this.getTipPercent() + 1)
 
     /** @return The tip percent of the bill this person is currently attached to */
-    fun getTipPercent(): Float = this.lines.firstOrNull()?.bill?.tipPercent ?: 0f
+    fun getTipPercent() = this.lines.firstOrNull()?.bill?.tipPercent ?: 0.0
 
     /**
-     * Calculates the amount of money this person has to pay, considering his assigned lines. The tip is NOT considered
+     * Calculates the amount of money this person has to pay, considering his assigned lines and taxes. The tip is NOT considered
      * @return The amount of money this person has to pay
      */
-    fun getPayingAmountWithoutTip(): Float = this.lines.map { line -> line.price / line.persons.size }.sum()
+    fun getPayingAmountWithoutTip() = this.lines.map { line -> line.price / line.persons.size }.sum() * (this.calculateTaxPercent() + 1)
 
     /** @return The user profile photo based on its name */
     fun generateUserProfilePhoto() : TextDrawable {
@@ -39,6 +39,12 @@ data class Person(val id: Long?, val name: String, val lastDate: Date = Date(), 
 
         return TextDrawable.builder().buildRound(initials, colorGenerator.getColor(this.name))
     }
+
+    /**
+     * Calculates the tax percent, based on the actual tax value and the subtotal
+     * @return The tax percent
+     */
+    private fun calculateTaxPercent() = this.lines.firstOrNull()?.bill?.calculateTaxPercent() ?: 0.0
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

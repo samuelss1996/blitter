@@ -23,7 +23,7 @@
             android:text="@{item.name}"
             tools:text="Producto A"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:textColor="@android:color/black"
             android:textSize="@dimen/list_title_text_size"/>
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@{item.persons.size() == 1? @string/bill_trace_all_product(utils.getPriceAsString(item.price)) : @string/bill_trace_partial_product(item.persons.size(), utils.getPriceAsString(item.price / item.persons.size()))}"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bill_trace_product_name"
             tools:text="1/2 del producto (0,50 €)"
             android:textSize="@dimen/list_caption_text_size"/>

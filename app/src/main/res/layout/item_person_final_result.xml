@@ -27,7 +27,7 @@
                 android:id="@+id/user_profile_picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/content_description_user_profile_picture"
                 app:srcCompat="@{item.generateUserProfilePhoto()}"/>
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintLeft_toRightOf="@+id/user_profile_picture"
+                app:layout_constraintStart_toEndOf="@+id/user_profile_picture"
                 android:layout_marginLeft="@dimen/list_item_horizontal_padding"
                 android:layout_marginStart="@dimen/list_item_horizontal_padding"
                 app:layout_constraintTop_toTopOf="@+id/user_profile_picture"
@@ -59,7 +59,6 @@
                     android:layout_height="wrap_content"
                     android:text="@{traceFlag != null &amp;&amp; traceFlag? utils.getPriceAsStringWithTip(context, item.payingAmountWithoutTip, item.tipPercent) : utils.getPriceAsString(item.payingAmountWithTip)}"
                     tools:text="3,07 €"
-
                     android:textSize="@dimen/list_caption_text_size"/>
             </LinearLayout>
 

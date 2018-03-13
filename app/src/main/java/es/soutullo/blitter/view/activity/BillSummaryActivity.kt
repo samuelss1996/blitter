@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
 import android.widget.TextView
 import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.ActivityBillSummaryBinding
@@ -16,6 +14,9 @@ import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.EBillStatus
 import es.soutullo.blitter.view.adapter.BillSummaryAdapter
+import es.soutullo.blitter.view.dialog.EditTaxDialog
+import es.soutullo.blitter.view.dialog.generic.CustomDialog
+import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import es.soutullo.blitter.view.util.BlitterUtils
 
 class BillSummaryActivity : AppCompatActivity() {
@@ -37,6 +38,11 @@ class BillSummaryActivity : AppCompatActivity() {
         this.linesAdapter = BillSummaryAdapter(this.bill.lines, this.assets)
 
         this.init()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuInflater.inflate(R.menu.menu_app_bar_activity_bill_summary, menu)
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -61,6 +67,15 @@ class BillSummaryActivity : AppCompatActivity() {
         this.startActivity(intent)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> this.onSupportNavigateUp()
+            R.id.action_edit_tax -> EditTaxDialog(this, this.createNewEditTaxDialogHandler(), this.bill.tax).show()
+        }
+
+        return true
+    }
+
     /** Saves the bill status on the database */
     @Deprecated("It is not helpful to save the bill here, this method should not be used")
     private fun doBackup() {
@@ -82,6 +97,17 @@ class BillSummaryActivity : AppCompatActivity() {
     }
 
     /**
+     * Changes the tax value of the bill. Gets called after the user changes this value
+     * @param newValue The new tax value, specified by the user
+     */
+    private fun changeTaxValue(newValue: Double) {
+        this.bill.tax = newValue
+        this.binding.bill = this.bill
+
+        this.binding.notifyChange()
+    }
+
+    /**
      * Fills the bill separators with all the required chars in order to have as many chars as necessary
      * to fill the screen
      * @param root The root layout of this activity, which contains all the separators
@@ -97,5 +123,19 @@ class BillSummaryActivity : AppCompatActivity() {
                         .forEach { it.key.text = it.key.text.repeat(it.value) }
             }
         })
+    }
+
+    /** Creates the handler for the edit tax dialog, which allows the user to change the tax value of the bill */
+    private fun createNewEditTaxDialogHandler(): IDialogHandler {
+        return object : IDialogHandler {
+            override fun onPositiveButtonClicked(dialog: CustomDialog) {
+                if(dialog is EditTaxDialog) {
+                    this@BillSummaryActivity.changeTaxValue(dialog.getUserInput().toDoubleOrNull() ?: 0.0)
+                }
+            }
+
+            override fun onNegativeButtonClicked(dialog: CustomDialog) { }
+            override fun onNeutralButtonClicked(dialog: CustomDialog) { }
+        }
     }
 }

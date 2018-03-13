@@ -8,8 +8,8 @@ android {
         applicationId "es.soutullo.blitter"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 4
-        versionName "1.1.0"
+        versionCode 5
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,11 +27,12 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-ads:11.8.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
@@ -39,11 +40,12 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.1.0'
     compile 'com.google.android.gms:play-services-vision:11.8.0'
+    compile 'com.google.android.gms:play-services-ads:11.8.0'
     compile 'com.android.support:preference-v7:26.1.0'
     compile 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'
-    compile 'com.xw.repo:bubbleseekbar:3.4-lite'
+    compile 'com.xw.repo:bubbleseekbar:3.16-lite'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
     compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
@@ -55,3 +57,6 @@ apply plugin: 'kotlin-kapt'
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'

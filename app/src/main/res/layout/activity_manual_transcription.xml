@@ -16,9 +16,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="0dp"
         android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/product_field"
         android:background="@android:color/white"
@@ -39,10 +39,8 @@
         android:imeOptions="actionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/product_price_field">
-
-        <requestFocus />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/product_price_field">
     </EditText>
 
     <EditText
@@ -53,8 +51,8 @@
         android:inputType="numberDecimal"
         android:hint="@string/hint_edit_text_product_price"
         android:padding="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/add_product"
-        app:layout_constraintLeft_toRightOf="@+id/product_field"
+        app:layout_constraintEnd_toStartOf="@+id/add_product"
+        app:layout_constraintStart_toEndOf="@+id/product_field"
         android:layout_marginLeft="8dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_weight="2"
@@ -68,7 +66,7 @@
         android:layout_width="0dp"
         android:layout_height="28dp"
         app:elevation="0dp"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/add_product"
         app:layout_constraintTop_toTopOf="@id/product_price_field"
         app:layout_constraintBottom_toBottomOf="@+id/product_price_field"

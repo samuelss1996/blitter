@@ -23,6 +23,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
         this.findPreference(this.getString(R.string.preference_key_delete_all_bills)).setOnPreferenceClickListener { this.onDeleteAllBillsClicked() }
         this.findPreference(this.getString(R.string.preference_key_contact)).setOnPreferenceClickListener { this.onContactClicked() }
+        this.findPreference(this.getString(R.string.preference_key_patreon)).setOnPreferenceClickListener { this.onPatreonClicked() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -38,7 +39,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         val title = this.getString(R.string.preference_title_delete_data)
         val message = this.getString(R.string.dialog_delete_all_bills_message)
         val positiveText = this.getString(R.string.dialog_generic_delete_button)
-        val negativeText = this.getString(R.string.dialog_generic_preserve_button)
+        val negativeText = this.getString(R.string.generic_dialog_cancel)
 
         ConfirmationDialog(this, this.createDeleteAllBillsDialogHandler(), title, message,
                 positiveText, negativeText).show()
@@ -64,6 +65,14 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         DaoFactory.getFactory(this).getPersonDao().deleteAllPersons()
 
         Toast.makeText(this, this.getString(R.string.toast_delete_all_bills_success), Toast.LENGTH_SHORT).show()
+    }
+
+    /** Gets called when the user clicks the patreon donations option */
+    private fun onPatreonClicked(): Boolean {
+        val patreonUrl = this.getString(R.string.patreon_url)
+        this.startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(patreonUrl)))
+
+        return true
     }
 
     /** Creates the dialog handler for the all bills deletion dialog */

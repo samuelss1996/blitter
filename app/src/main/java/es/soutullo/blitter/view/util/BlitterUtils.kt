@@ -13,7 +13,7 @@ import java.util.*
 
 /** Provides some useful methods relative to the presentation logic */
 object BlitterUtils {
-    private val BILL_FONT_PATH = "fonts/fake_receipt.ttf"
+    const val BILL_FONT_PATH = "fonts/fake_receipt.ttf"
 
     /** @return The currency symbol based on the device's locale (e.g. €, $) */
     fun getCurrencySymbol(): String = Currency.getInstance(Locale.getDefault()).symbol
@@ -23,14 +23,14 @@ object BlitterUtils {
      * @param price The price to convert
      * @return The converted price as string
      */
-    fun getPriceAsString(price: Float): String = NumberFormat.getCurrencyInstance().format(price)
+    fun getPriceAsString(price: Double): String = NumberFormat.getCurrencyInstance().format(price)
 
     /**
      * Converts a floating number to a string representing a price, without its symbol, based on the device's locale
      * @param price The price to convert
      * @return The converted price as string
      */
-    fun getEditablePriceAsString(price: Float): String = NumberFormat.getCurrencyInstance().parse(getPriceAsString(price)).toString()
+    fun getEditablePriceAsString(price: Double): String = NumberFormat.getCurrencyInstance().parse(getPriceAsString(price)).toString()
 
     /**
      * Returns a date as a long string, working with internationalization
@@ -47,9 +47,15 @@ object BlitterUtils {
      * @param tipPercent The tip percentage
      * @return The human readable string
      */
-    fun getPriceAsStringWithTip(context: Context, priceWithoutTip: Float, tipPercent: Float): String {
-        return if(tipPercent == 0f) context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
-            else context.getString(R.string.bill_beautiful_price_with_tip, getPriceAsString(priceWithoutTip), getPriceAsString(priceWithoutTip * tipPercent))
+    fun getPriceAsStringWithTip(context: Context, priceWithoutTip: Double, tipPercent: Double): String {
+        val tipPrice = priceWithoutTip * tipPercent
+
+        if (tipPercent > 0) {
+            return context.getString(R.string.bill_beautiful_price_with_tip, getPriceAsString(priceWithoutTip + tipPrice),
+                    getPriceAsString(priceWithoutTip), getPriceAsString(priceWithoutTip * tipPercent))
+        } else {
+            return context.getString(R.string.bill_beautiful_price_without_tip, getPriceAsString(priceWithoutTip))
+        }
     }
 
     /**
