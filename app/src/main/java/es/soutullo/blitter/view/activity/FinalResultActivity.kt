@@ -2,16 +2,12 @@ package es.soutullo.blitter.view.activity
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
-import android.graphics.*
 import android.os.Bundle
-import android.os.Environment
-import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.ActivityFinalResultBinding
 import es.soutullo.blitter.model.dao.DaoFactory
@@ -24,9 +20,6 @@ import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import es.soutullo.blitter.view.util.BillBitmapGenerator
-import es.soutullo.blitter.view.util.BlitterUtils
-import java.io.File
-import java.io.FileOutputStream
 
 class FinalResultActivity : AppCompatActivity(), IListHandler {
     private val peopleAdapter = FinalResultAdapter(this)

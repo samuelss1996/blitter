@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable
 import android.hardware.Camera
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
@@ -17,12 +16,12 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import es.soutullo.blitter.view.component.CameraSource
 import com.google.android.gms.vision.text.TextRecognizer
 import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.ActivityOcrCaptureBinding
 import es.soutullo.blitter.model.ocr.OcrDetectorProcessor
 import es.soutullo.blitter.model.vo.bill.Bill
+import es.soutullo.blitter.view.component.CameraSource
 import es.soutullo.blitter.view.component.CameraSourcePreview
 import es.soutullo.blitter.view.component.GraphicOverlay
 import es.soutullo.blitter.view.component.OcrGraphic
