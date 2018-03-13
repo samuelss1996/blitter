@@ -9,8 +9,11 @@ import android.graphics.drawable.Drawable
 import android.hardware.Camera
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -28,8 +31,9 @@ import es.soutullo.blitter.view.component.OcrGraphic
 class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var cameraSourcePreview: CameraSourcePreview
     private lateinit var graphicOverlay: GraphicOverlay<OcrGraphic>
-    private var cameraSource: CameraSource? = null
     private lateinit var binding: ActivityOcrCaptureBinding
+    private var cameraSource: CameraSource? = null
+    private var previousReceiptPresenceState = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +44,10 @@ class OcrCaptureActivity : AppCompatActivity() {
         this.cameraSourcePreview = this.findViewById(R.id.camera_source_preview)
         this.graphicOverlay = this.findViewById(R.id.graphic_overlay)
 
+        this.graphicOverlay.activity = this
+        this.findViewById<ImageButton>(R.id.switch_flash_button).visibility = if(this.hashFlash()) View.VISIBLE else View.GONE
+
+        this.onReceiptPresenceChanged(false)
         this.createCameraSource()
     }
 
@@ -55,6 +63,26 @@ class OcrCaptureActivity : AppCompatActivity() {
             it.flashMode = if(this.binding.flashEnabled) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF
 
             this.binding.notifyChange()
+        }
+    }
+
+    /** Gets called when the receipt appears or disappears from the camera preview */
+    fun onReceiptPresenceChanged(isPresent: Boolean) {
+        if (this.previousReceiptPresenceState != isPresent) {
+            this.previousReceiptPresenceState = isPresent
+
+            this.runOnUiThread {
+                val finding = this.findViewById<TextView>(R.id.overlay_finding_ticket)
+                val recognising = this.findViewById<TextView>(R.id.overlay_recognising_ticket)
+                val shown = if(isPresent) recognising else finding
+                val hidden = if(isPresent) finding else recognising
+
+                shown.animation = AnimationUtils.loadAnimation(this, R.anim.text_overlay_breathe)
+                hidden.clearAnimation()
+
+                shown.visibility = View.VISIBLE
+                hidden.visibility = View.GONE
+            }
         }
     }
 
@@ -99,6 +127,22 @@ class OcrCaptureActivity : AppCompatActivity() {
                 this.cameraSource = null
             }
         }
+    }
+
+    /** Checks if the device has flash hardware */
+    private fun hashFlash(): Boolean {
+        val camera = Camera.open() ?: return false
+        val parameters = camera.parameters
+
+        if (parameters.flashMode == null) {
+            camera.release()
+            return false
+        }
+
+        val supportedFlashModes = parameters.supportedFlashModes
+
+        camera.release()
+        return !(supportedFlashModes == null || supportedFlashModes.isEmpty() || supportedFlashModes.size == 1 && supportedFlashModes[0] == Camera.Parameters.FLASH_MODE_OFF)
     }
 
     override fun onPause() {

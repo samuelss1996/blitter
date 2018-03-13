@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import com.google.android.gms.vision.CameraSource
+import es.soutullo.blitter.view.activity.OcrCaptureActivity
 import es.soutullo.blitter.view.component.GraphicOverlay.Graphic
 import java.util.*
 
@@ -38,6 +39,7 @@ class GraphicOverlay<T : GraphicOverlay.Graphic>(context: Context, attrs: Attrib
     private var mHeightScaleFactor = 1.0f
     private var mFacing = CameraSource.CAMERA_FACING_BACK
     private val mGraphics = HashSet<T>()
+    lateinit var activity: OcrCaptureActivity
 
     /**
      * Base class for a custom graphics object to be rendered within the graphic overlay.  Subclass

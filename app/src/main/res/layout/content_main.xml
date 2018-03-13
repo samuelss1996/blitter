@@ -20,8 +20,8 @@
             android:layout_height="0dp"
             android:background="@color/colorPrimaryLight"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="1.0"
@@ -40,8 +40,8 @@
                 android:text="@string/bills_empty_state_welcome"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textColor="@color/colorOverPrimary"/>
 
@@ -55,13 +55,13 @@
                 android:tint="@android:color/white"
                 app:srcCompat="@drawable/ic_receipt_black_24dp"
                 android:layout_marginLeft="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="8dp"
                 android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias="0.32999998" />
 
             <TextView
@@ -117,8 +117,8 @@
             android:visibility="@{bills == null || bills.isEmpty()? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_bill_main_activity"
