@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
-import es.soutullo.blitter.view.component.CameraSource
 import kotlin.math.max
 import kotlin.math.min
 

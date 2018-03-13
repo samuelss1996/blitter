@@ -1,0 +1,162 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="persons_array_separator">,&#160;</string>
+    <string name="main_fab_manually">Transcribir manualmente</string>
+    <string name="main_fab_gallery">Dende a galería</string>
+    <string name="main_fab_camera">Dende a cámara</string>
+    <string name="bills_empty_state_welcome">Benvido!</string>
+    <string name="bills_empty_state_instruction_before">Preme o botón</string>
+    <string name="bills_empty_state_instruction_after">para comezar</string>
+    <string name="content_description_blue_circle">Círculo azul</string>
+    <string name="content_description_receipt_icon">Icono de factura</string>
+    <string name="content_description_button_start">Botón principal</string>
+    <string name="badge_bill_status_not_completed">Sen completar</string>
+    <string name="bill_beautiful_price_without_tip">%1$s</string>
+    <string name="bill_beautiful_price_with_tip">%1$s (%2$s + %3$s de propina)</string>
+    <string name="action_activity_main_search">Buscar</string>
+    <string name="action_activity_main_settings">Axustes</string>
+    <string name="hint_edit_text_product_name">Produto</string>
+    <string name="hint_edit_text_product_price">Prezo</string>
+    <string name="content_description_delete_product">Eliminar produto</string>
+    <string name="content_description_edit_product">Editar produto</string>
+    <string name="manual_transcription_product_quantity">Unidades: %1$d</string>
+    <string name="manual_transcription_product_price">Prezo/unidade: %1$s</string>
+    <string name="action_activity_manual_done">Feito</string>
+    <string name="button_amend_bill_summary">Editar</string>
+    <string name="button_continue_bill_summary">Continuar</string>
+    <string name="bill_summary_header">A TÚA CONTA - BLITTER</string>
+    <string name="bill_summary_total_products_text">NUM. TOTAL DE PRODUTOS:</string>
+    <string name="bill_summary_products_header">PRODUTOS</string>
+    <string name="bill_summary_subtotal_text">SUBTOTAL:</string>
+    <string name="bill_summary_tax_text">IMPOSTOS:</string>
+    <string name="bill_summary_total_price_text">PREZO TOTAL:</string>
+    <string name="bill_summary_tip_value">PROPINA:</string>
+    <string name="bill_summary_separator_product_count">-</string>
+    <string name="bill_summary_separator_products_title">=</string>
+    <string name="bill_summary_separator_total_price">*</string>
+    <string name="item_assignation_persons_unassigned">Sen asignar</string>
+    <string name="content_description_assignation_green_tick">Tick verde que representa que este produto está asignado correctamente</string>
+    <string name="content_description_user_profile_picture">Imaxe de perfil de usuario</string>
+    <string name="tip_final_result">Aquí tes a túa conta divida. Toca sobre unha persoa para ver o desglose detallado</string>
+    <string name="final_result_button_edit_split">Modificar</string>
+    <string name="final_result_button_finished">Listo</string>
+    <string name="content_description_button_rename_bill">Renomear conta</string>
+    <string name="title_user_products">Produtos</string>
+    <string name="bill_trace_all_product">Totalidade do produto (%1$s)</string>
+    <string name="bill_trace_partial_product">1/%1$d do produto (%2$s)</string>
+    <string name="generic_dialog_cancel">Cancelar</string>
+    <string name="dialog_edit_product_hint_product_name">Nome do produto</string>
+    <string name="dialog_edit_product_hint_product_price">Prezo (%1$s)</string>
+    <string name="dialog_edit_product_hint_product_quantity">Cantidade (máx. 50)</string>
+    <string name="dialog_tip_hint">Introduce a porcentaxe (%) de propina a continuación. É posible cambiar o valor por defecto dende os axustes</string>
+    <string name="dialog_tip_result_text">Engadirase un %1$d%% de propina (%2$s) á conta.</string>
+    <string name="dialog_edit_tax_hint">Impostos (%1$s)</string>
+
+    <string name="toast_manual_transcription_fill_fields">Por favor, cubre os campos correctamente</string>
+    <string name="dialog_delete_product_title">Eliminar produto</string>
+    <string name="dialog_delete_product_message">Estás seguro de que desexas eliminar o produto %1$s?</string>
+    <string name="dialog_generic_delete_button">Eliminar</string>
+    <string name="edit_product_dialog_positive_button">Gardar</string>
+    <string name="dialog_edit_product_title">Editar produto</string>
+    <string name="toast_manual_transcription_no_products">Debes engadir polo menos un produto antes de continuar</string>
+    <string name="bill_uncompleted_default_name">Conta sin completar</string>
+    <string name="dialog_edit_tax_title">Editar impostos</string>
+    <string name="assignation_intro_title">Asignar produtos a persoas</string>
+    <string name="assignation_intro_description">A continuación mostrarase unha lista de produtos. Toca sobre un produto para asignarlle persoas. Tamén podes seleccionar varios produtos á vez mantendo pulsado sobre un</string>
+    <string name="generic_dialog_positive_button">OK</string>
+    <string name="assignation_dialog_neutral_button">Nova persoa</string>
+    <string name="dialog_add_person_title">Nova persoa</string>
+    <string name="dialog_add_person_positive_button">Engadir</string>
+    <string name="dialog_add_person_field_hint">Nome da persoa</string>
+    <string name="empty_state_assignation_dialog">Todavía non se engadiu ningunha persoa, preme en \"%1$s\" para facelo</string>
+    <string name="choosing_bar_choose_all">Todo</string>
+    <string name="app_bar_button_assign">Asignar</string>
+    <string name="app_bar_button_delete">Eliminar</string>
+    <string name="app_bar_button_clear_assignations">Quitar asignacións</string>
+    <string name="dialog_clear_assignations_message">Estás seguro de que desexas quitar tódalas asignacións para os produtos seleccionados?</string>
+    <string name="toast_assignation_must_assign_all">Debes asignar todos os produtos antes de finalizar</string>
+    <string name="generic_dialog_continue">Continuar</string>
+    <string name="dialog_tip_title">Algo de propina?</string>
+
+    <string name="bill_final_name_pattern">Conta do %1$s</string>
+    <string name="action_activity_final_result_name">Renomear</string>
+    <string name="action_activity_final_result_delete">Eliminar</string>
+    <string name="activity_final_result_section_title">A túa conta dividida</string>
+    <string name="dialog_rename_bill_title">Renomear conta</string>
+    <string name="dialog_rename_bill_edit_text_hint">Nome da conta</string>
+    <string name="on_all_bills_deleted_warning">Só se eliminaron as contas visibles na lista actual. Podes eliminalas todas dende os axustes</string>
+
+    <string name="preference_category_title_settings">Axustes</string>
+    <string name="preference_category_title_about">Acerca de</string>
+    <string name="preference_title_default_tip">Porcentaxe propina</string>
+    <string name="preference_summary_default_tip">Establecer o porcentaxe de propina por defecto</string>
+    <string name="preference_title_delete_data">Eliminar datos da aplicación</string>
+    <string name="preference_summary_delete_bills">Eliminaranse tódalas contas e persoas introducidas</string>
+    <string name="preference_title_remove_ads">Eliminar anuncios</string>
+    <string name="preference_summary_remove_ads">Non máis publicidade!</string>
+    <string name="preference_title_developer">Desenvolvedor</string>
+    <string name="preference_title_contact">Contacto</string>
+    <string name="preference_title_version">Versión</string>
+    <string name="preference_title_privacy_policy">Política de privacidade</string>
+    <string name="preference_summary_privacy_policy">Revisar a política de privacidade</string>
+    <string name="preference_title_patreon">Donar ó desenvolvedor</string>
+    <string name="preference_summary_patreon">Donar a través de Patreon</string>
+
+    <string name="dialog_delete_all_bills_message">Estás seguro de que desexas eliminar tódalas contas e persoas introducidas na aplicación?</string>
+    <string name="toast_delete_all_bills_success">Os datos foron borrados correctamente</string>
+
+    <string name="intent_chooser_title_send_mail">Enviar correo</string>
+    <string name="app_bar_search_hint">Buscar…</string>
+    <string name="bill_search_not_found">Non se atopou ningún resultado para a búsqueda actual</string>
+    <string name="toast_ocr_low_storage">Insuficiente espazo de almacenamento para realizar o recoñecemento. Por favor, libera un pouco de espazo</string>
+    <string name="product_name_taxes">Impostos</string>
+    <string name="camera_intro_title">Escanear un ticket</string>
+    <string name="camera_intro_description">A continuación abirase a cámara. Enfoca ó ticket durante uns segundos, sen tocares nada ata que a aplicación recoñeza os produtos. Intenta que tódolos nomes dos produtos e os seus prezos estean dentro da imaxe. Tamén debe ser visible o prezo total.</string>
+    <string name="app_bar_button_tax">Impostos</string>
+    <string name="content_description_button_tax_clear">Eliminar impostos</string>
+    <string name="content_description_button_switch_flash">Habilitar ou deshabilitar o flash</string>
+    <string name="action_activity_final_result_clone">Clonar</string>
+    <string name="cloned_bill_prefix">[Copia]</string>
+    <string name="action_activity_final_result_share">Compartir</string>
+
+    <string name="bill_share_breakdown">DESGLOSE</string>
+    <string name="bill_share_tip_line_name">PROPINA</string>
+    <string name="intent_share_title">Compartir a</string>
+    <string name="activity_ad_mob_message">Este anuncio permite que Blitter sexa unha aplicación gratuita</string>
+    <string name="button_text_wait">Espera</string>
+    <string name="activity_ocr_finding_receipt">Buscando ticket…</string>
+    <string name="activity_ocr_recognising_receipt">Recoñecendo…\nNon deixes de enfocar ó ticket</string>
+
+    <plurals name="dialog_product_assignation_sub_header">
+        <item quantity="one">Asignar este produto a:</item>
+        <item quantity="other">Asignar estes produtos a:</item>
+    </plurals>
+
+    <plurals name="item_assignation_persons_assigned_all_as_number">
+        <item quantity="one">%d persoa</item>
+        <item quantity="other">%d persoas</item>
+    </plurals>
+
+    <plurals name="item_assignation_persons_more" tools:ignore="MissingQuantity">
+        <item quantity="other">&#160;e %d máis</item>
+    </plurals>
+
+    <plurals name="assignation_dialog_title">
+        <item quantity="one">%1$s</item>
+        <item quantity="other">%2$s produtos</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_title">
+        <item quantity="one">Eliminar conta</item>
+        <item quantity="other">Eliminar contas</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_message">
+        <item quantity="one">Estás seguro de que desexas eliminar esta conta?</item>
+        <item quantity="other">Estás seguro de que desexas eliminar as %d contas seleccionadas?</item>
+    </plurals>
+
+    <plurals name="button_text_wait_seconds">
+        <item quantity="one">Espera %d segundo</item>
+        <item quantity="other">Espera %d segundos</item>
+    </plurals>
+</resources>

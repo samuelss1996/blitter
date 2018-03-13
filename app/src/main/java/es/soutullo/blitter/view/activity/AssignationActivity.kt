@@ -4,10 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
-import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -26,7 +23,6 @@ import es.soutullo.blitter.view.dialog.PromptDialog
 import es.soutullo.blitter.view.dialog.TipDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
-import java.util.*
 
 class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)

@@ -137,7 +137,7 @@
     <string name="bill_share_breakdown">BREAKDOWN</string>
     <string name="bill_share_tip_line_name">TIP</string>
     <string name="intent_share_title">Share to</string>
-    <string name="activity_ad_mob_message">This app helps the developer and makes Blitter a free app</string>
+    <string name="activity_ad_mob_message">This ad helps the developer and makes Blitter a free app</string>
     <string name="button_text_wait">Please, wait</string>
     <string name="activity_ocr_finding_receipt">Finding receipt…</string>
     <string name="activity_ocr_recognising_receipt">Recognising…\nKeep focusing the receipt</string>

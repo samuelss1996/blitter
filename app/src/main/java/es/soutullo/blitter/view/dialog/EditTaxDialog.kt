@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import es.soutullo.blitter.R
-import es.soutullo.blitter.databinding.DialogEditProductBinding
 import es.soutullo.blitter.databinding.DialogEditTaxBinding
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 import es.soutullo.blitter.view.util.BlitterUtils
