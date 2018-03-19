@@ -1,11 +1,13 @@
 package es.soutullo.blitter.view.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import es.soutullo.blitter.R
@@ -21,7 +23,9 @@ import es.soutullo.blitter.view.util.BlitterUtils
 
 class BillSummaryActivity : AppCompatActivity() {
     companion object {
-        val BILL_INTENT_DATA_KEY = "EXTRA_BILL"
+        const val BILL_INTENT_DATA_KEY = "EXTRA_BILL"
+        const val INTENT_DATA_RETURNED_BILL_ID = "billId"
+        const val RETURN_BILL_ID_CODE = 1
         val BILL_SEPARATOR_CHARS = arrayOf("-", "=", "*")
     }
 
@@ -56,7 +60,7 @@ class BillSummaryActivity : AppCompatActivity() {
         val intent = Intent(this, if(tutorialViewed) AssignationActivity::class.java else AssignationIntroActivity::class.java)
 
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
-        this.startActivity(intent)
+        this.startActivityForResult(intent, RETURN_BILL_ID_CODE)
     }
 
     /** Gets called when the amend button is clicked, in order to modify the bill manually */
@@ -74,6 +78,17 @@ class BillSummaryActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == RETURN_BILL_ID_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            val returnedId = data.getLongExtra(INTENT_DATA_RETURNED_BILL_ID, -1)
+
+            if(returnedId > 0) {
+                this.bill.id = returnedId
+            }
+        }
     }
 
     /** Saves the bill status on the database */

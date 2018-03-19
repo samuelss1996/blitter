@@ -1,10 +1,12 @@
 package es.soutullo.blitter.view.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -46,6 +48,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
             this.doBackup()
         }
 
+        this.prepareIdResult()
         this.init()
     }
 
@@ -201,6 +204,11 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
         this.itemsAdapter.addAll(this.bill.lines)
         assignationRecycler.adapter = this.itemsAdapter
+    }
+
+    /** Prepares to return the ID of the bill if the back button is pressed to prevent bill duplication */
+    private fun prepareIdResult() {
+        this.setResult(Activity.RESULT_OK, Intent().putExtra(BillSummaryActivity.INTENT_DATA_RETURNED_BILL_ID, this.bill.id))
     }
 
     /** Creates the handler for the assignation dialog, which manages the click events on its buttons */
