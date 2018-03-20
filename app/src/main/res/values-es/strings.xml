@@ -126,6 +126,8 @@
     <string name="activity_ocr_finding_receipt">Buscando ticket…</string>
     <string name="activity_ocr_recognising_receipt">Reconociendo…\nNo dejes de enfocar al ticket</string>
 
+    <string name="app_intro_done_button">HECHO</string>
+
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>
         <item quantity="other">Asignar estos productos a:</item>
