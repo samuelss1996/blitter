@@ -142,6 +142,8 @@
     <string name="activity_ocr_finding_receipt">Finding receipt…</string>
     <string name="activity_ocr_recognising_receipt">Recognising…\nKeep focusing the receipt</string>
 
+    <string name="app_intro_done_button">DONE</string>
+
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Assign this product to:</item>
         <item quantity="other">Assign these products to:</item>

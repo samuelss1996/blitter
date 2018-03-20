@@ -1,0 +1,165 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="persons_array_separator">,&#160;</string>
+    <string name="main_fab_manually">Escrever manualmente</string>
+    <string name="main_fab_gallery">Da galeria</string>
+    <string name="main_fab_camera">Da câmera</string>
+    <string name="bills_empty_state_welcome">Bem-vindo!</string>
+    <string name="bills_empty_state_instruction_before">Aperte o botão</string>
+    <string name="bills_empty_state_instruction_after">para começar</string>
+    <string name="content_description_blue_circle">Círculo azul</string>
+    <string name="content_description_receipt_icon">Ícone do recibo</string>
+    <string name="content_description_button_start">Botão principal</string>
+    <string name="badge_bill_status_not_completed">Incompleto</string>
+    <string name="bill_beautiful_price_without_tip">%1$s</string>
+    <string name="bill_beautiful_price_with_tip">%1$s (%2$s + %3$s gorjeta)</string>
+    <string name="action_activity_main_search">Pesquisar</string>
+    <string name="action_activity_main_settings">Configuração</string>
+    <string name="hint_edit_text_product_name">Produto</string>
+    <string name="hint_edit_text_product_price">Preço</string>
+    <string name="content_description_delete_product">Remover produto</string>
+    <string name="content_description_edit_product">Editar produto</string>
+    <string name="manual_transcription_product_quantity">Quantidade: %1$d</string>
+    <string name="manual_transcription_product_price">Preço/Unidade: %1$s</string>
+    <string name="action_activity_manual_done">Feito</string>
+    <string name="button_amend_bill_summary">Editar</string>
+    <string name="button_continue_bill_summary">Conitnuar</string>
+    <string name="bill_summary_header">A SUA CONTA - BLITTER</string>
+    <string name="bill_summary_total_products_text">QUANTIDADE DE PRODUTOS:</string>
+    <string name="bill_summary_products_header">PRODUTOS</string>
+    <string name="bill_summary_subtotal_text">SUBTOTAL:</string>
+    <string name="bill_summary_tax_text">TAXAS:</string>
+    <string name="bill_summary_total_price_text">PREÇO TOTAL:</string>
+    <string name="bill_summary_tip_value">GORJETA:</string>
+    <string name="bill_summary_separator_product_count">-</string>
+    <string name="bill_summary_separator_products_title">=</string>
+    <string name="bill_summary_separator_total_price">*</string>
+    <string name="item_assignation_persons_unassigned">Sem distribuir</string>
+    <string name="content_description_assignation_green_tick">Tick verde que indica que o produto está devidamente designado</string>
+    <string name="content_description_user_profile_picture">Imagem de perfil do usuário</string>
+    <string name="tip_final_result">Aqui tem a sua conta dividida. Toque sobre qualquer pessoa para uma repartição detalhada</string>
+    <string name="final_result_button_edit_split">Modificar</string>
+    <string name="final_result_button_finished">Feito</string>
+    <string name="content_description_button_rename_bill">Renomear conta</string>
+    <string name="title_user_products">Produtos</string>
+    <string name="bill_trace_all_product">Totalidade do produto (%1$s)</string>
+    <string name="bill_trace_partial_product">1/%1$d do produto (%2$s)</string>
+    <string name="generic_dialog_cancel">Cancelar</string>
+    <string name="dialog_edit_product_hint_product_name">Nome do produto</string>
+    <string name="dialog_edit_product_hint_product_price">Preço (%1$s)</string>
+    <string name="dialog_edit_product_hint_product_quantity">Quantidade (máx. 50)</string>
+    <string name="dialog_tip_hint">Digite a porcentagem (%) da gorjeta. É possível alterar o valor padrão através das configurações do aplicativo</string>
+    <string name="dialog_tip_result_text">Uma gorjeta do %1$d%% (%2$s) será adicionada a conta.</string>
+    <string name="dialog_edit_tax_hint">Taxas (%1$s)</string>
+
+    <string name="toast_manual_transcription_fill_fields">Por favor, encha todos os campos corretamente</string>
+    <string name="dialog_delete_product_title">Remover produto</string>
+    <string name="dialog_delete_product_message">Tem certeza de que deseja suprimir o produto %1$s?</string>
+    <string name="dialog_generic_delete_button">Remover</string>
+    <string name="edit_product_dialog_positive_button">Guardar</string>
+    <string name="dialog_edit_product_title">Editar produto</string>
+    <string name="toast_manual_transcription_no_products">Você deve adicionar pelo menos um produto antes de continuar</string>
+    <string name="bill_uncompleted_default_name">Conta incompleta</string>
+    <string name="dialog_edit_tax_title">Editar taxas</string>
+    <string name="assignation_intro_title">Distribuir produtos a pessoas</string>
+    <string name="assignation_intro_description">Uma lista de produtos será exibida agora. Toque em um produto para atribuir as pessoas a ele. Você também pode selecionar vários produtos se manten apertado um deles</string>
+    <string name="generic_dialog_positive_button">OK</string>
+    <string name="assignation_dialog_neutral_button">Adicionar pessoa</string>
+    <string name="dialog_add_person_title">Adicionar pessoa</string>
+    <string name="dialog_add_person_positive_button">Adicionar</string>
+    <string name="dialog_add_person_field_hint">Nome da pessoa</string>
+    <string name="empty_state_assignation_dialog">Você ainda não adicionou nenhuma pessoa, toque em \"%1$s\" para fazê-lo</string>
+    <string name="choosing_bar_choose_all">Todo</string>
+    <string name="app_bar_button_assign">Atribuir</string>
+    <string name="app_bar_button_delete">Remover</string>
+    <string name="app_bar_button_clear_assignations">Remover as atribuições</string>
+    <string name="dialog_clear_assignations_message">Tem certeza de que deseja suprimir todas as atribuições para os produtos selecionados?</string>
+    <string name="toast_assignation_must_assign_all">Você deve fazer atribuições a todos os produtos antes de continuar</string>
+    <string name="generic_dialog_continue">Continuar</string>
+    <string name="dialog_tip_title">Gorjeta</string>
+
+    <string name="bill_final_name_pattern">Conta do %1$s</string>
+    <string name="action_activity_final_result_name">Renomear</string>
+    <string name="action_activity_final_result_delete">Remover</string>
+    <string name="activity_final_result_section_title">A sua conta dividida</string>
+    <string name="dialog_rename_bill_title">Renomear conta</string>
+    <string name="dialog_rename_bill_edit_text_hint">Nome da conta</string>
+    <string name="on_all_bills_deleted_warning">Somente as contas visíveis na lista atual forom suprimidas. Você pode suprimir todo através das configurações do aplicativo</string>
+
+    <string name="preference_category_title_settings">Configuração</string>
+    <string name="preference_category_title_about">Acerca de</string>
+    <string name="preference_title_default_tip">Percentagem da gorjeta</string>
+    <string name="preference_summary_default_tip">Estabelecer a porcentagem da gorjeta padrão</string>
+    <string name="preference_title_delete_data">Remover os dados do aplicativo</string>
+    <string name="preference_summary_delete_bills">Todas as contas e pessoas serão suprimidos</string>
+    <string name="preference_title_remove_ads">Remover anúncios</string>
+    <string name="preference_summary_remove_ads">Não há mais anúncios!!</string>
+    <string name="preference_title_developer">Desenvolvedor</string>
+    <string name="preference_title_contact">Contatar</string>
+    <string name="preference_title_version">Versão</string>
+    <string name="preference_title_privacy_policy">Política de privacidade</string>
+    <string name="preference_summary_privacy_policy">Verifique a política de privacidade</string>
+    <string name="preference_title_patreon">Doe ao desenvolvedor</string>
+    <string name="preference_summary_patreon">Doar através de patreon</string>
+
+    <string name="dialog_delete_all_bills_message">Tem certeza de que deseja suprimir todas as contas e pessoas inseridas no aplicativo?</string>
+    <string name="toast_delete_all_bills_success">Os dados foram suprimidos com sucesso</string>
+
+    <string name="intent_chooser_title_send_mail">Enviar e-mail</string>
+    <string name="app_bar_search_hint">Pesquisar…</string>
+    <string name="bill_search_not_found">Nenhum resultado encontrado para a consulta atual</string>
+    <string name="toast_ocr_low_storage">Não há armazenamento suficiente para reconhecer a conta. Por favor, libere un pouco de espaço de armazenamento</string>
+    <string name="product_name_taxes">Taxas</string>
+    <string name="camera_intro_title">Digitalizar um recibo</string>
+    <string name="camera_intro_description">A câmera abrirá agora. Aponte sua câmera para o recibo até que o aplicativo reconheça os produtos. Por favor, tente manter todos os nomes dos produtos dentro da visão da câmera. O preço total também deve ser visível.</string>
+    <string name="app_bar_button_tax">Taxas</string>
+    <string name="content_description_button_tax_clear">Suprimir taxas</string>
+    <string name="content_description_button_switch_flash">Ativar ou desativar o flash</string>
+    <string name="action_activity_final_result_clone">Clonar</string>
+    <string name="cloned_bill_prefix">[Cópia]</string>
+    <string name="action_activity_final_result_share">Compartilhar</string>
+
+    <string name="bill_share_breakdown">DISCRIMINAÇÃO</string>
+    <string name="bill_share_tip_line_name">GORJETA</string>
+    <string name="intent_share_title">Compartilhar a</string>
+    <string name="activity_ad_mob_message">Este anúncio ajuda o desenvolvedor e torna o Blitter um aplicativo gratuito</string>
+    <string name="button_text_wait">Por favor, espere</string>
+    <string name="activity_ocr_finding_receipt">Encontrando recibo…</string>
+    <string name="activity_ocr_recognising_receipt">Reconhecendo…\nContinue focando o recibo</string>
+
+    <string name="app_intro_done_button">FEITO</string>
+
+    <plurals name="dialog_product_assignation_sub_header">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Atribuir este produto a:</item>
+        <item quantity="other">Atribuir estes produtos a:</item>
+    </plurals>
+
+    <plurals name="item_assignation_persons_assigned_all_as_number">
+        <item quantity="one">%d pessoa</item>
+        <item quantity="other">%d pessoas</item>
+    </plurals>
+
+    <plurals name="item_assignation_persons_more">
+        <item quantity="one">&#160;e %d mais</item>
+        <item quantity="other">&#160;e %d mais</item>
+    </plurals>
+
+    <plurals name="assignation_dialog_title">
+        <item quantity="one">%1$s</item>
+        <item quantity="other">%2$s produtos</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_title">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Suprimir conta</item>
+        <item quantity="other">Suprimir contas</item>
+    </plurals>
+
+    <plurals name="dialog_delete_bill_message">
+        <item quantity="one" tools:ignore="ImpliedQuantity">Tem certeza de que deseja suprimir esta conta?</item>
+        <item quantity="other">Tem certeza de que deseja suprimir estas contas?</item>
+    </plurals>
+
+    <plurals name="button_text_wait_seconds">
+        <item quantity="one">Por favor, espere %d segundo</item>
+        <item quantity="other">Por favor, espere %d segundos</item>
+    </plurals>
+</resources>
