@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.Bill
 
