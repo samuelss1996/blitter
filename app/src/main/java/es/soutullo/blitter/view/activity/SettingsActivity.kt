@@ -23,7 +23,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
         this.findPreference(this.getString(R.string.preference_key_delete_all_bills)).setOnPreferenceClickListener { this.onDeleteAllBillsClicked() }
         this.findPreference(this.getString(R.string.preference_key_contact)).setOnPreferenceClickListener { this.onContactClicked() }
-        this.findPreference(this.getString(R.string.preference_key_patreon)).setOnPreferenceClickListener { this.onPatreonClicked() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

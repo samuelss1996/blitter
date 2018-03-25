@@ -11,6 +11,7 @@ import es.soutullo.blitter.R
 import es.soutullo.blitter.databinding.DialogProductAssignationBinding
 import es.soutullo.blitter.model.vo.bill.BillLine
 import es.soutullo.blitter.model.vo.person.Person
+import es.soutullo.blitter.view.activity.AssignationActivity
 import es.soutullo.blitter.view.adapter.generic.GenericListAdapter
 import es.soutullo.blitter.view.dialog.data.AssignationDialogPerson
 import es.soutullo.blitter.view.dialog.generic.CustomLayoutDialog
@@ -18,14 +19,14 @@ import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 
 /**
  * Dialog the user uses to assign persons to one or more products
- * @param context The android context
+ * @param assignationActivity The assignation activity reference
  * @param handler The handler, which manages the dialog buttons clicks
  * @param billLines The bill lines the user is assigning persons to
  * @param extraPeople Extra people to show on the dialog. People already assigned to any of the lines
  *        in [billLines] are implicitly shown on the dialog
  */
-class AssignationDialog(context: Context, handler: IDialogHandler, val billLines: List<BillLine>,
-        private val extraPeople: List<Person>) : CustomLayoutDialog(context, handler, context.resources
+class AssignationDialog(private val assignationActivity: AssignationActivity, handler: IDialogHandler, val billLines: List<BillLine>,
+        private val extraPeople: List<Person>) : CustomLayoutDialog(assignationActivity, handler, assignationActivity.resources
             .getQuantityString(R.plurals.assignation_dialog_title, billLines.size, billLines.firstOrNull()?.name, billLines.size)) {
 
     private val personsAdapter = AssignationDialogAdapter()
@@ -47,10 +48,6 @@ class AssignationDialog(context: Context, handler: IDialogHandler, val billLines
         return this.binding.root
     }
 
-    override fun prepareConcreteDialog(dialogBuilder: AlertDialog.Builder) {
-        super.prepareConcreteDialog(dialogBuilder)
-    }
-
     /**
      * Updates the people list shown in the dialog
      * @param extraPeople Set of more people to include at the bottom of the list. The people assigned to the
@@ -58,7 +55,7 @@ class AssignationDialog(context: Context, handler: IDialogHandler, val billLines
      */
     fun updatePeopleList(extraPeople: List<Person>) {
         val peopleGroups = billLines.map { it.persons }
-        val people = peopleGroups.flatten().distinct().map { AssignationDialogPerson(ObservableField(it.name)) }.toMutableList()
+        val people = peopleGroups.flatten().distinct().map { AssignationDialogPerson(this.assignationActivity, ObservableField(it.name)) }.toMutableList()
 
         for (person in people) {
             if(peopleGroups.all { it.contains(Person(null, person.name.get())) }) {
@@ -67,7 +64,7 @@ class AssignationDialog(context: Context, handler: IDialogHandler, val billLines
             }
         }
 
-        people.addAll(extraPeople.map { AssignationDialogPerson(ObservableField(it.name), ObservableField(false)) })
+        people.addAll(extraPeople.map { AssignationDialogPerson(this.assignationActivity, ObservableField(it.name), ObservableField(false)) })
 
         this.personsAdapter.clear()
         this.personsAdapter.addAll(people.distinct())
