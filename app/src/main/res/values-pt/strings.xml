@@ -128,6 +128,12 @@
 
     <string name="app_intro_done_button">FEITO</string>
 
+    <string name="assignation_content_description_delete_person">Remover esta persoa</string>
+    <string name="dialog_delete_recent_person_title">Remover \"%1$s\"</string>
+    <string name="dialog_delete_recent_person_message_assigned">Esta pessoa está atualmente atribuída a alguns produtos. Se você remove, essas atribuições serão perdidas. Tem certeza de que deseja remover essa pessoa e suas atribuições?</string>
+    <string name="dialog_delete_recent_person_message_not_assigned">Tem certeza de que deseja remover essa pessoa da lista de pessoas recentes?</string>
+    <string name="dialog_delete_recent_person_positive_assigned">Desatribuir e remover</string>
+
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one" tools:ignore="ImpliedQuantity">Atribuir este produto a:</item>
         <item quantity="other">Atribuir estes produtos a:</item>
