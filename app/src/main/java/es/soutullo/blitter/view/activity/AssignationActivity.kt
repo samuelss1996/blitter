@@ -165,15 +165,23 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * Gets called when the user clicks the delete button over a recent person in the assignation dialog
      * @param name The name of the person to be removed
      */
-    fun deleteRecentPerson(name: String) {
-        val person = Person(null, name)
+    fun onDeleteRecentPersonClicked(name: String) {
+        val isAlreadyAssigned = this.bill.lines.flatMap { it.persons }.contains(Person(null, name))
+        val dialogTitle = this.getString(R.string.dialog_delete_recent_person_title, name)
+        val negativeButtonText = this.getString(R.string.generic_dialog_cancel)
 
-        this.onAssignationDone(this.bill.lines, listOf(), listOf(person))
-        DaoFactory.getFactory(this).getPersonDao().deleteRecentPerson(name)
+        val positiveButtonText = when(isAlreadyAssigned) {
+            true -> this.getString(R.string.dialog_delete_recent_person_positive_assigned)
+            false -> this.getString(R.string.dialog_generic_delete_button)
+        }
 
-        this.peopleAddedOnSession.remove(person)
-        this.assignationDialog?.updatePeopleList(this.peopleAddedOnSession + DaoFactory.getFactory(this)
-                .getPersonDao().queryRecentPersons(10, this.peopleAddedOnSession))
+        val dialogMessage = when(isAlreadyAssigned) {
+            true -> this.getString(R.string.dialog_delete_recent_person_message_assigned)
+            false -> this.getString(R.string.dialog_delete_recent_person_message_not_assigned)
+        }
+
+        ConfirmationDialog(this, this.createDeleteRecentPersonDialogHandler(name), dialogTitle, dialogMessage,
+                positiveButtonText, negativeButtonText).show()
     }
 
     /**
@@ -198,6 +206,21 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
         Handler().postDelayed({this.itemsAdapter.notifyDataSetChanged()}, delay)
 
+    }
+
+    /**
+     * Gets called when the user confirms he/she wants to delete a recent person
+     * @param name The name of the person to be deleted
+     */
+    private fun deleteRecentPerson(name: String) {
+        val person = Person(null, name)
+
+        this.onAssignationDone(this.bill.lines, listOf(), listOf(person))
+        DaoFactory.getFactory(this).getPersonDao().deleteRecentPerson(name)
+
+        this.peopleAddedOnSession.remove(person)
+        this.assignationDialog?.updatePeopleList(this.peopleAddedOnSession + DaoFactory.getFactory(this)
+                .getPersonDao().queryRecentPersons(10, this.peopleAddedOnSession))
     }
 
     /** Gets called when the user tries to finish the assignations but there is yet one or more missing assignations */
@@ -278,6 +301,17 @@ class AssignationActivity : ChoosingLayoutActivity() {
         return object : IDialogHandler {
             override fun onPositiveButtonClicked(dialog: CustomDialog) {
                 (dialog as? TipDialog)?.getTipPercent()?.let { this@AssignationActivity.onTipPercentageConfirmed(it) }
+            }
+
+            override fun onNegativeButtonClicked(dialog: CustomDialog) { }
+            override fun onNeutralButtonClicked(dialog: CustomDialog) { }
+        }
+    }
+
+    private fun createDeleteRecentPersonDialogHandler(personName: String): IDialogHandler {
+        return object : IDialogHandler {
+            override fun onPositiveButtonClicked(dialog: CustomDialog) {
+                this@AssignationActivity.deleteRecentPerson(personName)
             }
 
             override fun onNegativeButtonClicked(dialog: CustomDialog) { }

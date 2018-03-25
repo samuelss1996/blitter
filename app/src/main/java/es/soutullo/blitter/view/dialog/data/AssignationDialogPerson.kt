@@ -30,7 +30,7 @@ class AssignationDialogPerson(private val assignationActivity: AssignationActivi
 
     /** Deletes the current recent person */
     fun delete() {
-        this.assignationActivity.deleteRecentPerson(this.name.get())
+        this.assignationActivity.onDeleteRecentPersonClicked(this.name.get())
     }
 
     override fun equals(other: Any?): Boolean {

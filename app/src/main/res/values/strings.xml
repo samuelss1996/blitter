@@ -144,6 +144,10 @@
 
     <string name="app_intro_done_button">DONE</string>
     <string name="assignation_content_description_delete_person">Delete this person</string>
+    <string name="dialog_delete_recent_person_title">Delete \"%1$s\"</string>
+    <string name="dialog_delete_recent_person_message_assigned">This person is currently assigned to some products. If you delete it, these assignations will be removed. Are you sure you want to delete this person and remove its assignations?</string>
+    <string name="dialog_delete_recent_person_message_not_assigned">Are you sure you want to delete this person from the recent persons list?</string>
+    <string name="dialog_delete_recent_person_positive_assigned">Unassign and delete</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Assign this product to:</item>
