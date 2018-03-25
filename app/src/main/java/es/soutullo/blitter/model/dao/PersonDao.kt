@@ -26,6 +26,12 @@ interface PersonDao {
      */
     fun insertRecentPerson(person: Person)
 
+    /**
+     * Deletes a recent person from the recent persons list. The row is not actually deleted from the table
+     * @param personName The name of the person to be deleted
+     */
+    fun deleteRecentPerson(personName: String)
+
     /** Deletes all the person from the database */
     fun deleteAllPersons()
 }

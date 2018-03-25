@@ -65,7 +65,8 @@ object BlitterSqlDbContract {
     enum class PersonEntry(override val colName: String, override val type: String, override val extraAttributes: String? = null) : TableEntry {
         _ID("_id", "INTEGER", "PRIMARY KEY"),
         NAME("name", "TEXT", "NOT NULL UNIQUE"),
-        LAST_DATE("last_date", "INTEGER")
+        LAST_DATE("last_date", "INTEGER"),
+        VISIBLE("visible", "INTEGER", "NOT NULL DEFAULT 1")
     }
 
     /**

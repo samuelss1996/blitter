@@ -162,6 +162,21 @@ class AssignationActivity : ChoosingLayoutActivity() {
     }
 
     /**
+     * Gets called when the user clicks the delete button over a recent person in the assignation dialog
+     * @param name The name of the person to be removed
+     */
+    fun deleteRecentPerson(name: String) {
+        val person = Person(null, name)
+
+        this.onAssignationDone(this.bill.lines, listOf(), listOf(person))
+        DaoFactory.getFactory(this).getPersonDao().deleteRecentPerson(name)
+
+        this.peopleAddedOnSession.remove(person)
+        this.assignationDialog?.updatePeopleList(this.peopleAddedOnSession + DaoFactory.getFactory(this)
+                .getPersonDao().queryRecentPersons(10, this.peopleAddedOnSession))
+    }
+
+    /**
      * Gets called when the assignation for a bill line or a set of bill lines is done, i.e. when the user
      * clicks the 'OK' button on the assignation dialog
      * @param affectedBillLines The bill lines selected when the dialog was launched

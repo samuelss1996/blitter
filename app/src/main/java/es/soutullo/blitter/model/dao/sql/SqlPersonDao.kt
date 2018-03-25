@@ -15,11 +15,12 @@ class SqlPersonDao(private val context: Context, private val dbHelper: BlitterSq
     override fun queryRecentPersons(limit: Int, exclude: List<Person>): List<Person> {
         val persons = mutableListOf<Person>()
         var query = "SELECT * FROM %s %s ORDER BY %s DESC LIMIT ?"
-        val whereClause = when(exclude.isNotEmpty()) {
-            true -> String.format("WHERE %s NOT IN (" + exclude.map { "?" }.reduce { acc, s -> acc + "," + s  } + ")", PersonEntry.NAME.colName)
-            false -> ""
+        var whereClause = when(exclude.isNotEmpty()) {
+            true -> String.format("WHERE %s NOT IN (" + exclude.map { "?" }.reduce { acc, s -> acc + "," + s  } + ") AND ", PersonEntry.NAME.colName)
+            false -> "WHERE "
         }
 
+        whereClause += "${PersonEntry.VISIBLE.colName} = 1"
         query = String.format(query, PERSON.tableName, whereClause, PersonEntry.LAST_DATE.colName)
 
         this.dbHelper.readableDatabase.rawQuery(query, exclude.map { it.name }.toTypedArray() + arrayOf(limit.toString())).use { cursor ->
@@ -44,16 +45,29 @@ class SqlPersonDao(private val context: Context, private val dbHelper: BlitterSq
     }
 
     override fun insertRecentPerson(person: Person) {
-        val values = ContentValues()
-        val updateWhere = "${PersonEntry.NAME.colName} LIKE ?"
-        values.put(PersonEntry.NAME.colName, person.name)
-        values.put(PersonEntry.LAST_DATE.colName, person.lastDate.time)
+        this.alterRecentPersonVisibility(person.name, person.lastDate.time, true)
+    }
 
-        this.dbHelper.writableDatabase.insertWithOnConflict(PERSON.tableName, null, values, SQLiteDatabase.CONFLICT_IGNORE)
-        this.dbHelper.writableDatabase.update(PERSON.tableName, values, updateWhere, arrayOf(person.name))
+    override fun deleteRecentPerson(personName: String) {
+        this.alterRecentPersonVisibility(personName, null, false)
     }
 
     override fun deleteAllPersons() {
         this.dbHelper.writableDatabase.delete(PERSON.tableName, "1=1", null)
+    }
+
+    private fun alterRecentPersonVisibility(personName: String, personTime: Long?, visible: Boolean) {
+        val values = ContentValues()
+        val updateWhere = "${PersonEntry.NAME.colName} LIKE ?"
+
+        values.put(PersonEntry.NAME.colName, personName)
+        values.put(PersonEntry.VISIBLE.colName, if(visible) 1 else 0)
+
+        if(personTime != null) {
+            values.put(PersonEntry.LAST_DATE.colName, personTime)
+        }
+
+        this.dbHelper.writableDatabase.insertWithOnConflict(PERSON.tableName, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+        this.dbHelper.writableDatabase.update(PERSON.tableName, values, updateWhere, arrayOf(personName))
     }
 }

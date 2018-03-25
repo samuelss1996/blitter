@@ -143,6 +143,7 @@
     <string name="activity_ocr_recognising_receipt">Recognising…\nKeep focusing the receipt</string>
 
     <string name="app_intro_done_button">DONE</string>
+    <string name="assignation_content_description_delete_person">Delete this person</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Assign this product to:</item>

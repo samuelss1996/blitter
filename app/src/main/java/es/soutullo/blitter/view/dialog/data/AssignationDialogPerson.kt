@@ -1,15 +1,18 @@
 package es.soutullo.blitter.view.dialog.data
 
+import android.content.Context
 import android.databinding.BaseObservable
 import android.databinding.ObservableField
+import es.soutullo.blitter.model.dao.DaoFactory
+import es.soutullo.blitter.view.activity.AssignationActivity
 
 /**
- * Item class for the persons list of the assignation dialog. Contains some functionaly to manage the
+ * Item class for the persons list of the assignation dialog. Contains some functionality to manage the
  * checkbox status
  * @param name The person name
  * @param status The initial status of the checkbox. If null, the status is set to indeterminate
  */
-class AssignationDialogPerson(var name: ObservableField<String>, var status: ObservableField<Boolean?> = ObservableField(null)): BaseObservable() {
+class AssignationDialogPerson(private val assignationActivity: AssignationActivity, var name: ObservableField<String>, var status: ObservableField<Boolean?> = ObservableField(null)): BaseObservable() {
     var canBeIndeterminate: Boolean = this.status.get() == null
 
     /** Changes the checkbox to the next status */
@@ -23,6 +26,11 @@ class AssignationDialogPerson(var name: ObservableField<String>, var status: Obs
                 this.status.set(if(this.canBeIndeterminate) null else true)
             }
         }
+    }
+
+    /** Deletes the current recent person */
+    fun delete() {
+        this.assignationActivity.deleteRecentPerson(this.name.get())
     }
 
     override fun equals(other: Any?): Boolean {
