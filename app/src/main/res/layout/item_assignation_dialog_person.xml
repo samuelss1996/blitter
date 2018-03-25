@@ -22,9 +22,22 @@
             app:indeterminate="@{item.status == null}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="@{item.name}"
             tools:text="Samuel Soutullo"
             android:onClick="@{() -> item.changeStatus()}"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_delete_forever_black_24dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_assignation_dialog_checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/item_assignation_dialog_checkbox"
+            android:tint="@color/light_icon_tint"
+            android:onClick="@{() -> item.delete()}"
+            android:contentDescription="@string/assignation_content_description_delete_person"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

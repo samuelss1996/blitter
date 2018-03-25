@@ -128,6 +128,12 @@
 
     <string name="app_intro_done_button">FEITO</string>
 
+    <string name="assignation_content_description_delete_person">Eliminar esta persoa</string>
+    <string name="dialog_delete_recent_person_title">Eliminar a \"%1$s\"</string>
+    <string name="dialog_delete_recent_person_message_assigned">Esta persoa está actualmente asignada a algúns produtos. Se a eliminas, perderanse estas asignacións. Estás seguro de que desexas eliminar a esta persoa e ás súas asignacións?</string>
+    <string name="dialog_delete_recent_person_message_not_assigned">Estás seguro de que desexas eliminar a esta persoa da lista de recentes?</string>
+    <string name="dialog_delete_recent_person_positive_assigned">Desasignar e eliminar</string>
+
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este produto a:</item>
         <item quantity="other">Asignar estes produtos a:</item>

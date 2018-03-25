@@ -7,7 +7,7 @@ import es.soutullo.blitter.model.BlitterSqlDbContract
 
 class BlitterSqlDbHelper(private val context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
-        val DB_VERSION = 2
+        val DB_VERSION = 3
         val DB_NAME = "Bills.db"
     }
 
@@ -15,9 +15,17 @@ class BlitterSqlDbHelper(private val context: Context) : SQLiteOpenHelper(contex
         BlitterSqlDbContract.Table.values().forEach({table ->  db.execSQL(this.createTableQuery(table))})
     }
 
-    override fun onUpgrade(db: SQLiteDatabase, i: Int, i1: Int) {
-        BlitterSqlDbContract.Table.values().reversed().forEach { db.execSQL("DROP TABLE IF EXISTS ${it.tableName};") }
-        this.onCreate(db)
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        if (oldVersion < 2) {
+            BlitterSqlDbContract.Table.values().reversed().forEach { db.execSQL("DROP TABLE IF EXISTS ${it.tableName};") }
+            this.onCreate(db)
+        }
+        if(oldVersion < 3) {
+            val table = BlitterSqlDbContract.Table.PERSON
+            val column = BlitterSqlDbContract.PersonEntry.VISIBLE
+
+            db.execSQL("ALTER TABLE ${table.tableName} ADD COLUMN ${column.name} ${column.extraAttributes};")
+        }
     }
 
     override fun onConfigure(db: SQLiteDatabase?) {
