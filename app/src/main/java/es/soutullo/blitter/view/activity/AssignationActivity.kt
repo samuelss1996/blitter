@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
+import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
@@ -13,6 +15,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import es.soutullo.blitter.R
+import es.soutullo.blitter.model.billing.IabHelper
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
@@ -30,7 +33,9 @@ class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)
     override val showHomeAsUp: Boolean = true
 
+    private var billingHelper: IabHelper? = null
     private lateinit var bill: Bill
+
     private var peopleAddedOnSession = mutableListOf<Person>()
     private var assignationDialog: AssignationDialog? = null
 
@@ -49,6 +54,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
         }
 
         this.prepareIdResult()
+        this.checkAdsRemoved()
         this.init()
     }
 
@@ -107,7 +113,8 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * @param tipPercent The tip percent specified by the user
      */
     private fun onTipPercentageConfirmed(tipPercent: Double) {
-        val intent = Intent(this, AdMobActivity::class.java)
+        val skipAds = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(this.getString(R.string.preference_key_ads_removed), false)
+        val intent = Intent(this, if(skipAds) FinalResultActivity::class.java else AdMobActivity::class.java)
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
 
         this.bill.tipPercent = tipPercent
@@ -234,6 +241,25 @@ class AssignationActivity : ChoosingLayoutActivity() {
         DaoFactory.getFactory(this).getBillDao().updateBill(this.bill.id, this.bill)
     }
 
+    /** Updates the removed ads flag if the user has made the purchase but it is not reflected in the shared preferences */
+    private fun checkAdsRemoved() {
+        val removedOnCache = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(this.getString(R.string.preference_key_ads_removed), false)
+
+        if (!removedOnCache) {
+            this.billingHelper = IabHelper(this, this.getString(R.string.billing_public_key))
+
+            this.billingHelper?.startSetup { startResult ->
+                if(startResult.isSuccess) {
+                    this.billingHelper?.queryInventoryAsync { queryResult, inventory ->
+                        if(queryResult.isSuccess && inventory.hasPurchase(this.getString(R.string.sku_remove_ads))) {
+                            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(this.getString(R.string.preference_key_ads_removed), true).apply()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /** Initializes some fields of the activity */
     private fun init() {
         val assignationRecycler = this.findViewById<RecyclerView>(R.id.assignation_bill_lines)
@@ -317,5 +343,10 @@ class AssignationActivity : ChoosingLayoutActivity() {
             override fun onNegativeButtonClicked(dialog: CustomDialog) { }
             override fun onNeutralButtonClicked(dialog: CustomDialog) { }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        this.billingHelper?.dispose()
     }
 }
