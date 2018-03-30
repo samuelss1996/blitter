@@ -133,6 +133,9 @@
     <string name="dialog_delete_recent_person_message_assigned">Esta pessoa está atualmente atribuída a alguns produtos. Se você remove, essas atribuições serão perdidas. Tem certeza de que deseja remover essa pessoa e suas atribuições?</string>
     <string name="dialog_delete_recent_person_message_not_assigned">Tem certeza de que deseja remover essa pessoa da lista de pessoas recentes?</string>
     <string name="dialog_delete_recent_person_positive_assigned">Desatribuir e remover</string>
+    <string name="button_remove_ads"><u>Remover anúncios e esperas</u></string>
+    <string name="toast_purchase_successful">Compra realizada com sucesso</string>
+    <string name="toast_purchase_error">Compra cancelada</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one" tools:ignore="ImpliedQuantity">Atribuir este produto a:</item>
