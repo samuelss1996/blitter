@@ -9,11 +9,15 @@
     <string name="preference_key_version" translatable="false">preference_version</string>
     <string name="preference_key_privacy_policy" translatable="false">preference_privacy_policy</string>
     <string name="preference_key_patreon" translatable="false">preference_patreon</string>
+    <string name="preference_key_ads_removed" translatable="false">preference_ads_removed</string>
 
     <string name="app_name" translatable="false">Blitter</string>
     <string name="preference_summary_developer" translatable="false">Samuel Soutullo Sobral</string>
     <string name="developer_email" translatable="false">samuelsoutullosobral@gmail.com</string>
     <string name="patreon_url" translatable="false">https://www.patreon.com/samuelsoutullo</string>
+
+    <string name="billing_public_key" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAinFETcJpeQAxjf41wImKeRXI60PkvcpPVFJJJmCj5S9gAAkE/FcAC7Hra2aVgP5QqfW/JaXkAp2B89sUgHK+nsou9X9J8zO1yhsjgPYjXML0tA/qgKIYfF9u6lvt0xe/4N4OzxWffEIY77Xr7oydRDY+B61EKDdJZerPEpSFa0y0xn3fmrxwLHrjY5ibWp9VueJWfYvYLzK+d9aOVvd1/6zz2O1ujpiwjishQROapj3VjqW4T4Ou7PDrb4/Ep+m3lJvIFB0TAZg50yr+cxB5QqvfZCshZXLYt0gAho8Kopmvjcnp2yUUDjgjJFA2SeXW3xVKi4+hPtjwDSFxgNqQYwIDAQAB</string>
+    <string name="sku_remove_ads" translatable="false">es.soutullo.blitter.product.removeads</string>
 
     <string name="persons_array_separator">,&#160;</string>
     <string name="main_fab_manually">Write manually</string>
@@ -149,6 +153,9 @@
     <string name="dialog_delete_recent_person_message_assigned">This person is currently assigned to some products. If you delete it, these assignations will be removed. Are you sure you want to delete this person and remove its assignations?</string>
     <string name="dialog_delete_recent_person_message_not_assigned">Are you sure you want to delete this person from the recent persons list?</string>
     <string name="dialog_delete_recent_person_positive_assigned">Unassign and delete</string>
+    <string name="button_remove_ads"><u>Remove ads and waits</u></string>
+    <string name="toast_purchase_successful">Purchase performed successfully</string>
+    <string name="toast_purchase_error">Purchase cancelled</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Assign this product to:</item>

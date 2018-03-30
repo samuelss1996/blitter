@@ -36,7 +36,21 @@
         ads:layout_constraintDimensionRatio="1"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toBottomOf="@id/advertisement_message"
-        ads:layout_constraintBottom_toTopOf="@id/ad_mob_continue_button"/>
+        ads:layout_constraintBottom_toTopOf="@id/ad_mob_remove_ads_button"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/ad_mob_remove_ads_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ad_mob_continue_button"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:text="@string/button_remove_ads"
+        android:textColor="@color/colorPrimary"
+        android:visibility="invisible"
+        android:enabled="false"
+        android:onClick="onRemoveAdsClicked"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/ad_mob_continue_button"
