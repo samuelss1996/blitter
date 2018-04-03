@@ -721,6 +721,10 @@ public class IabHelper {
         queryInventoryAsync(false, null, null, listener);
     }
 
+    public Boolean getAsyncInProgress() {
+        return this.mAsyncInProgress;
+    }
+
     /**
      * Consumes a given in-app product. Consuming can only be done on an item
      * that's owned, and as a result of consumption, the user will no longer own it.

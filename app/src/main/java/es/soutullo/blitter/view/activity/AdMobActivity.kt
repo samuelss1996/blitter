@@ -55,8 +55,10 @@ class AdMobActivity : AppCompatActivity() {
     }
 
     fun onRemoveAdsClicked(view: View) {
-        this.billingHelper.launchPurchaseFlow(this, this.getString(R.string.sku_remove_ads), PURCHASE_RETURN_CODE_ID,
-                { result, purchase -> this.onPurchaseFinished(result, purchase) }, "")
+        if (!this.billingHelper.asyncInProgress) {
+            this.billingHelper.launchPurchaseFlow(this, this.getString(R.string.sku_remove_ads), PURCHASE_RETURN_CODE_ID,
+                    { result, purchase -> this.onPurchaseFinished(result, purchase) }, "")
+        }
     }
 
     private fun loadAds() {
