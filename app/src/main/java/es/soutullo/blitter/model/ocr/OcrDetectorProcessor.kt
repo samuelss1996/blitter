@@ -1,5 +1,6 @@
 package es.soutullo.blitter.model.ocr
 
+import android.text.format.DateFormat
 import android.util.SparseArray
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.text.Text
@@ -127,7 +128,9 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
      * @return The converted bill object
      */
     private fun createBill(recognizedData: RecognizedData): Bill {
-        val bill = Bill(null, this.activity.getString(R.string.bill_uncompleted_default_name), Date(), EBillSource.CAMERA, EBillStatus.UNCONFIRMED, recognizedData.tax)
+        val date = Date()
+        val billName = this.activity.getString(R.string.bill_final_name_pattern, DateFormat.getDateFormat(this.activity).format(date))
+        val bill = Bill(null, billName, date, EBillSource.CAMERA, EBillStatus.UNCONFIRMED, recognizedData.tax)
 
         recognizedData.receiptLines.forEachIndexed { index, product ->
             bill.addLine(BillLine(null, bill, index, product.name.take(21), product.price))

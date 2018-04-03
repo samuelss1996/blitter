@@ -26,7 +26,7 @@ class TipDialog(context: Context, handler: IDialogHandler?, private val bill: Bi
         this.binding.tipPercent = this.getStartingTipPercent()
 
         this.binding.root.findViewById<BubbleSeekBar>(R.id.dialog_tip_seek_bar).let {
-            it.setProgress(this.binding.tipPercent.toFloat() * 100)
+            it.setProgress(this.binding.tipPercent!!.toFloat() * 100)
             it.onProgressChangedListener = this.createSeekBarListener()
         }
 

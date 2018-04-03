@@ -58,7 +58,7 @@ class AssignationDialog(private val assignationActivity: AssignationActivity, ha
         val people = peopleGroups.flatten().distinct().map { AssignationDialogPerson(this.assignationActivity, ObservableField(it.name)) }.toMutableList()
 
         for (person in people) {
-            if(peopleGroups.all { it.contains(Person(null, person.name.get())) }) {
+            if(peopleGroups.all { it.contains(Person(null, person.name.get()!!)) }) {
                 person.status = ObservableField(true)
                 person.canBeIndeterminate = false
             }
@@ -73,10 +73,10 @@ class AssignationDialog(private val assignationActivity: AssignationActivity, ha
     }
 
     /** @return The persons whose checkboxes are selected */
-    fun getAssignedPersons(): List<Person> = this.personsAdapter.items.filter { it.status.get() == true }.map { Person(null, it.name.get()) }
+    fun getAssignedPersons(): List<Person> = this.personsAdapter.items.filter { it.status.get() == true }.map { Person(null, it.name.get()!!) }
 
     /** @return The persons whose checkboxes are unselected */
-    fun getUnassignedPersons(): List<Person> = this.personsAdapter.items.filter { it.status.get() == false }.map { Person(null, it.name.get()) }
+    fun getUnassignedPersons(): List<Person> = this.personsAdapter.items.filter { it.status.get() == false }.map { Person(null, it.name.get()!!) }
 
     /** RecyclerView adapter for the persons list on the assignation dialog */
     private inner class AssignationDialogAdapter : GenericListAdapter<AssignationDialogPerson>() {

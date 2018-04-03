@@ -58,8 +58,8 @@ class OcrCaptureActivity : AppCompatActivity() {
     /** Gets called when the flash button is clicked. Switches the flashlight status (turns it on if it's off, and also the opposite) */
     fun switchFlash(view: View) {
         this.cameraSource?.let {
-            this.binding.flashEnabled = !this.binding.flashEnabled
-            it.flashMode = if(this.binding.flashEnabled) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF
+            this.binding.flashEnabled = !this.binding.flashEnabled!!
+            it.flashMode = if(this.binding.flashEnabled!!) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF
 
             this.binding.notifyChange()
         }

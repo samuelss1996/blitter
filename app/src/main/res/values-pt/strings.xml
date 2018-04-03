@@ -58,7 +58,6 @@
     <string name="edit_product_dialog_positive_button">Guardar</string>
     <string name="dialog_edit_product_title">Editar produto</string>
     <string name="toast_manual_transcription_no_products">Você deve adicionar pelo menos um produto antes de continuar</string>
-    <string name="bill_uncompleted_default_name">Conta incompleta</string>
     <string name="dialog_edit_tax_title">Editar taxas</string>
     <string name="assignation_intro_title">Distribuir produtos a pessoas</string>
     <string name="assignation_intro_description">Uma lista de produtos será exibida agora. Toque em um produto para atribuir as pessoas a ele. Você também pode selecionar vários produtos se manten apertado um deles</string>

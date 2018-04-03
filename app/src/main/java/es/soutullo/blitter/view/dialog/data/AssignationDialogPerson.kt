@@ -12,7 +12,7 @@ import es.soutullo.blitter.view.activity.AssignationActivity
  * @param name The person name
  * @param status The initial status of the checkbox. If null, the status is set to indeterminate
  */
-class AssignationDialogPerson(private val assignationActivity: AssignationActivity, var name: ObservableField<String>, var status: ObservableField<Boolean?> = ObservableField(null)): BaseObservable() {
+class AssignationDialogPerson(private val assignationActivity: AssignationActivity, var name: ObservableField<String>, var status: ObservableField<Boolean?> = ObservableField()): BaseObservable() {
     var canBeIndeterminate: Boolean = this.status.get() == null
 
     /** Changes the checkbox to the next status */
@@ -30,7 +30,7 @@ class AssignationDialogPerson(private val assignationActivity: AssignationActivi
 
     /** Deletes the current recent person */
     fun delete() {
-        this.assignationActivity.onDeleteRecentPersonClicked(this.name.get())
+        this.assignationActivity.onDeleteRecentPersonClicked(this.name.get()!!)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -44,5 +44,5 @@ class AssignationDialogPerson(private val assignationActivity: AssignationActivi
         return true
     }
 
-    override fun hashCode(): Int = name.get().hashCode()
+    override fun hashCode(): Int = name.get()!!.hashCode()
 }
