@@ -78,7 +78,6 @@
     <string name="edit_product_dialog_positive_button">Save</string>
     <string name="dialog_edit_product_title">Edit product</string>
     <string name="toast_manual_transcription_no_products">You should add at least one product before continuing</string>
-    <string name="bill_uncompleted_default_name">Uncompleted bill</string>
     <string name="dialog_edit_tax_title">Edit tax</string>
     <string name="assignation_intro_title">Assign products to people</string>
     <string name="assignation_intro_description">A list of products will be shown now. Tap over one product to assign people to it. You can also select multiple products if you tap and hold over one of them</string>

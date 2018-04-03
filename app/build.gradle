@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "es.soutullo.blitter"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 10
-        versionName "2.2"
+        versionCode 11
+        versionName "2.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,28 +28,28 @@ android {
 
 dependencies {
     implementation 'com.google.firebase:firebase-ads:11.8.0'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.google.android.gms:play-services-vision:11.8.0'
-    compile 'com.google.android.gms:play-services-ads:11.8.0'
-    compile 'com.android.support:preference-v7:26.1.0'
-    compile 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
-    compile 'com.github.apl-devs:appintro:v4.2.2'
-    compile 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'
-    compile 'com.xw.repo:bubbleseekbar:3.16-lite'
-    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
-    compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.google.android.gms:play-services-vision:11.8.0'
+    implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation 'com.android.support:preference-v7:26.1.0'
+    implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
+    implementation 'com.github.apl-devs:appintro:v4.2.2'
+    implementation 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'
+    implementation 'com.xw.repo:bubbleseekbar:3.16-lite'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    implementation 'com.pavelsikun:material-seekbar-preference:2.3.0+'
+    implementation 'com.bignerdranch.android:recyclerview-multiselect:0.2'
+    testImplementation 'junit:junit:4.12'
 }
 
 apply plugin: 'kotlin-kapt'
