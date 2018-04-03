@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -151,7 +152,9 @@ class ManualTranscriptionActivity : AppCompatActivity() {
      * @return The bill
      */
     private fun toBill(billId: Long?, products: List<ManualTranscriptionProduct>): Bill {
-        val bill = Bill(billId, this.getString(R.string.bill_uncompleted_default_name), Date(), EBillSource.MANUAL, EBillStatus.WRITING)
+        val date = Date()
+        val billName = this.getString(R.string.bill_final_name_pattern, DateFormat.getDateFormat(this).format(date))
+        val bill = Bill(billId, billName, date, EBillSource.MANUAL, EBillStatus.WRITING)
 
         var i = 0
         for ((name, unitPrice, quantity) in products) {

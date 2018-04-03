@@ -38,7 +38,7 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
             GenericListViewHolder(LayoutInflater.from(parent.context).inflate(this.getActualItemLayout(viewType), parent, false))
 
     override fun onBindViewHolder(holder: GenericListViewHolder, position: Int) {
-        holder.binding.setVariable(BR.item, this.items[position])
+        holder.binding!!.setVariable(BR.item, this.items[position])
         holder.binding.setVariable(BR.utils, BlitterUtils)
         holder.binding.executePendingBindings()
     }
@@ -159,7 +159,7 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
 
     /** Generic ViewHolder for each item of the RecyclerView */
     open inner class GenericListViewHolder(protected val view: View, multiSelector: MultiSelector = MultiSelector()): MultiSelectorBindingHolder(view, multiSelector) {
-        val binding: ViewDataBinding = DataBindingUtil.bind<ViewDataBinding>(this.view)
+        val binding: ViewDataBinding? = DataBindingUtil.bind(this.view)
 
         init {
             val clickListener = View.OnClickListener { this.onClick(it.id) }
