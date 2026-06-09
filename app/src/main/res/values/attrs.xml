@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SeekBarPreference">
+        <attr name="msbp_minValue" format="integer" />
+        <attr name="msbp_maxValue" format="integer|reference" />
+        <attr name="msbp_interval" format="integer" />
+        <attr name="msbp_measurementUnit" format="string" />
+        <attr name="msbp_dialogEnabled" format="boolean" />
+    </declare-styleable>
+</resources>

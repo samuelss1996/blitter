@@ -68,8 +68,8 @@ class AssignationActivity : ChoosingLayoutActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_done -> this.onFinishButtonClicked()
             R.id.action_clear_assignations -> this.onClearAssignationsClicked()
@@ -90,7 +90,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
         return true
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         Handler().postDelayed({this.itemsAdapter.notifyDataSetChanged()}, 100)
     }

@@ -25,8 +25,8 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         this.findPreference(this.getString(R.string.preference_key_contact)).setOnPreferenceClickListener { this.onContactClicked() }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             android.R.id.home -> this.finish()
         }
 

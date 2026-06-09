@@ -94,17 +94,17 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(con
     private fun isPortraitMode() = this.context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
     private inner class SurfaceCallback : SurfaceHolder.Callback {
-        override fun surfaceCreated(surface: SurfaceHolder?) {
+        override fun surfaceCreated(surface: SurfaceHolder) {
             try {
                 this@CameraSourcePreview.surfaceAvailable = true
                 this@CameraSourcePreview.startIfReady()
             } catch (e: Exception) { }
         }
 
-        override fun surfaceDestroyed(p0: SurfaceHolder?) {
+        override fun surfaceDestroyed(p0: SurfaceHolder) {
             this@CameraSourcePreview.surfaceAvailable = false
         }
 
-        override fun surfaceChanged(surface: SurfaceHolder?, format: Int, width: Int, height: Int) {}
+        override fun surfaceChanged(surface: SurfaceHolder, format: Int, width: Int, height: Int) {}
     }
 }

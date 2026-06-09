@@ -180,7 +180,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
      * @param text The text
      * @return True if it is the "total price" text
      */
-    private fun isTotalText(text: String) = TOTAL_KEYWORDS.any { text.toLowerCase().contains(it) }
+    private fun isTotalText(text: String) = TOTAL_KEYWORDS.any { text.lowercase().contains(it) }
 
     /**
      * Determines whether or not a specific text is the "tax" text of the receipt, in any
@@ -188,7 +188,7 @@ class OcrDetectorProcessor(private val activity: OcrCaptureActivity, private val
      * @param text The text
      * @return True if it is the "tax" text
      */
-    private fun isTaxText(text: String) = TAX_KEYWORDS.any { text.toLowerCase().contains(it) }
+    private fun isTaxText(text: String) = TAX_KEYWORDS.any { text.lowercase().contains(it) }
 
     /** Finds any valid price contained in the String and converts it to double. If this is not possible,
      * null value is returned */

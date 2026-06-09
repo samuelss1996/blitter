@@ -127,7 +127,7 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill, 
     /** Draws the products section (products list) */
     private fun drawProducts() {
         this.bill.lines.forEach {
-            this.drawText(this.ellipsizeIfNecessary(it.name.toUpperCase(), MAX_LINE_CHARACTERS), true, this.alignStart())
+            this.drawText(this.ellipsizeIfNecessary(it.name.uppercase(), MAX_LINE_CHARACTERS), true, this.alignStart())
             this.drawText(BlitterUtils.getPriceAsString(it.price), false, this.alignEnd())
         }
     }
@@ -160,7 +160,7 @@ class BillBitmapGenerator(private val context: Context, private val bill: Bill, 
     /** Draws the payment breakdown (how much should each person pay) over the receipt */
     private fun drawBreakdown() {
         this.persons().forEachIndexed { index, it ->
-            val personName = this.ellipsizeIfNecessary(it.name.toUpperCase(), MAX_LINE_CHARACTERS)
+            val personName = this.ellipsizeIfNecessary(it.name.uppercase(), MAX_LINE_CHARACTERS)
             this.drawText(personName, true, this.alignStart(), marginTop = if(this.includeDetails && index > 0) 14f else 0f)
             this.drawText(BlitterUtils.getPriceAsString(it.getPayingAmountWithTip()), false, this.alignEnd())
 

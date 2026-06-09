@@ -101,8 +101,8 @@ class MainActivity : ChoosingLayoutActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             R.id.action_delete -> this.onDeleteClicked()
             R.id.action_settings -> this.startActivity(Intent(this, SettingsActivity::class.java))
             R.id.action_search -> this.onSearchClicked()

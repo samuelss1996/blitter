@@ -42,8 +42,8 @@ class FinalResultActivity : AppCompatActivity(), IListHandler {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_rename -> this.onRenameClicked()
             R.id.action_share -> this.onShareClicked()

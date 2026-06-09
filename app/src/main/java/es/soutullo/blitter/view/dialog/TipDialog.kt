@@ -39,12 +39,12 @@ class TipDialog(context: Context, handler: IDialogHandler?, private val bill: Bi
     /** Creates the listener which manages changes on the seek bar value */
     private fun createSeekBarListener(): BubbleSeekBar.OnProgressChangedListener {
         return object : BubbleSeekBar.OnProgressChangedListener {
-            override fun onProgressChanged(bubbleSeekBar: BubbleSeekBar?, progress: Int, progressFloat: Float) {
+            override fun onProgressChanged(bubbleSeekBar: BubbleSeekBar?, progress: Int, progressFloat: Float, fromUser: Boolean) {
                 this@TipDialog.binding.tipPercent = progress / 100.0
             }
 
             override fun getProgressOnActionUp(bubbleSeekBar: BubbleSeekBar?, progress: Int, progressFloat: Float) { }
-            override fun getProgressOnFinally(bubbleSeekBar: BubbleSeekBar?, progress: Int, progressFloat: Float) { }
+            override fun getProgressOnFinally(bubbleSeekBar: BubbleSeekBar?, progress: Int, progressFloat: Float, fromUser: Boolean) { }
         }
     }
 

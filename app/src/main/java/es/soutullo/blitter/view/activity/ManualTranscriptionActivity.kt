@@ -44,8 +44,8 @@ class ManualTranscriptionActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             android.R.id.home -> this.onSupportNavigateUp()
             R.id.action_done -> this.onFinishButtonClicked()
         }
