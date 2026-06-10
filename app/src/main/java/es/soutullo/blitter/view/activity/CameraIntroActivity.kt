@@ -7,8 +7,12 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import es.soutullo.blitter.R
+import es.soutullo.blitter.view.util.EdgeToEdge
+import es.soutullo.blitter.view.util.EdgeToEdgeMode
+import es.soutullo.blitter.view.util.EdgeToEdgeStatusBarColor
 
 // TODO fix code repetition concerning this and main activities
+@EdgeToEdge(mode = EdgeToEdgeMode.APP_INTRO, statusBarColor = EdgeToEdgeStatusBarColor.CAMERA_INTRO)
 class CameraIntroActivity : ABlitterIntroActivity() {
     override val titleId = R.string.camera_intro_title
     override val descriptionId = R.string.camera_intro_description

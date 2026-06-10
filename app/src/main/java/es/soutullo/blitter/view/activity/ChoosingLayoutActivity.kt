@@ -1,7 +1,7 @@
 package es.soutullo.blitter.view.activity
 
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
+import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -12,6 +12,7 @@ import android.widget.TextView
 import es.soutullo.blitter.R
 import es.soutullo.blitter.view.adapter.generic.ChoosableItemsAdapter
 import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
+import es.soutullo.blitter.view.util.EdgeToEdgeUtils
 
 /** Base class for any activity which implements the standard choosing layout on the app bar with recycler views */
 abstract class ChoosingLayoutActivity: AppCompatActivity(), IChoosableItemsListHandler {
@@ -68,9 +69,11 @@ abstract class ChoosingLayoutActivity: AppCompatActivity(), IChoosableItemsListH
         this.supportActionBar?.setDisplayHomeAsUpEnabled(!choosingMode && this.showHomeAsUp)
         this.findViewById<ViewGroup>(R.id.action_bar_content).visibility = if(choosingMode) View.VISIBLE else View.GONE
 
-        this.supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this,appBarColorId)))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.window.statusBarColor = ContextCompat.getColor(this, statusBarColorId)
-        }
+        this.setAppBarColors(appBarColorId, statusBarColorId)
+    }
+
+    protected fun setAppBarColors(@ColorRes appBarColorId: Int, @ColorRes statusBarColorId: Int) {
+        this.supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, appBarColorId)))
+        EdgeToEdgeUtils.setStatusBarColorResource(this, statusBarColorId)
     }
 }

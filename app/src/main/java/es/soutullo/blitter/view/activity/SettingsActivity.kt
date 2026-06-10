@@ -11,8 +11,11 @@ import es.soutullo.blitter.view.activity.compat.AppCompatPreferenceActivity
 import es.soutullo.blitter.view.dialog.ConfirmationDialog
 import es.soutullo.blitter.view.dialog.generic.CustomDialog
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
+import es.soutullo.blitter.view.util.EdgeToEdge
+import es.soutullo.blitter.view.util.EdgeToEdgeMode
 
 
+@EdgeToEdge(mode = EdgeToEdgeMode.STATUS_BAR_ONLY)
 class SettingsActivity : AppCompatPreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

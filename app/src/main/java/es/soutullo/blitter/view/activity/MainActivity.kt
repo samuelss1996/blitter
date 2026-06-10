@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -247,11 +245,7 @@ class MainActivity : ChoosingLayoutActivity() {
         val appBarColorId = if(showSearch) R.color.md_white_1000 else R.color.colorPrimary
         val statusBarColorId = if(showSearch) R.color.md_black_1000 else R.color.colorPrimaryDark
 
-
-        this.supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this,appBarColorId)))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.window.statusBarColor = ContextCompat.getColor(this, statusBarColorId)
-        }
+        this.setAppBarColors(appBarColorId, statusBarColorId)
 
         this.prepareSearchEditText(showSearch)
         this.invalidateOptionsMenu()

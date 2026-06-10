@@ -1,6 +1,5 @@
 package es.soutullo.blitter.view.activity
 
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
@@ -21,10 +20,6 @@ abstract class ABlitterIntroActivity : AppIntro() {
 
         this.addSlide(AppIntroFragment.newInstance(this.getString(this.titleId), this.getString(this.descriptionId), this.drawableId,
                 ContextCompat.getColor(this, this.mainColorId)))
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.window.statusBarColor = ContextCompat.getColor(this, this.barColorId)
-        }
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {

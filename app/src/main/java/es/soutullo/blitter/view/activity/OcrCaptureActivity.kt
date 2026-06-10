@@ -25,8 +25,11 @@ import es.soutullo.blitter.view.component.CameraSource
 import es.soutullo.blitter.view.component.CameraSourcePreview
 import es.soutullo.blitter.view.component.GraphicOverlay
 import es.soutullo.blitter.view.component.OcrGraphic
+import es.soutullo.blitter.view.util.EdgeToEdge
+import es.soutullo.blitter.view.util.EdgeToEdgeMode
 
 /** The activity where the receipt is scanned using the camera */
+@EdgeToEdge(mode = EdgeToEdgeMode.NONE)
 class OcrCaptureActivity : AppCompatActivity() {
     private lateinit var cameraSourcePreview: CameraSourcePreview
     private lateinit var graphicOverlay: GraphicOverlay<OcrGraphic>

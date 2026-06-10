@@ -3,8 +3,7 @@ package es.soutullo.blitter
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import es.soutullo.blitter.view.activity.OcrCaptureActivity
-import es.soutullo.blitter.view.util.EdgeToEdgeUtils
+import es.soutullo.blitter.view.util.EdgeToEdgePolicy
 
 class BlitterApplication : Application() {
     override fun onCreate() {
@@ -12,9 +11,7 @@ class BlitterApplication : Application() {
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-                if (activity !is OcrCaptureActivity) {
-                    EdgeToEdgeUtils.applySystemBarPadding(activity)
-                }
+                EdgeToEdgePolicy.apply(activity)
             }
 
             override fun onActivityStarted(activity: Activity) = Unit

@@ -1,31 +1,168 @@
 package es.soutullo.blitter.view.util
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Build
+import android.support.annotation.ColorInt
+import android.support.annotation.ColorRes
+import android.support.v4.content.ContextCompat
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsets
+import android.widget.FrameLayout
+import com.github.paolorotolo.appintro.R as AppIntroR
+import java.util.WeakHashMap
 
+@Suppress("DEPRECATION")
 object EdgeToEdgeUtils {
-    fun applySystemBarPadding(activity: Activity) {
+    private const val STATUS_BAR_BACKGROUND_TAG = "blitter_status_bar_background"
+    private val statusBarColors = WeakHashMap<Activity, Int>()
+
+    fun applySystemBarPadding(activity: Activity, @ColorInt defaultStatusBarColor: Int = Color.TRANSPARENT) {
         if (Build.VERSION.SDK_INT < 35) {
             return
         }
 
         val content = activity.findViewById<View>(android.R.id.content) ?: return
-        val initialLeft = content.paddingLeft
-        val initialTop = content.paddingTop
-        val initialRight = content.paddingRight
-        val initialBottom = content.paddingBottom
+        val decor = activity.window.decorView as? FrameLayout
+        val initialPadding = content.paddingSnapshot()
 
-        @Suppress("DEPRECATION")
-        content.setOnApplyWindowInsetsListener { view, insets ->
-            view.setPadding(
-                initialLeft + insets.systemWindowInsetLeft,
-                initialTop + insets.systemWindowInsetTop,
-                initialRight + insets.systemWindowInsetRight,
-                initialBottom + insets.systemWindowInsetBottom
+        content.doOnApplyWindowInsets { view, insets ->
+            val statusBarColor = statusBarColors[activity] ?: defaultStatusBarColor
+
+            view.setPadding(initialPadding.plusSystemInsets(insets))
+            decor?.setStatusBarBackground(insets.systemWindowInsetTop, statusBarColor)
+        }
+    }
+
+    fun applyStatusBarBackground(activity: Activity, @ColorInt color: Int) {
+        setStatusBarColor(activity, color)
+
+        if (Build.VERSION.SDK_INT < 35) {
+            return
+        }
+
+        val decor = activity.window.decorView as? FrameLayout ?: return
+
+        decor.doOnApplyWindowInsets { _, insets ->
+            val statusBarColor = statusBarColors[activity] ?: color
+
+            decor.setStatusBarBackground(insets.systemWindowInsetTop, statusBarColor)
+        }
+    }
+
+    fun applyAppIntroInsets(activity: Activity, @ColorInt statusBarColor: Int) {
+        setStatusBarColor(activity, statusBarColor)
+
+        if (Build.VERSION.SDK_INT < 35) {
+            return
+        }
+
+        val decor = activity.window.decorView as? FrameLayout ?: return
+        val viewPager = activity.findViewById<View>(AppIntroR.id.view_pager)
+        val bottomBar = activity.findViewById<View>(AppIntroR.id.bottom)
+
+        val initialPagerPadding = viewPager?.paddingSnapshot()
+        val initialBottomPadding = bottomBar?.paddingSnapshot()
+        val initialBottomHeight = bottomBar?.layoutParams?.height ?: 0
+
+        decor.doOnApplyWindowInsets { _, insets ->
+            val bottomInset = insets.systemWindowInsetBottom
+            val color = statusBarColors[activity] ?: statusBarColor
+
+            decor.setStatusBarBackground(insets.systemWindowInsetTop, color)
+            viewPager?.let { pager ->
+                initialPagerPadding?.let { pager.setPadding(it.copy(bottom = it.bottom + bottomInset)) }
+            }
+            bottomBar?.let { bar ->
+                initialBottomPadding?.let { bar.setPadding(it.copy(bottom = it.bottom + bottomInset)) }
+                bar.setHeight(initialBottomHeight + bottomInset, onlyIfInitialHeightIsFixed = initialBottomHeight > 0)
+            }
+        }
+    }
+
+    fun setStatusBarColorResource(activity: Activity, @ColorRes colorId: Int) {
+        setStatusBarColor(activity, ContextCompat.getColor(activity, colorId))
+    }
+
+    fun setStatusBarColor(activity: Activity, @ColorInt color: Int) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return
+        }
+
+        statusBarColors[activity] = color
+        activity.window.statusBarColor = color
+
+        if (Build.VERSION.SDK_INT >= 35) {
+            val decor = activity.window.decorView as? FrameLayout ?: return
+            val statusBarBackground = decor.findViewWithTag<View>(STATUS_BAR_BACKGROUND_TAG) ?: return
+
+            statusBarBackground.setBackgroundColor(color)
+        }
+    }
+
+    private fun FrameLayout.setStatusBarBackground(height: Int, @ColorInt color: Int) {
+        if (height <= 0) {
+            return
+        }
+
+        val statusBarBackground = this.findViewWithTag<View>(STATUS_BAR_BACKGROUND_TAG) ?: View(this.context).also { view ->
+            view.tag = STATUS_BAR_BACKGROUND_TAG
+            this.addView(
+                view,
+                FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height, Gravity.TOP)
             )
+        }
+
+        statusBarBackground.layoutParams = (statusBarBackground.layoutParams as FrameLayout.LayoutParams).apply {
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+            this.height = height
+            gravity = Gravity.TOP
+        }
+        statusBarBackground.setBackgroundColor(color)
+        statusBarBackground.bringToFront()
+    }
+
+    private fun View.doOnApplyWindowInsets(callback: (View, WindowInsets) -> Unit) {
+        this.setOnApplyWindowInsetsListener { view, insets ->
+            callback(view, insets)
             insets
         }
-        content.requestApplyInsets()
+        this.requestApplyInsets()
     }
+
+    private fun View.paddingSnapshot(): PaddingSnapshot {
+        return PaddingSnapshot(this.paddingLeft, this.paddingTop, this.paddingRight, this.paddingBottom)
+    }
+
+    private fun View.setPadding(padding: PaddingSnapshot) {
+        this.setPadding(padding.left, padding.top, padding.right, padding.bottom)
+    }
+
+    private fun PaddingSnapshot.plusSystemInsets(insets: WindowInsets): PaddingSnapshot {
+        return copy(
+            left = left + insets.systemWindowInsetLeft,
+            top = top + insets.systemWindowInsetTop,
+            right = right + insets.systemWindowInsetRight,
+            bottom = bottom + insets.systemWindowInsetBottom
+        )
+    }
+
+    private fun View.setHeight(height: Int, onlyIfInitialHeightIsFixed: Boolean) {
+        if (!onlyIfInitialHeightIsFixed) {
+            return
+        }
+
+        this.layoutParams = this.layoutParams.apply {
+            this.height = height
+        }
+    }
+
+    private data class PaddingSnapshot(
+        val left: Int,
+        val top: Int,
+        val right: Int,
+        val bottom: Int
+    )
 }

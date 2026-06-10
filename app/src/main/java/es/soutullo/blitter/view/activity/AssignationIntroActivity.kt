@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.Bill
+import es.soutullo.blitter.view.util.EdgeToEdge
+import es.soutullo.blitter.view.util.EdgeToEdgeMode
+import es.soutullo.blitter.view.util.EdgeToEdgeStatusBarColor
 
+@EdgeToEdge(mode = EdgeToEdgeMode.APP_INTRO, statusBarColor = EdgeToEdgeStatusBarColor.ASSIGNATION_INTRO)
 class AssignationIntroActivity : ABlitterIntroActivity() {
     override val titleId = R.string.assignation_intro_title
     override val descriptionId = R.string.assignation_intro_description
