@@ -24,7 +24,6 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
 
 import java.io.IOException;
-import java.lang.Thread.State;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.nio.ByteBuffer;
@@ -307,7 +306,9 @@ public class CameraSource {
     public void release() {
         synchronized (mCameraLock) {
             stop();
-            mFrameProcessor.release();
+            if (mFrameProcessor != null) {
+                mFrameProcessor.release();
+            }
         }
     }
 
@@ -1083,11 +1084,11 @@ public class CameraSource {
          * Releases the underlying receiver.  This is only safe to do after the associated thread
          * has completed, which is managed in camera source's release method above.
          */
-        @SuppressLint("Assert")
         void release() {
-            assert (mProcessingThread.getState() == State.TERMINATED);
-            mDetector.release();
-            mDetector = null;
+            if (mDetector != null) {
+                mDetector.release();
+                mDetector = null;
+            }
         }
 
         /**
@@ -1200,4 +1201,3 @@ public class CameraSource {
         }
     }
 }
-
