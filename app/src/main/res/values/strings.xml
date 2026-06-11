@@ -1,4 +1,5 @@
 <resources>
+    <string name="ad_mob_app_id" translatable="false">ca-app-pub-7211217453116351~6569738789</string>
     <string name="ad_mob_app_id_layouts" translatable="false">ca-app-pub-7211217453116351/2440181261</string>
 
     <string name="preference_key_default_tip_percent" translatable="false">preference_default_tip_percent</string>

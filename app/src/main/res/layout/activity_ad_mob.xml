@@ -23,8 +23,8 @@
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
@@ -33,7 +33,6 @@
         ads:adSize="MEDIUM_RECTANGLE"
         ads:adUnitId="@string/ad_mob_app_id_layouts"
         ads:layout_constraintLeft_toLeftOf="parent"
-        ads:layout_constraintDimensionRatio="1"
         ads:layout_constraintRight_toRightOf="parent"
         ads:layout_constraintTop_toBottomOf="@id/advertisement_message"
         ads:layout_constraintBottom_toTopOf="@id/ad_mob_remove_ads_button"/>
