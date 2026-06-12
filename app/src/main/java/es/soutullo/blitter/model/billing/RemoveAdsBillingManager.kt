@@ -10,6 +10,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
@@ -19,13 +20,14 @@ import com.android.billingclient.api.QueryPurchasesParams
 
 class RemoveAdsBillingManager(
         context: Context,
-        private val productIds: List<String>,
+        private val removeAdsProductIds: List<String>,
+        private val supportProductIds: List<String> = emptyList(),
         private val listener: Listener
 ) {
     interface Listener {
         fun onBillingReady(options: List<RemoveAdsProductOption>)
         fun onBillingUnavailable(error: RemoveAdsBillingError)
-        fun onPurchaseCompleted()
+        fun onPurchaseCompleted(kind: BillingProductKind)
         fun onPurchaseRestored()
         fun onPurchaseFailed(error: RemoveAdsBillingError)
         fun onPurchaseCancelled()
@@ -37,9 +39,14 @@ class RemoveAdsBillingManager(
         private const val PURCHASE_CONFIRMATION_RETRY_DELAY_MILLIS = 1_000L
         private const val MAX_ACKNOWLEDGEMENT_ATTEMPTS = 3
         private const val ACKNOWLEDGEMENT_RETRY_DELAY_MILLIS = 5_000L
+        private const val MAX_CONSUMPTION_ATTEMPTS = 3
+        private const val CONSUMPTION_RETRY_DELAY_MILLIS = 5_000L
     }
 
     private val appContext = context.applicationContext
+    private val productIds = removeAdsProductIds + supportProductIds
+    private val removeAdsProductIdSet = removeAdsProductIds.toSet()
+    private val supportProductIdSet = supportProductIds.toSet()
     private val productIdSet = productIds.toSet()
     private val mainHandler = Handler(Looper.getMainLooper())
     private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
@@ -60,10 +67,19 @@ class RemoveAdsBillingManager(
     private var destroyed = false
     private var connecting = false
     private var purchaseInProgress = false
+    private var launchedProductId: String? = null
     private var purchaseConfirmationAttempts = 0
 
     fun start(onPurchasesRefreshed: ((RemoveAdsPurchaseStatus) -> Unit)? = null) {
         if (destroyed) {
+            return
+        }
+
+        if (productIds.isEmpty()) {
+            dispatch {
+                onPurchasesRefreshed?.invoke(RemoveAdsPurchaseStatus.UNAVAILABLE)
+                listener.onBillingUnavailable(RemoveAdsBillingError.PRODUCT_UNAVAILABLE)
+            }
             return
         }
 
@@ -122,6 +138,7 @@ class RemoveAdsBillingManager(
         }
 
         purchaseInProgress = true
+        launchedProductId = productId
         purchaseConfirmationAttempts = 0
 
         val productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
@@ -136,6 +153,7 @@ class RemoveAdsBillingManager(
         if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
             Log.w(TAG, "Billing flow failed: ${billingResult.debugMessage}")
             purchaseInProgress = false
+            launchedProductId = null
             listener.onPurchaseFailed(billingResult.toBillingError())
         }
     }
@@ -154,7 +172,7 @@ class RemoveAdsBillingManager(
                 return@queryPurchasesAsync
             }
 
-            val queryResult = billingResult.toPurchaseQueryResult(purchases)
+            val queryResult = billingResult.toPurchaseQueryResult(purchases, removeAdsProductIdSet)
             when (queryResult.status) {
                 RemoveAdsPurchaseStatus.OWNED -> {
                     processCompletedPurchase(queryResult.purchase!!, PurchaseSource.RESTORE) {
@@ -174,6 +192,8 @@ class RemoveAdsBillingManager(
 
     fun destroy() {
         destroyed = true
+        mainHandler.removeCallbacksAndMessages(null)
+
         if (billingClient.isReady) {
             billingClient.endConnection()
         }
@@ -228,7 +248,7 @@ class RemoveAdsBillingManager(
 
         when (billingResult.responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-                val purchase = purchases?.firstOrNull { isCompletedRemoveAdsPurchase(it) }
+                val purchase = purchases.findCompletedKnownPurchase(launchedProductId)
                 if (purchase == null) {
                     confirmPurchaseOutcome(RemoveAdsBillingError.UNKNOWN)
                 } else {
@@ -237,9 +257,17 @@ class RemoveAdsBillingManager(
             }
             BillingClient.BillingResponseCode.USER_CANCELED -> {
                 purchaseInProgress = false
+                launchedProductId = null
                 dispatch { listener.onPurchaseCancelled() }
             }
-            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> confirmPurchaseOutcome(RemoveAdsBillingError.ITEM_ALREADY_OWNED)
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
+                val source = if (launchedProductId in supportProductIdSet) {
+                    PurchaseSource.NEW_PURCHASE
+                } else {
+                    PurchaseSource.RESTORE
+                }
+                confirmPurchaseOutcome(RemoveAdsBillingError.ITEM_ALREADY_OWNED, source)
+            }
             else -> {
                 Log.w(TAG, "Purchase update failed: ${billingResult.debugMessage}")
                 confirmPurchaseOutcome(billingResult.toBillingError())
@@ -247,17 +275,23 @@ class RemoveAdsBillingManager(
         }
     }
 
-    private fun confirmPurchaseOutcome(fallbackError: RemoveAdsBillingError) {
-        queryRemoveAdsPurchase { queryResult ->
+    private fun confirmPurchaseOutcome(
+            fallbackError: RemoveAdsBillingError,
+            successSource: PurchaseSource = PurchaseSource.NEW_PURCHASE
+    ) {
+        queryKnownPurchase { queryResult ->
             when (queryResult.status) {
-                RemoveAdsPurchaseStatus.OWNED -> processCompletedPurchase(queryResult.purchase!!, PurchaseSource.NEW_PURCHASE)
-                RemoveAdsPurchaseStatus.NOT_OWNED -> retryOrFailPurchaseConfirmation(fallbackError)
-                RemoveAdsPurchaseStatus.UNAVAILABLE -> retryOrFailPurchaseConfirmation(fallbackError)
+                RemoveAdsPurchaseStatus.OWNED -> processCompletedPurchase(queryResult.purchase!!, successSource)
+                RemoveAdsPurchaseStatus.NOT_OWNED -> retryOrFailPurchaseConfirmation(fallbackError, successSource)
+                RemoveAdsPurchaseStatus.UNAVAILABLE -> retryOrFailPurchaseConfirmation(fallbackError, successSource)
             }
         }
     }
 
-    private fun retryOrFailPurchaseConfirmation(fallbackError: RemoveAdsBillingError) {
+    private fun retryOrFailPurchaseConfirmation(
+            fallbackError: RemoveAdsBillingError,
+            successSource: PurchaseSource
+    ) {
         purchaseConfirmationAttempts++
 
         if (purchaseConfirmationAttempts >= MAX_PURCHASE_CONFIRMATION_ATTEMPTS) {
@@ -267,13 +301,14 @@ class RemoveAdsBillingManager(
 
         mainHandler.postDelayed({
             if (!destroyed && purchaseInProgress) {
-                confirmPurchaseOutcome(fallbackError)
+                confirmPurchaseOutcome(fallbackError, successSource)
             }
         }, PURCHASE_CONFIRMATION_RETRY_DELAY_MILLIS)
     }
 
     private fun failPurchase(error: RemoveAdsBillingError) {
         purchaseInProgress = false
+        launchedProductId = null
         purchaseConfirmationAttempts = 0
         dispatch { listener.onPurchaseFailed(error) }
     }
@@ -283,26 +318,32 @@ class RemoveAdsBillingManager(
             source: PurchaseSource,
             onProcessed: (() -> Unit)? = null
     ) {
-        grantEntitlement(source, onProcessed)
-        acknowledgePurchaseIfNeeded(purchase)
+        when (purchase.kind()) {
+            BillingProductKind.REMOVE_ADS -> {
+                grantPurchase(BillingProductKind.REMOVE_ADS, source, onProcessed)
+                acknowledgePurchaseIfNeeded(purchase)
+            }
+            BillingProductKind.SUPPORT -> consumeSupportPurchase(purchase)
+            null -> failPurchase(RemoveAdsBillingError.PRODUCT_UNAVAILABLE)
+        }
     }
 
-    private fun grantEntitlement(source: PurchaseSource, onProcessed: (() -> Unit)?) {
+    private fun grantPurchase(
+            kind: BillingProductKind,
+            source: PurchaseSource,
+            onProcessed: (() -> Unit)?
+    ) {
         purchaseInProgress = false
+        launchedProductId = null
         purchaseConfirmationAttempts = 0
 
         dispatch {
             when (source) {
-                PurchaseSource.NEW_PURCHASE -> listener.onPurchaseCompleted()
+                PurchaseSource.NEW_PURCHASE -> listener.onPurchaseCompleted(kind)
                 PurchaseSource.RESTORE -> listener.onPurchaseRestored()
             }
             onProcessed?.invoke()
         }
-    }
-
-    private fun isCompletedRemoveAdsPurchase(purchase: Purchase): Boolean {
-        return purchase.products.any { it in productIdSet }
-                && purchase.purchaseState == Purchase.PurchaseState.PURCHASED
     }
 
     private fun failPurchaseLaunch(error: RemoveAdsBillingError) {
@@ -317,7 +358,8 @@ class RemoveAdsBillingManager(
                 productId = this.productId,
                 name = this.name.ifBlank { this.title },
                 formattedPrice = offerDetails.formattedPrice,
-                priceAmountMicros = offerDetails.priceAmountMicros
+                priceAmountMicros = offerDetails.priceAmountMicros,
+                kind = RemoveAdsProductCatalog.kindOf(this.productId) ?: return null
         )
     }
 
@@ -358,7 +400,35 @@ class RemoveAdsBillingManager(
         }
     }
 
-    private fun queryRemoveAdsPurchase(onResult: (PurchaseQueryResult) -> Unit) {
+    private fun consumeSupportPurchase(purchase: Purchase, attempt: Int = 1) {
+        val params = ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
+        billingClient.consumeAsync(params) { billingResult, _ ->
+            if (destroyed) {
+                return@consumeAsync
+            }
+
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                grantPurchase(BillingProductKind.SUPPORT, PurchaseSource.NEW_PURCHASE, null)
+                return@consumeAsync
+            }
+
+            Log.w(TAG, "Support purchase consumption failed: ${billingResult.debugMessage}")
+
+            if (attempt < MAX_CONSUMPTION_ATTEMPTS) {
+                mainHandler.postDelayed({
+                    if (!destroyed && purchaseInProgress) {
+                        consumeSupportPurchase(purchase, attempt + 1)
+                    }
+                }, CONSUMPTION_RETRY_DELAY_MILLIS)
+            } else {
+                failPurchase(billingResult.toBillingError())
+            }
+        }
+    }
+
+    private fun queryKnownPurchase(onResult: (PurchaseQueryResult) -> Unit) {
         if (!billingClient.isReady) {
             onResult(PurchaseQueryResult(RemoveAdsPurchaseStatus.UNAVAILABLE))
             return
@@ -372,7 +442,8 @@ class RemoveAdsBillingManager(
                 return@queryPurchasesAsync
             }
 
-            onResult(billingResult.toPurchaseQueryResult(purchases))
+            val eligibleProductIds = launchedProductId?.let { setOf(it) } ?: productIdSet
+            onResult(billingResult.toPurchaseQueryResult(purchases, eligibleProductIds, launchedProductId))
         }
     }
 
@@ -392,12 +463,47 @@ class RemoveAdsBillingManager(
             val purchase: Purchase? = null
     )
 
-    private fun BillingResult.toPurchaseQueryResult(purchases: List<Purchase>?): PurchaseQueryResult {
+    private fun List<Purchase>?.findCompletedKnownPurchase(preferredProductId: String?): Purchase? {
+        if (preferredProductId != null) {
+            return this?.firstOrNull { purchase ->
+                preferredProductId in purchase.products && purchase.isCompletedKnownPurchase()
+            }
+        }
+
+        return this?.firstOrNull { it.isCompletedKnownPurchase() }
+    }
+
+    private fun Purchase.isCompletedKnownPurchase(): Boolean {
+        return this.products.any { it in productIdSet }
+                && this.purchaseState == Purchase.PurchaseState.PURCHASED
+    }
+
+    private fun Purchase.kind(): BillingProductKind? {
+        return when {
+            this.products.any { it in removeAdsProductIdSet } -> BillingProductKind.REMOVE_ADS
+            this.products.any { it in supportProductIdSet } -> BillingProductKind.SUPPORT
+            else -> null
+        }
+    }
+
+    private fun BillingResult.toPurchaseQueryResult(
+            purchases: List<Purchase>?,
+            eligibleProductIds: Set<String>,
+            preferredProductId: String? = null
+    ): PurchaseQueryResult {
         if (this.responseCode != BillingClient.BillingResponseCode.OK) {
             return PurchaseQueryResult(RemoveAdsPurchaseStatus.UNAVAILABLE)
         }
 
-        val purchase = purchases?.firstOrNull { isCompletedRemoveAdsPurchase(it) }
+        val purchase = purchases?.firstOrNull { purchase ->
+            preferredProductId != null
+                    && preferredProductId in eligibleProductIds
+                    && preferredProductId in purchase.products
+                    && purchase.purchaseState == Purchase.PurchaseState.PURCHASED
+        } ?: purchases?.firstOrNull { purchase ->
+            purchase.products.any { it in eligibleProductIds }
+                    && purchase.purchaseState == Purchase.PurchaseState.PURCHASED
+        }
         return if (purchase == null) {
             PurchaseQueryResult(RemoveAdsPurchaseStatus.NOT_OWNED)
         } else {

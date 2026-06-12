@@ -9,13 +9,11 @@
     <string name="preference_key_contact" translatable="false">preference_contact</string>
     <string name="preference_key_version" translatable="false">preference_version</string>
     <string name="preference_key_privacy_policy" translatable="false">preference_privacy_policy</string>
-    <string name="preference_key_patreon" translatable="false">preference_patreon</string>
     <string name="preference_key_ads_removed" translatable="false">preference_ads_removed</string>
 
     <string name="app_name" translatable="false">Blitter</string>
     <string name="preference_summary_developer" translatable="false">Samuel Soutullo Sobral</string>
     <string name="developer_email" translatable="false">samuelsoutullosobral@gmail.com</string>
-    <string name="patreon_url" translatable="false">https://www.patreon.com/samuelsoutullo</string>
 
     <string name="persons_array_separator">,&#160;</string>
     <string name="main_fab_manually">Write manually</string>
@@ -110,13 +108,13 @@
     <string name="preference_summary_delete_bills">All the bills and people will be deleted</string>
     <string name="preference_title_remove_ads">Remove ads</string>
     <string name="preference_summary_remove_ads">No more ads!</string>
+    <string name="preference_title_extra_donation">Support Blitter again</string>
+    <string name="preference_summary_extra_donation">Make an extra donation. This does not unlock additional features</string>
     <string name="preference_title_developer">Developer</string>
     <string name="preference_title_contact">Contact</string>
     <string name="preference_title_version">Version</string>
     <string name="preference_title_privacy_policy">Privacy policy</string>
     <string name="preference_summary_privacy_policy">Check the privacy policy</string>
-    <string name="preference_title_patreon">Donate to the developer</string>
-    <string name="preference_summary_patreon">Donate through patreon</string>
 
     <string name="dialog_delete_all_bills_message">Are you sure you want to delete all the bills and people entered in the app?</string>
     <string name="toast_delete_all_bills_success">The data was deleted successfully</string>
@@ -152,8 +150,12 @@
     <string name="dialog_delete_recent_person_positive_assigned">Unassign and delete</string>
     <string name="remove_ads_options_title">Remove ads and waits</string>
     <string name="remove_ads_options_message">Pay what you want. Any option permanently removes ads and waiting screens.</string>
+    <string name="extra_donation_options_title">Support Blitter again</string>
+    <string name="extra_donation_options_message">Thanks for supporting Blitter. These options are just an extra donation and do not unlock any additional benefit.</string>
     <string name="button_remove_ads"><u>Remove ads and waits</u></string>
     <string name="toast_purchase_successful">Purchase performed successfully</string>
+    <string name="toast_extra_donation_successful">Thanks for the extra support!</string>
+    <string name="toast_support_option_already_owned">You already bought this support option</string>
     <string name="toast_purchase_feature_not_supported">Purchases are not supported on this device</string>
     <string name="toast_purchase_service_disconnected">Could not connect to Google Play. Try again</string>
     <string name="toast_purchase_service_unavailable">Google Play purchases are temporarily unavailable</string>

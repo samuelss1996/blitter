@@ -92,13 +92,13 @@
     <string name="preference_summary_delete_bills">Todas as contas e pessoas serão suprimidos</string>
     <string name="preference_title_remove_ads">Remover anúncios</string>
     <string name="preference_summary_remove_ads">Não há mais anúncios!!</string>
+    <string name="preference_title_extra_donation">Apoiar o Blitter novamente</string>
+    <string name="preference_summary_extra_donation">Fazer uma doação extra. Isto não desbloqueia funcionalidades adicionais</string>
     <string name="preference_title_developer">Desenvolvedor</string>
     <string name="preference_title_contact">Contatar</string>
     <string name="preference_title_version">Versão</string>
     <string name="preference_title_privacy_policy">Política de privacidade</string>
     <string name="preference_summary_privacy_policy">Verifique a política de privacidade</string>
-    <string name="preference_title_patreon">Doe ao desenvolvedor</string>
-    <string name="preference_summary_patreon">Doar através de patreon</string>
 
     <string name="dialog_delete_all_bills_message">Tem certeza de que deseja suprimir todas as contas e pessoas inseridas no aplicativo?</string>
     <string name="toast_delete_all_bills_success">Os dados foram suprimidos com sucesso</string>
@@ -134,8 +134,12 @@
     <string name="dialog_delete_recent_person_positive_assigned">Desatribuir e remover</string>
     <string name="remove_ads_options_title">Remover anúncios e esperas</string>
     <string name="remove_ads_options_message">Pague o que quiser. Qualquer opção remove permanentemente os anúncios e as esperas.</string>
+    <string name="extra_donation_options_title">Apoiar o Blitter novamente</string>
+    <string name="extra_donation_options_message">Obrigado por apoiar o Blitter. Estas opções são apenas uma doação extra e não desbloqueiam nenhum benefício adicional.</string>
     <string name="button_remove_ads"><u>Remover anúncios e esperas</u></string>
     <string name="toast_purchase_successful">Compra realizada com sucesso</string>
+    <string name="toast_extra_donation_successful">Obrigado pelo apoio extra!</string>
+    <string name="toast_support_option_already_owned">Você já comprou esta opção de apoio</string>
     <string name="toast_purchase_feature_not_supported">As compras não são compatíveis com este dispositivo</string>
     <string name="toast_purchase_service_disconnected">Não foi possível conectar ao Google Play. Tente novamente</string>
     <string name="toast_purchase_service_unavailable">As compras do Google Play estão temporariamente indisponíveis</string>

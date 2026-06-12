@@ -15,6 +15,7 @@ import android.widget.CheckBox
 import android.widget.Toast
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.billing.AdsRemovalStore
+import es.soutullo.blitter.model.billing.BillingProductKind
 import es.soutullo.blitter.model.billing.RemoveAdsBillingError
 import es.soutullo.blitter.model.billing.RemoveAdsBillingManager
 import es.soutullo.blitter.model.billing.RemoveAdsProductCatalog
@@ -251,13 +252,13 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
         if (AdsRemovalStore.isValidationStale(this)) {
             this.billingManager = RemoveAdsBillingManager(
-                    this,
-                    RemoveAdsProductCatalog.productIds,
-                    object : RemoveAdsBillingManager.Listener {
+                    context = this,
+                    removeAdsProductIds = RemoveAdsProductCatalog.removeAdsProductIds,
+                    listener = object : RemoveAdsBillingManager.Listener {
                         override fun onBillingReady(options: List<RemoveAdsProductOption>) = Unit
                         override fun onBillingUnavailable(error: RemoveAdsBillingError) = Unit
 
-                        override fun onPurchaseCompleted() {
+                        override fun onPurchaseCompleted(kind: BillingProductKind) {
                             AdsRemovalStore.markAdsRemoved(this@AssignationActivity)
                         }
 

@@ -16,12 +16,14 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.billing.AdsRemovalStore
+import es.soutullo.blitter.model.billing.BillingProductKind
 import es.soutullo.blitter.model.billing.RemoveAdsBillingError
 import es.soutullo.blitter.model.billing.RemoveAdsBillingManager
 import es.soutullo.blitter.model.billing.RemoveAdsProductCatalog
 import es.soutullo.blitter.model.billing.RemoveAdsProductOption
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.view.component.RemoveAdsOptionsDialog
+import es.soutullo.blitter.view.util.messageResId
 
 class AdMobActivity : AppCompatActivity() {
     companion object {
@@ -144,9 +146,9 @@ class AdMobActivity : AppCompatActivity() {
 
     private fun prepareBilling() {
         this.billingManager = RemoveAdsBillingManager(
-                this,
-                RemoveAdsProductCatalog.productIds,
-                object : RemoveAdsBillingManager.Listener {
+                context = this,
+                removeAdsProductIds = RemoveAdsProductCatalog.removeAdsProductIds,
+                listener = object : RemoveAdsBillingManager.Listener {
                     override fun onBillingReady(options: List<RemoveAdsProductOption>) {
                         this@AdMobActivity.billingReady = true
                         this@AdMobActivity.availableRemoveAdsOptions = options
@@ -159,8 +161,10 @@ class AdMobActivity : AppCompatActivity() {
                         this@AdMobActivity.availableRemoveAdsOptions = listOf()
                     }
 
-                    override fun onPurchaseCompleted() {
-                        this@AdMobActivity.onPurchaseFinished(showToast = true)
+                    override fun onPurchaseCompleted(kind: BillingProductKind) {
+                        if (kind == BillingProductKind.REMOVE_ADS) {
+                            this@AdMobActivity.onPurchaseFinished(showToast = true)
+                        }
                     }
 
                     override fun onPurchaseRestored() {
@@ -190,6 +194,8 @@ class AdMobActivity : AppCompatActivity() {
         this.removeAdsOptionsDialog = RemoveAdsOptionsDialog.show(
                 context = this,
                 options = this.availableRemoveAdsOptions,
+                titleResId = R.string.remove_ads_options_title,
+                messageResId = R.string.remove_ads_options_message,
                 onOptionSelected = this::onRemoveAdsOptionSelected,
                 onDismissed = { this.removeAdsOptionsDialog = null }
         )
@@ -227,20 +233,5 @@ class AdMobActivity : AppCompatActivity() {
         }
 
         super.onDestroy()
-    }
-
-    private fun RemoveAdsBillingError.messageResId(): Int {
-        return when (this) {
-            RemoveAdsBillingError.FEATURE_NOT_SUPPORTED -> R.string.toast_purchase_feature_not_supported
-            RemoveAdsBillingError.SERVICE_DISCONNECTED -> R.string.toast_purchase_service_disconnected
-            RemoveAdsBillingError.SERVICE_UNAVAILABLE -> R.string.toast_purchase_service_unavailable
-            RemoveAdsBillingError.BILLING_UNAVAILABLE -> R.string.toast_purchase_billing_unavailable
-            RemoveAdsBillingError.PRODUCT_UNAVAILABLE -> R.string.toast_purchase_product_unavailable
-            RemoveAdsBillingError.DEVELOPER_ERROR -> R.string.toast_purchase_developer_error
-            RemoveAdsBillingError.ITEM_ALREADY_OWNED -> R.string.toast_purchase_item_already_owned
-            RemoveAdsBillingError.ITEM_NOT_OWNED -> R.string.toast_purchase_item_not_owned
-            RemoveAdsBillingError.NETWORK_ERROR -> R.string.toast_purchase_network_error
-            RemoveAdsBillingError.UNKNOWN -> R.string.toast_purchase_unknown_error
-        }
     }
 }

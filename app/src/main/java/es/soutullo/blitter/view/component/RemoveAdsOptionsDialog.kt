@@ -14,17 +14,19 @@ object RemoveAdsOptionsDialog {
     fun show(
             context: Context,
             options: List<RemoveAdsProductOption>,
+            titleResId: Int,
+            messageResId: Int,
             onOptionSelected: (RemoveAdsProductOption) -> Unit,
             onDismissed: () -> Unit
     ): AlertDialog {
         lateinit var dialog: AlertDialog
-        val content = createContent(context, options) { option ->
+        val content = createContent(context, options, messageResId) { option ->
             dialog.dismiss()
             onOptionSelected(option)
         }
 
         dialog = AlertDialog.Builder(context)
-                .setTitle(R.string.remove_ads_options_title)
+                .setTitle(titleResId)
                 .setView(content)
                 .setNegativeButton(R.string.generic_dialog_cancel, null)
                 .create()
@@ -39,10 +41,13 @@ object RemoveAdsOptionsDialog {
     private fun createContent(
             context: Context,
             options: List<RemoveAdsProductOption>,
+            messageResId: Int,
             onOptionSelected: (RemoveAdsProductOption) -> Unit
     ): View {
         val inflater = LayoutInflater.from(context)
         val content = inflater.inflate(R.layout.dialog_remove_ads_options, null)
+        content.findViewById<TextView>(R.id.remove_ads_options_message).setText(messageResId)
+
         val optionsContainer = content.findViewById<LinearLayout>(R.id.remove_ads_options_container)
 
         options.forEach { option ->
