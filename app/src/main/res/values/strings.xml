@@ -17,8 +17,6 @@
     <string name="developer_email" translatable="false">samuelsoutullosobral@gmail.com</string>
     <string name="patreon_url" translatable="false">https://www.patreon.com/samuelsoutullo</string>
 
-    <string name="sku_remove_ads" translatable="false">es.soutullo.blitter.product.removeads</string>
-
     <string name="persons_array_separator">,&#160;</string>
     <string name="main_fab_manually">Write manually</string>
     <string name="main_fab_gallery">From gallery</string>
@@ -152,10 +150,10 @@
     <string name="dialog_delete_recent_person_message_assigned">This person is currently assigned to some products. If you delete it, these assignations will be removed. Are you sure you want to delete this person and remove its assignations?</string>
     <string name="dialog_delete_recent_person_message_not_assigned">Are you sure you want to delete this person from the recent persons list?</string>
     <string name="dialog_delete_recent_person_positive_assigned">Unassign and delete</string>
+    <string name="remove_ads_options_title">Remove ads and waits</string>
+    <string name="remove_ads_options_message">Pay what you want. Any option permanently removes ads and waiting screens.</string>
     <string name="button_remove_ads"><u>Remove ads and waits</u></string>
     <string name="toast_purchase_successful">Purchase performed successfully</string>
-    <string name="toast_purchase_error">Purchase cancelled</string>
-    <string name="toast_purchase_unavailable">Purchases are not available right now</string>
     <string name="toast_purchase_feature_not_supported">Purchases are not supported on this device</string>
     <string name="toast_purchase_service_disconnected">Could not connect to Google Play. Try again</string>
     <string name="toast_purchase_service_unavailable">Google Play purchases are temporarily unavailable</string>

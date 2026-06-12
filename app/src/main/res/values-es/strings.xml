@@ -132,10 +132,10 @@
     <string name="dialog_delete_recent_person_message_assigned">Esta persona está actualmente asignada a algunos productos. Si la eliminas, se perderán estas asignaciones. ¿Estás seguro de que deseas eliminar a esta persona y sus asignaciones?</string>
     <string name="dialog_delete_recent_person_message_not_assigned">¿Estás seguro de que desaeas eliminar a esta persona de la lista de recientes?</string>
     <string name="dialog_delete_recent_person_positive_assigned">Desasignar y eliminar</string>
+    <string name="remove_ads_options_title">Eliminar anuncios y esperas</string>
+    <string name="remove_ads_options_message">Paga lo que quieras. Cualquier opción elimina permanentemente los anuncios y las esperas.</string>
     <string name="button_remove_ads"><u>Eliminar anuncios y esperas</u></string>
     <string name="toast_purchase_successful">Compra realizada correctamente</string>
-    <string name="toast_purchase_error">Compra cancelada</string>
-    <string name="toast_purchase_unavailable">Las compras no están disponibles ahora mismo</string>
     <string name="toast_purchase_feature_not_supported">Las compras no son compatibles con este dispositivo</string>
     <string name="toast_purchase_service_disconnected">No se pudo conectar con Google Play. Inténtalo de nuevo</string>
     <string name="toast_purchase_service_unavailable">Las compras de Google Play no están disponibles temporalmente</string>

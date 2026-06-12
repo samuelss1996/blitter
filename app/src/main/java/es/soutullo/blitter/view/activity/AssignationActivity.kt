@@ -17,6 +17,8 @@ import es.soutullo.blitter.R
 import es.soutullo.blitter.model.billing.AdsRemovalStore
 import es.soutullo.blitter.model.billing.RemoveAdsBillingError
 import es.soutullo.blitter.model.billing.RemoveAdsBillingManager
+import es.soutullo.blitter.model.billing.RemoveAdsProductCatalog
+import es.soutullo.blitter.model.billing.RemoveAdsProductOption
 import es.soutullo.blitter.model.billing.RemoveAdsPurchaseStatus
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
@@ -250,9 +252,9 @@ class AssignationActivity : ChoosingLayoutActivity() {
         if (AdsRemovalStore.isValidationStale(this)) {
             this.billingManager = RemoveAdsBillingManager(
                     this,
-                    this.getString(R.string.sku_remove_ads),
+                    RemoveAdsProductCatalog.productIds,
                     object : RemoveAdsBillingManager.Listener {
-                        override fun onBillingReady() = Unit
+                        override fun onBillingReady(options: List<RemoveAdsProductOption>) = Unit
                         override fun onBillingUnavailable(error: RemoveAdsBillingError) = Unit
 
                         override fun onPurchaseCompleted() {

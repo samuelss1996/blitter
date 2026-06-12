@@ -19,11 +19,11 @@ import com.android.billingclient.api.QueryPurchasesParams
 
 class RemoveAdsBillingManager(
         context: Context,
-        private val productId: String,
+        private val productIds: List<String>,
         private val listener: Listener
 ) {
     interface Listener {
-        fun onBillingReady()
+        fun onBillingReady(options: List<RemoveAdsProductOption>)
         fun onBillingUnavailable(error: RemoveAdsBillingError)
         fun onPurchaseCompleted()
         fun onPurchaseRestored()
@@ -40,6 +40,7 @@ class RemoveAdsBillingManager(
     }
 
     private val appContext = context.applicationContext
+    private val productIdSet = productIds.toSet()
     private val mainHandler = Handler(Looper.getMainLooper())
     private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
         handlePurchaseUpdate(billingResult, purchases)
@@ -54,7 +55,8 @@ class RemoveAdsBillingManager(
             .enableAutoServiceReconnection()
             .build()
 
-    private var productDetails: ProductDetails? = null
+    private var productDetailsById = mapOf<String, ProductDetails>()
+    private var offerDetailsByProductId = mapOf<String, ProductDetails.OneTimePurchaseOfferDetails>()
     private var destroyed = false
     private var connecting = false
     private var purchaseInProgress = false
@@ -106,17 +108,16 @@ class RemoveAdsBillingManager(
         })
     }
 
-    fun launchPurchase(activity: Activity) {
-        val details = productDetails
+    fun launchPurchase(activity: Activity, productId: String) {
         if (!billingClient.isReady) {
-            listener.onPurchaseFailed(RemoveAdsBillingError.SERVICE_DISCONNECTED)
-            start()
+            failPurchaseLaunch(RemoveAdsBillingError.SERVICE_DISCONNECTED)
             return
         }
 
-        if (details == null) {
-            listener.onPurchaseFailed(RemoveAdsBillingError.PRODUCT_UNAVAILABLE)
-            start()
+        val details = productDetailsById[productId]
+        val offerToken = offerDetailsByProductId[productId]?.offerToken
+        if (details == null || offerToken == null) {
+            failPurchaseLaunch(RemoveAdsBillingError.PRODUCT_UNAVAILABLE)
             return
         }
 
@@ -125,6 +126,7 @@ class RemoveAdsBillingManager(
 
         val productDetailsParams = BillingFlowParams.ProductDetailsParams.newBuilder()
                 .setProductDetails(details)
+                .setOfferToken(offerToken)
                 .build()
         val flowParams = BillingFlowParams.newBuilder()
                 .setProductDetailsParamsList(listOf(productDetailsParams))
@@ -178,12 +180,14 @@ class RemoveAdsBillingManager(
     }
 
     private fun queryProductDetails() {
-        val product = QueryProductDetailsParams.Product.newBuilder()
-                .setProductId(productId)
-                .setProductType(BillingClient.ProductType.INAPP)
-                .build()
+        val products = productIds.map { productId ->
+            QueryProductDetailsParams.Product.newBuilder()
+                    .setProductId(productId)
+                    .setProductType(BillingClient.ProductType.INAPP)
+                    .build()
+        }
         val params = QueryProductDetailsParams.newBuilder()
-                .setProductList(listOf(product))
+                .setProductList(products)
                 .build()
 
         billingClient.queryProductDetailsAsync(params) { billingResult, productDetailsResult ->
@@ -197,12 +201,21 @@ class RemoveAdsBillingManager(
                 return@queryProductDetailsAsync
             }
 
-            productDetails = productDetailsResult.productDetailsList.firstOrNull()
+            val availableProductDetails = productDetailsResult.productDetailsList
+            this.productDetailsById = availableProductDetails.associateBy { it.productId }
+            this.offerDetailsByProductId = availableProductDetails.mapNotNull { details ->
+                details.preferredOneTimePurchaseOffer()?.let { offer -> details.productId to offer }
+            }.toMap()
+
+            val options = availableProductDetails
+                    .mapNotNull { it.toRemoveAdsProductOption() }
+                    .sortedByPriceAndCatalogOrder()
+
             dispatch {
-                if (productDetails == null) {
+                if (options.isEmpty()) {
                     listener.onBillingUnavailable(RemoveAdsBillingError.PRODUCT_UNAVAILABLE)
                 } else {
-                    listener.onBillingReady()
+                    listener.onBillingReady(options)
                 }
             }
         }
@@ -288,8 +301,36 @@ class RemoveAdsBillingManager(
     }
 
     private fun isCompletedRemoveAdsPurchase(purchase: Purchase): Boolean {
-        return purchase.products.contains(productId)
+        return purchase.products.any { it in productIdSet }
                 && purchase.purchaseState == Purchase.PurchaseState.PURCHASED
+    }
+
+    private fun failPurchaseLaunch(error: RemoveAdsBillingError) {
+        listener.onPurchaseFailed(error)
+        start()
+    }
+
+    private fun ProductDetails.toRemoveAdsProductOption(): RemoveAdsProductOption? {
+        val offerDetails = offerDetailsByProductId[this.productId] ?: return null
+
+        return RemoveAdsProductOption(
+                productId = this.productId,
+                name = this.name.ifBlank { this.title },
+                formattedPrice = offerDetails.formattedPrice,
+                priceAmountMicros = offerDetails.priceAmountMicros
+        )
+    }
+
+    private fun List<RemoveAdsProductOption>.sortedByPriceAndCatalogOrder(): List<RemoveAdsProductOption> {
+        return sortedWith(compareBy<RemoveAdsProductOption> { it.priceAmountMicros }
+                .thenBy { productIds.indexOf(it.productId).takeIf { index -> index >= 0 } ?: Int.MAX_VALUE })
+    }
+
+    private fun ProductDetails.preferredOneTimePurchaseOffer(): ProductDetails.OneTimePurchaseOfferDetails? {
+        return this.oneTimePurchaseOfferDetailsList
+                ?.filter { it.offerToken != null }
+                ?.minByOrNull { it.priceAmountMicros }
+                ?: this.oneTimePurchaseOfferDetails?.takeIf { it.offerToken != null }
     }
 
     private fun acknowledgePurchaseIfNeeded(purchase: Purchase, attempt: Int = 1) {

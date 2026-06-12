@@ -4,11 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -17,7 +18,10 @@ import es.soutullo.blitter.R
 import es.soutullo.blitter.model.billing.AdsRemovalStore
 import es.soutullo.blitter.model.billing.RemoveAdsBillingError
 import es.soutullo.blitter.model.billing.RemoveAdsBillingManager
+import es.soutullo.blitter.model.billing.RemoveAdsProductCatalog
+import es.soutullo.blitter.model.billing.RemoveAdsProductOption
 import es.soutullo.blitter.model.vo.bill.Bill
+import es.soutullo.blitter.view.component.RemoveAdsOptionsDialog
 
 class AdMobActivity : AppCompatActivity() {
     companion object {
@@ -33,6 +37,8 @@ class AdMobActivity : AppCompatActivity() {
     private var billingReady = false
     private var billingError = RemoveAdsBillingError.SERVICE_DISCONNECTED
     private var purchaseInProgress = false
+    private var availableRemoveAdsOptions = listOf<RemoveAdsProductOption>()
+    private var removeAdsOptionsDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,13 +67,17 @@ class AdMobActivity : AppCompatActivity() {
     fun onRemoveAdsClicked(view: View) {
         if (!this.billingReady) {
             this.billingManager.start()
-            Toast.makeText(this, this.getString(this.billingError.messageResId()), Toast.LENGTH_SHORT).show()
+            this.showBillingUnavailableToast()
             return
         }
 
+        this.showRemoveAdsOptionsDialog()
+    }
+
+    private fun onRemoveAdsOptionSelected(option: RemoveAdsProductOption) {
         this.purchaseInProgress = true
-        view.isEnabled = false
-        this.billingManager.launchPurchase(this)
+        this.setRemoveAdsButtonEnabled(false)
+        this.billingManager.launchPurchase(this, option.productId)
     }
 
     private fun loadAds() {
@@ -115,7 +125,7 @@ class AdMobActivity : AppCompatActivity() {
 
     private fun restoreRemoveAdsButton() {
         this.purchaseInProgress = false
-        this.findViewById<AppCompatButton>(R.id.ad_mob_remove_ads_button).isEnabled = true
+        this.setRemoveAdsButtonEnabled(true)
     }
 
     private fun waitSeconds() {
@@ -135,16 +145,18 @@ class AdMobActivity : AppCompatActivity() {
     private fun prepareBilling() {
         this.billingManager = RemoveAdsBillingManager(
                 this,
-                this.getString(R.string.sku_remove_ads),
+                RemoveAdsProductCatalog.productIds,
                 object : RemoveAdsBillingManager.Listener {
-                    override fun onBillingReady() {
+                    override fun onBillingReady(options: List<RemoveAdsProductOption>) {
                         this@AdMobActivity.billingReady = true
-                        this@AdMobActivity.findViewById<AppCompatButton>(R.id.ad_mob_remove_ads_button).isEnabled = !this@AdMobActivity.purchaseInProgress
+                        this@AdMobActivity.availableRemoveAdsOptions = options
+                        this@AdMobActivity.setRemoveAdsButtonEnabled(!this@AdMobActivity.purchaseInProgress)
                     }
 
                     override fun onBillingUnavailable(error: RemoveAdsBillingError) {
                         this@AdMobActivity.billingReady = false
                         this@AdMobActivity.billingError = error
+                        this@AdMobActivity.availableRemoveAdsOptions = listOf()
                     }
 
                     override fun onPurchaseCompleted() {
@@ -168,6 +180,29 @@ class AdMobActivity : AppCompatActivity() {
         this.billingManager.start()
     }
 
+    private fun showRemoveAdsOptionsDialog() {
+        if (this.availableRemoveAdsOptions.isEmpty()) {
+            this.billingManager.start()
+            this.showBillingUnavailableToast()
+            return
+        }
+
+        this.removeAdsOptionsDialog = RemoveAdsOptionsDialog.show(
+                context = this,
+                options = this.availableRemoveAdsOptions,
+                onOptionSelected = this::onRemoveAdsOptionSelected,
+                onDismissed = { this.removeAdsOptionsDialog = null }
+        )
+    }
+
+    private fun showBillingUnavailableToast() {
+        Toast.makeText(this, this.getString(this.billingError.messageResId()), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setRemoveAdsButtonEnabled(enabled: Boolean) {
+        this.findViewById<AppCompatButton>(R.id.ad_mob_remove_ads_button).isEnabled = enabled
+    }
+
     override fun onResume() {
         super.onResume()
         this.adView?.resume()
@@ -184,6 +219,7 @@ class AdMobActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         this.handler.removeCallbacksAndMessages(null)
+        this.removeAdsOptionsDialog?.dismiss()
         this.adView?.destroy()
 
         if (::billingManager.isInitialized) {
