@@ -3,9 +3,9 @@ package es.soutullo.blitter.view.util
 import android.app.Activity
 import android.graphics.Color
 import android.os.Build
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -29,10 +29,11 @@ object EdgeToEdgeUtils {
         val initialPadding = content.paddingSnapshot()
 
         content.doOnApplyWindowInsets { view, insets ->
-            val statusBarColor = statusBarColors[activity] ?: defaultStatusBarColor
-
             view.setPadding(initialPadding.plusSystemInsets(insets))
-            decor?.setStatusBarBackground(insets.systemWindowInsetTop, statusBarColor)
+        }
+
+        decor?.applyStatusBarBackground {
+            statusBarColors[activity] ?: defaultStatusBarColor
         }
     }
 
@@ -45,10 +46,8 @@ object EdgeToEdgeUtils {
 
         val decor = activity.window.decorView as? FrameLayout ?: return
 
-        decor.doOnApplyWindowInsets { _, insets ->
-            val statusBarColor = statusBarColors[activity] ?: color
-
-            decor.setStatusBarBackground(insets.systemWindowInsetTop, statusBarColor)
+        decor.applyStatusBarBackground {
+            statusBarColors[activity] ?: color
         }
     }
 
@@ -71,7 +70,7 @@ object EdgeToEdgeUtils {
             val bottomInset = insets.systemWindowInsetBottom
             val color = statusBarColors[activity] ?: statusBarColor
 
-            decor.setStatusBarBackground(insets.systemWindowInsetTop, color)
+            decor.setStatusBarBackground(insets.statusBarInsetTop(), color)
             viewPager?.let { pager ->
                 initialPagerPadding?.let { pager.setPadding(it.copy(bottom = it.bottom + bottomInset)) }
             }
@@ -124,12 +123,26 @@ object EdgeToEdgeUtils {
         statusBarBackground.bringToFront()
     }
 
+    private fun FrameLayout.applyStatusBarBackground(colorProvider: () -> Int) {
+        this.doOnApplyWindowInsets { _, insets ->
+            this.setStatusBarBackground(insets.statusBarInsetTop(), colorProvider())
+        }
+    }
+
     private fun View.doOnApplyWindowInsets(callback: (View, WindowInsets) -> Unit) {
         this.setOnApplyWindowInsetsListener { view, insets ->
             callback(view, insets)
             insets
         }
         this.requestApplyInsets()
+    }
+
+    private fun WindowInsets.statusBarInsetTop(): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            this.getInsets(WindowInsets.Type.statusBars()).top
+        } else {
+            this.systemWindowInsetTop
+        }
     }
 
     private fun View.paddingSnapshot(): PaddingSnapshot {

@@ -135,6 +135,17 @@
     <string name="button_remove_ads"><u>Eliminar anuncios y esperas</u></string>
     <string name="toast_purchase_successful">Compra realizada correctamente</string>
     <string name="toast_purchase_error">Compra cancelada</string>
+    <string name="toast_purchase_unavailable">Las compras no están disponibles ahora mismo</string>
+    <string name="toast_purchase_feature_not_supported">Las compras no son compatibles con este dispositivo</string>
+    <string name="toast_purchase_service_disconnected">No se pudo conectar con Google Play. Inténtalo de nuevo</string>
+    <string name="toast_purchase_service_unavailable">Las compras de Google Play no están disponibles temporalmente</string>
+    <string name="toast_purchase_billing_unavailable">Las compras no están disponibles. Revisa la sesión de Play Store</string>
+    <string name="toast_purchase_product_unavailable">Eliminar anuncios aún no está disponible para esta cuenta</string>
+    <string name="toast_purchase_developer_error">Error de configuración de compra. Actualiza la app o contacta con soporte</string>
+    <string name="toast_purchase_item_already_owned">Ya tienes la compra. Restaurándola</string>
+    <string name="toast_purchase_item_not_owned">Esta cuenta de Google Play no tiene la compra</string>
+    <string name="toast_purchase_network_error">No hay conexión de red para comprar en Google Play</string>
+    <string name="toast_purchase_unknown_error">No se pudo completar la compra</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Asignar este producto a:</item>

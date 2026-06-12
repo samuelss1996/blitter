@@ -3,8 +3,8 @@ package es.soutullo.blitter.view.util
 import android.content.Context
 import android.graphics.*
 import android.net.Uri
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.FileProvider
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import es.soutullo.blitter.R
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine

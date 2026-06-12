@@ -9,7 +9,7 @@
         <variable name="tipPercent" type="Double" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -62,5 +62,5 @@
             app:layout_constraintTop_toBottomOf="@+id/dialog_tip_seek_bar"
             tools:text="Se añadirá un 20% de propina (5,71 €) a la cuenta." />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

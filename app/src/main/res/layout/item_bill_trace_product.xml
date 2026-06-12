@@ -8,7 +8,7 @@
         <variable name="item" type="es.soutullo.blitter.model.vo.bill.BillLine" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/list_item_horizontal_padding"
@@ -37,5 +37,5 @@
             app:layout_constraintTop_toBottomOf="@+id/bill_trace_product_name"
             tools:text="1/2 del producto (0,50 €)"
             android:textSize="@dimen/list_caption_text_size"/>
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

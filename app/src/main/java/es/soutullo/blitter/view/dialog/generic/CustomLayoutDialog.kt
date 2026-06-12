@@ -1,7 +1,7 @@
 package es.soutullo.blitter.view.dialog.generic
 
 import android.content.Context
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.view.View
 import es.soutullo.blitter.view.dialog.handler.IDialogHandler
 

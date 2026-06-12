@@ -1,6 +1,6 @@
 package es.soutullo.blitter.view.adapter.generic
 
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +83,7 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
             (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
 
             this.view.findViewById<CheckBox>(R.id.choosing_checkbox)?.isChecked = activated
-            this.view.setBackgroundColor(ContextCompat.getColor(this@ChoosableItemsAdapter.recyclerView?.context, background))
+            this.view.setBackgroundColor(ContextCompat.getColor(this.view.context, background))
         }
 
         /**

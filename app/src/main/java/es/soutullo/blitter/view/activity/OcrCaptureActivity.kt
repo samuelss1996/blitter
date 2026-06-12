@@ -3,12 +3,12 @@ package es.soutullo.blitter.view.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentFilter
-import android.databinding.BindingAdapter
-import android.databinding.DataBindingUtil
+import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
 import android.graphics.drawable.Drawable
 import android.hardware.Camera
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
@@ -119,7 +119,7 @@ class OcrCaptureActivity : AppCompatActivity() {
         val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this.applicationContext)
 
         if(code != ConnectionResult.SUCCESS) {
-            GoogleApiAvailability.getInstance().getErrorDialog(this, code, 0).show()
+            GoogleApiAvailability.getInstance().getErrorDialog(this, code, 0)?.show()
         }
 
         this.cameraSource?.let {
@@ -158,7 +158,7 @@ class OcrCaptureActivity : AppCompatActivity() {
     }
 
     companion object {
-        @JvmStatic @BindingAdapter("app:srcCompat")
+        @JvmStatic @BindingAdapter("srcCompat")
         fun setImageDrawable(imageButton: ImageButton, drawable: Drawable) {
             imageButton.setImageDrawable(drawable)
         }

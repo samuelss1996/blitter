@@ -17,7 +17,6 @@
     <string name="developer_email" translatable="false">samuelsoutullosobral@gmail.com</string>
     <string name="patreon_url" translatable="false">https://www.patreon.com/samuelsoutullo</string>
 
-    <string name="billing_public_key" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAinFETcJpeQAxjf41wImKeRXI60PkvcpPVFJJJmCj5S9gAAkE/FcAC7Hra2aVgP5QqfW/JaXkAp2B89sUgHK+nsou9X9J8zO1yhsjgPYjXML0tA/qgKIYfF9u6lvt0xe/4N4OzxWffEIY77Xr7oydRDY+B61EKDdJZerPEpSFa0y0xn3fmrxwLHrjY5ibWp9VueJWfYvYLzK+d9aOVvd1/6zz2O1ujpiwjishQROapj3VjqW4T4Ou7PDrb4/Ep+m3lJvIFB0TAZg50yr+cxB5QqvfZCshZXLYt0gAho8Kopmvjcnp2yUUDjgjJFA2SeXW3xVKi4+hPtjwDSFxgNqQYwIDAQAB</string>
     <string name="sku_remove_ads" translatable="false">es.soutullo.blitter.product.removeads</string>
 
     <string name="persons_array_separator">,&#160;</string>
@@ -156,6 +155,17 @@
     <string name="button_remove_ads"><u>Remove ads and waits</u></string>
     <string name="toast_purchase_successful">Purchase performed successfully</string>
     <string name="toast_purchase_error">Purchase cancelled</string>
+    <string name="toast_purchase_unavailable">Purchases are not available right now</string>
+    <string name="toast_purchase_feature_not_supported">Purchases are not supported on this device</string>
+    <string name="toast_purchase_service_disconnected">Could not connect to Google Play. Try again</string>
+    <string name="toast_purchase_service_unavailable">Google Play purchases are temporarily unavailable</string>
+    <string name="toast_purchase_billing_unavailable">Google Play purchases are unavailable. Check Play Store sign-in</string>
+    <string name="toast_purchase_product_unavailable">Remove ads is not available for this account yet</string>
+    <string name="toast_purchase_developer_error">Purchase setup error. Please update the app or contact support</string>
+    <string name="toast_purchase_item_already_owned">You already own remove ads. Restoring purchase</string>
+    <string name="toast_purchase_item_not_owned">This Google Play account does not own remove ads</string>
+    <string name="toast_purchase_network_error">No network connection for Google Play purchases</string>
+    <string name="toast_purchase_unknown_error">Purchase could not be completed</string>
 
     <plurals name="dialog_product_assignation_sub_header">
         <item quantity="one">Assign this product to:</item>

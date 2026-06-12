@@ -1,6 +1,6 @@
 package es.soutullo.blitter.model.vo.person
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.widget.ImageView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -11,7 +11,7 @@ import java.util.*
 /** Represents a person, who may partially pay a bill */
 data class Person(val id: Long?, val name: String, val lastDate: Date = Date(), val lines: MutableList<BillLine> = mutableListOf()): Serializable {
     companion object {
-        @JvmStatic @BindingAdapter("app:srcCompat")
+        @JvmStatic @BindingAdapter("srcCompat")
         fun setImageDrawable(imageView: ImageView, drawable: TextDrawable) {
             imageView.setImageDrawable(drawable)
         }

@@ -3,7 +3,7 @@ package es.soutullo.blitter.view.dialog
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager

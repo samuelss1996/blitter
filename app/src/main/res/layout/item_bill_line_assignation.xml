@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@color/md_white_1000">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/list_item_horizontal_padding"
@@ -97,6 +97,6 @@
                 android:visibility="@{item.persons.isEmpty()? View.INVISIBLE : View.VISIBLE}"
                 android:contentDescription="@string/content_description_assignation_green_tick"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

@@ -1,11 +1,11 @@
 package es.soutullo.blitter.view.adapter.generic
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,17 +43,17 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
         holder.binding.executePendingBindings()
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
-        val layoutManager = LinearLayoutManager(recyclerView?.context)
+        val layoutManager = LinearLayoutManager(recyclerView.context)
 
-        recyclerView?.layoutManager = layoutManager
+        recyclerView.layoutManager = layoutManager
         if (this.showSeparators()) {
-            recyclerView?.addItemDecoration(DividerItemDecoration(recyclerView.context, layoutManager.orientation))
+            recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, layoutManager.orientation))
         }
 
-        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView?, diffX: Int, diffY: Int) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, diffX: Int, diffY: Int) {
                 this@GenericListAdapter.onScroll(diffX, diffY)
             }
         })

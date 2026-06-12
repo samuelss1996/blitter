@@ -1,8 +1,8 @@
 package es.soutullo.blitter.view.dialog.data
 
 import android.content.Context
-import android.databinding.BaseObservable
-import android.databinding.ObservableField
+import androidx.databinding.BaseObservable
+import androidx.databinding.ObservableField
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.view.activity.AssignationActivity
 

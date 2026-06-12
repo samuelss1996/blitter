@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:background="@color/md_white_1000">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/list_item_horizontal_padding"
@@ -90,6 +90,6 @@
                 android:paddingRight="4dp"
                 android:text="@string/badge_bill_status_not_completed"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

@@ -7,11 +7,11 @@
         <variable name="utils" type="es.soutullo.blitter.view.util.BlitterUtils" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
 
             <requestFocus />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
             android:id="@+id/dialog_edit_tax_clear"
@@ -48,5 +48,5 @@
             android:layout_marginEnd="?dialogPreferredPadding"
             android:contentDescription="@string/content_description_button_tax_clear" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

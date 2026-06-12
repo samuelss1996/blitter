@@ -3,9 +3,9 @@ package es.soutullo.blitter.view.activity
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import es.soutullo.blitter.R
 import es.soutullo.blitter.view.util.EdgeToEdge
 import es.soutullo.blitter.view.util.EdgeToEdgeMode

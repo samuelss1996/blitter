@@ -5,9 +5,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
-import android.support.v7.widget.AppCompatButton
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -15,7 +14,10 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import es.soutullo.blitter.R
-import es.soutullo.blitter.model.billing.IabHelper
+import es.soutullo.blitter.model.billing.AdsRemovalStore
+import es.soutullo.blitter.model.billing.RemoveAdsBillingError
+import es.soutullo.blitter.model.billing.RemoveAdsBillingManager
+import es.soutullo.blitter.model.billing.RemoveAdsPurchaseStatus
 import es.soutullo.blitter.model.dao.DaoFactory
 import es.soutullo.blitter.model.vo.bill.Bill
 import es.soutullo.blitter.model.vo.bill.BillLine
@@ -33,7 +35,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
     override val itemsAdapter = AssignationAdapter(this)
     override val showHomeAsUp: Boolean = true
 
-    private var billingHelper: IabHelper? = null
+    private var billingManager: RemoveAdsBillingManager? = null
     private lateinit var bill: Bill
 
     private var peopleAddedOnSession = mutableListOf<Person>()
@@ -113,7 +115,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
      * @param tipPercent The tip percent specified by the user
      */
     private fun onTipPercentageConfirmed(tipPercent: Double) {
-        val skipAds = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(this.getString(R.string.preference_key_ads_removed), false)
+        val skipAds = AdsRemovalStore.areAdsRemoved(this)
         val intent = Intent(this, if(skipAds) FinalResultActivity::class.java else AdMobActivity::class.java)
         intent.putExtra(BillSummaryActivity.BILL_INTENT_DATA_KEY, this.bill)
 
@@ -243,18 +245,39 @@ class AssignationActivity : ChoosingLayoutActivity() {
 
     /** Updates the removed ads flag if the user has made the purchase but it is not reflected in the shared preferences */
     private fun checkAdsRemoved() {
-        val removedOnCache = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(this.getString(R.string.preference_key_ads_removed), false)
+        val adsRemoved = AdsRemovalStore.areAdsRemoved(this)
 
-        if (!removedOnCache) {
-            this.billingHelper = IabHelper(this, this.getString(R.string.billing_public_key))
+        if (AdsRemovalStore.isValidationStale(this)) {
+            this.billingManager = RemoveAdsBillingManager(
+                    this,
+                    this.getString(R.string.sku_remove_ads),
+                    object : RemoveAdsBillingManager.Listener {
+                        override fun onBillingReady() = Unit
+                        override fun onBillingUnavailable(error: RemoveAdsBillingError) = Unit
 
-            this.billingHelper?.startSetup { startResult ->
-                if(startResult.isSuccess) {
-                    this.billingHelper?.queryInventoryAsync { queryResult, inventory ->
-                        if(queryResult.isSuccess && inventory.hasPurchase(this.getString(R.string.sku_remove_ads))) {
-                            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(this.getString(R.string.preference_key_ads_removed), true).apply()
+                        override fun onPurchaseCompleted() {
+                            AdsRemovalStore.markAdsRemoved(this@AssignationActivity)
+                        }
+
+                        override fun onPurchaseRestored() {
+                            AdsRemovalStore.markAdsRemoved(this@AssignationActivity)
+                        }
+
+                        override fun onPurchaseFailed(error: RemoveAdsBillingError) = Unit
+                        override fun onPurchaseCancelled() = Unit
+                    }
+            )
+            this.billingManager?.start { status ->
+                when (status) {
+                    RemoveAdsPurchaseStatus.OWNED -> AdsRemovalStore.markAdsRemoved(this)
+                    RemoveAdsPurchaseStatus.NOT_OWNED -> {
+                        if (adsRemoved) {
+                            AdsRemovalStore.markAdsNotRemoved(this)
+                        } else {
+                            AdsRemovalStore.markValidationChecked(this)
                         }
                     }
+                    RemoveAdsPurchaseStatus.UNAVAILABLE -> Unit
                 }
             }
         }
@@ -346,7 +369,7 @@ class AssignationActivity : ChoosingLayoutActivity() {
     }
 
     override fun onDestroy() {
+        this.billingManager?.destroy()
         super.onDestroy()
-        this.billingHelper?.dispose()
     }
 }

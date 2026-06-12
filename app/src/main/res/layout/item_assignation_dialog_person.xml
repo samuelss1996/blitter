@@ -6,7 +6,7 @@
         <variable name="item" type="es.soutullo.blitter.view.dialog.data.AssignationDialogPerson" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/list_item_horizontal_padding"
@@ -39,5 +39,5 @@
             android:onClick="@{() -> item.delete()}"
             android:contentDescription="@string/assignation_content_description_delete_person"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

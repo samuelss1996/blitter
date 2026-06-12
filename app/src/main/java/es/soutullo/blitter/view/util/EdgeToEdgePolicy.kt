@@ -1,8 +1,8 @@
 package es.soutullo.blitter.view.util
 
 import android.app.Activity
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import es.soutullo.blitter.R
 
 object EdgeToEdgePolicy {

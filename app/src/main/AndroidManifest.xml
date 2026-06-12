@@ -26,7 +26,7 @@
             android:value="@string/ad_mob_app_id" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="es.soutullo.blitter.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

@@ -10,7 +10,7 @@
         <variable name="bill" type="es.soutullo.blitter.model.vo.bill.Bill" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_bill_summary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -110,7 +110,7 @@
             app:layout_constraintTop_toBottomOf="@+id/products_header"
             tools:text="================================" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bill_summary_lines_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -243,5 +243,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:onClick="onConfirmClicked"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

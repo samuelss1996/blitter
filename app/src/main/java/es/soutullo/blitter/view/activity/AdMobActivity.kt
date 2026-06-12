@@ -4,9 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.AppCompatButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -15,23 +14,25 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import es.soutullo.blitter.R
-import es.soutullo.blitter.model.billing.IabHelper
-import es.soutullo.blitter.model.billing.IabResult
-import es.soutullo.blitter.model.billing.Purchase
+import es.soutullo.blitter.model.billing.AdsRemovalStore
+import es.soutullo.blitter.model.billing.RemoveAdsBillingError
+import es.soutullo.blitter.model.billing.RemoveAdsBillingManager
 import es.soutullo.blitter.model.vo.bill.Bill
 
 class AdMobActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "AdMobActivity"
         private const val SECONDS_TO_WAIT = 5
-        private const val PURCHASE_RETURN_CODE_ID = 10
     }
 
     private lateinit var bill: Bill
-    private lateinit var billingHelper: IabHelper
+    private lateinit var billingManager: RemoveAdsBillingManager
     private val handler = Handler(Looper.getMainLooper())
     private var remainingSeconds = SECONDS_TO_WAIT
     private var adView: AdView? = null
+    private var billingReady = false
+    private var billingError = RemoveAdsBillingError.SERVICE_DISCONNECTED
+    private var purchaseInProgress = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +59,15 @@ class AdMobActivity : AppCompatActivity() {
     }
 
     fun onRemoveAdsClicked(view: View) {
-        if (!this.billingHelper.asyncInProgress) {
-            this.billingHelper.launchPurchaseFlow(this, this.getString(R.string.sku_remove_ads), PURCHASE_RETURN_CODE_ID,
-                    { result, purchase -> this.onPurchaseFinished(result, purchase) }, "")
+        if (!this.billingReady) {
+            this.billingManager.start()
+            Toast.makeText(this, this.getString(this.billingError.messageResId()), Toast.LENGTH_SHORT).show()
+            return
         }
+
+        this.purchaseInProgress = true
+        view.isEnabled = false
+        this.billingManager.launchPurchase(this)
     }
 
     private fun loadAds() {
@@ -83,15 +89,33 @@ class AdMobActivity : AppCompatActivity() {
         }
     }
 
-    private fun onPurchaseFinished(result: IabResult, purchase: Purchase?) {
-        if(result.isSuccess && purchase != null && purchase.sku == this.getString(R.string.sku_remove_ads)) {
-            Toast.makeText(this, this.getString(R.string.toast_purchase_successful), Toast.LENGTH_SHORT).show()
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(this.getString(R.string.preference_key_ads_removed), true).apply()
+    private fun onPurchaseFinished(showToast: Boolean) {
+        this.purchaseInProgress = false
 
-            this.onContinueClicked(null)
-        } else {
-            Toast.makeText(this, this.getString(R.string.toast_purchase_error), Toast.LENGTH_SHORT).show()
+        if (showToast) {
+            Toast.makeText(this, this.getString(R.string.toast_purchase_successful), Toast.LENGTH_SHORT).show()
         }
+
+        AdsRemovalStore.markAdsRemoved(this)
+        this.onContinueClicked(null)
+    }
+
+    private fun onPurchaseFailed(error: RemoveAdsBillingError) {
+        if (!this.purchaseInProgress) {
+            return
+        }
+
+        this.restoreRemoveAdsButton()
+        Toast.makeText(this, this.getString(error.messageResId()), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onPurchaseCancelled() {
+        this.restoreRemoveAdsButton()
+    }
+
+    private fun restoreRemoveAdsButton() {
+        this.purchaseInProgress = false
+        this.findViewById<AppCompatButton>(R.id.ad_mob_remove_ads_button).isEnabled = true
     }
 
     private fun waitSeconds() {
@@ -109,29 +133,48 @@ class AdMobActivity : AppCompatActivity() {
     }
 
     private fun prepareBilling() {
-        this.billingHelper = IabHelper(this, this.getString(R.string.billing_public_key))
+        this.billingManager = RemoveAdsBillingManager(
+                this,
+                this.getString(R.string.sku_remove_ads),
+                object : RemoveAdsBillingManager.Listener {
+                    override fun onBillingReady() {
+                        this@AdMobActivity.billingReady = true
+                        this@AdMobActivity.findViewById<AppCompatButton>(R.id.ad_mob_remove_ads_button).isEnabled = !this@AdMobActivity.purchaseInProgress
+                    }
 
-        this.billingHelper.startSetup { result ->
-            if(result.isSuccess) {
-                val removeAdsButton = this.findViewById<AppCompatButton>(R.id.ad_mob_remove_ads_button)
+                    override fun onBillingUnavailable(error: RemoveAdsBillingError) {
+                        this@AdMobActivity.billingReady = false
+                        this@AdMobActivity.billingError = error
+                    }
 
-                removeAdsButton.isEnabled = true
-                removeAdsButton.visibility = View.VISIBLE
-            }
-        }
-    }
+                    override fun onPurchaseCompleted() {
+                        this@AdMobActivity.onPurchaseFinished(showToast = true)
+                    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (this.billingHelper.handleActivityResult(requestCode, resultCode, data)) {
-            return
-        }
+                    override fun onPurchaseRestored() {
+                        this@AdMobActivity.onPurchaseFinished(showToast = false)
+                    }
 
-        super.onActivityResult(requestCode, resultCode, data)
+                    override fun onPurchaseFailed(error: RemoveAdsBillingError) {
+                        this@AdMobActivity.onPurchaseFailed(error)
+                    }
+
+                    override fun onPurchaseCancelled() {
+                        this@AdMobActivity.onPurchaseCancelled()
+                    }
+                }
+        )
+
+        this.billingManager.start()
     }
 
     override fun onResume() {
         super.onResume()
         this.adView?.resume()
+
+        if (::billingManager.isInitialized && !this.purchaseInProgress) {
+            this.billingManager.refreshPurchases()
+        }
     }
 
     override fun onPause() {
@@ -142,7 +185,26 @@ class AdMobActivity : AppCompatActivity() {
     override fun onDestroy() {
         this.handler.removeCallbacksAndMessages(null)
         this.adView?.destroy()
+
+        if (::billingManager.isInitialized) {
+            this.billingManager.destroy()
+        }
+
         super.onDestroy()
-        this.billingHelper.dispose()
+    }
+
+    private fun RemoveAdsBillingError.messageResId(): Int {
+        return when (this) {
+            RemoveAdsBillingError.FEATURE_NOT_SUPPORTED -> R.string.toast_purchase_feature_not_supported
+            RemoveAdsBillingError.SERVICE_DISCONNECTED -> R.string.toast_purchase_service_disconnected
+            RemoveAdsBillingError.SERVICE_UNAVAILABLE -> R.string.toast_purchase_service_unavailable
+            RemoveAdsBillingError.BILLING_UNAVAILABLE -> R.string.toast_purchase_billing_unavailable
+            RemoveAdsBillingError.PRODUCT_UNAVAILABLE -> R.string.toast_purchase_product_unavailable
+            RemoveAdsBillingError.DEVELOPER_ERROR -> R.string.toast_purchase_developer_error
+            RemoveAdsBillingError.ITEM_ALREADY_OWNED -> R.string.toast_purchase_item_already_owned
+            RemoveAdsBillingError.ITEM_NOT_OWNED -> R.string.toast_purchase_item_not_owned
+            RemoveAdsBillingError.NETWORK_ERROR -> R.string.toast_purchase_network_error
+            RemoveAdsBillingError.UNKNOWN -> R.string.toast_purchase_unknown_error
+        }
     }
 }
