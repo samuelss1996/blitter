@@ -3,15 +3,14 @@ package es.soutullo.blitter.view.util
 import android.app.Activity
 import android.graphics.Color
 import android.os.Build
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.widget.FrameLayout
-import com.github.paolorotolo.appintro.R as AppIntroR
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import java.util.WeakHashMap
 
 @Suppress("DEPRECATION")
@@ -59,25 +58,10 @@ object EdgeToEdgeUtils {
         }
 
         val decor = activity.window.decorView as? FrameLayout ?: return
-        val viewPager = activity.findViewById<View>(AppIntroR.id.view_pager)
-        val bottomBar = activity.findViewById<View>(AppIntroR.id.bottom)
-
-        val initialPagerPadding = viewPager?.paddingSnapshot()
-        val initialBottomPadding = bottomBar?.paddingSnapshot()
-        val initialBottomHeight = bottomBar?.layoutParams?.height ?: 0
-
         decor.doOnApplyWindowInsets { _, insets ->
-            val bottomInset = insets.systemWindowInsetBottom
             val color = statusBarColors[activity] ?: statusBarColor
 
             decor.setStatusBarBackground(insets.statusBarInsetTop(), color)
-            viewPager?.let { pager ->
-                initialPagerPadding?.let { pager.setPadding(it.copy(bottom = it.bottom + bottomInset)) }
-            }
-            bottomBar?.let { bar ->
-                initialBottomPadding?.let { bar.setPadding(it.copy(bottom = it.bottom + bottomInset)) }
-                bar.setHeight(initialBottomHeight + bottomInset, onlyIfInitialHeightIsFixed = initialBottomHeight > 0)
-            }
         }
     }
 
@@ -160,16 +144,6 @@ object EdgeToEdgeUtils {
             right = right + insets.systemWindowInsetRight,
             bottom = bottom + insets.systemWindowInsetBottom
         )
-    }
-
-    private fun View.setHeight(height: Int, onlyIfInitialHeightIsFixed: Boolean) {
-        if (!onlyIfInitialHeightIsFixed) {
-            return
-        }
-
-        this.layoutParams = this.layoutParams.apply {
-            this.height = height
-        }
     }
 
     private data class PaddingSnapshot(

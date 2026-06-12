@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.android.billingclient:billing:9.0.0'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
-    implementation 'com.github.apl-devs:appintro:v4.2.2'
+    implementation 'com.github.AppIntro:AppIntro:6.3.1'
     implementation 'com.github.kobakei:MaterialFabSpeedDial:1.1.5'
     implementation('com.github.woxingxiao:BubbleSeekBar:3.20') {
         exclude group: 'com.android.support'
