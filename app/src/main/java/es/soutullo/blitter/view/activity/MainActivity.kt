@@ -110,6 +110,8 @@ class MainActivity : ChoosingLayoutActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         when(requestCode) {
             PERMISSIONS_REQUEST_CAMERA -> {
                 if(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {

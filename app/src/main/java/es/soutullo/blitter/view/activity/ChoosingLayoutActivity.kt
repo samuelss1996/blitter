@@ -42,7 +42,7 @@ abstract class ChoosingLayoutActivity: AppCompatActivity(), IChoosableItemsListH
         this.findViewById<TextView>(R.id.selected_items_count_text).text = this.itemsAdapter.getSelectedIndexes().size.toString()
 
         allCheckbox.setOnCheckedChangeListener(null)
-        this.findViewById<CheckBox>(R.id.select_all_checkbox).isChecked = checkAll
+        allCheckbox.isChecked = checkAll
         allCheckbox.setOnCheckedChangeListener(this.createCheckAllListener())
     }
 

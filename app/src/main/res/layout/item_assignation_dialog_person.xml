@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/item_assignation_dialog_checkbox"
             app:layout_constraintBottom_toBottomOf="@id/item_assignation_dialog_checkbox"
-            android:tint="@color/light_icon_tint"
+            app:tint="@color/light_icon_tint"
             android:onClick="@{() -> item.delete()}"
             android:contentDescription="@string/assignation_content_description_delete_person"/>
 

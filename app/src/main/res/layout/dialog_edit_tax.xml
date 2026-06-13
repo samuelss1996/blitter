@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_clear_black_24dp"
-            android:tint="@color/light_icon_tint"
+            app:tint="@color/light_icon_tint"
             android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="@id/text_input_layout"
             app:layout_constraintBottom_toBottomOf="@id/text_input_layout"

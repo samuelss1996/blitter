@@ -17,13 +17,13 @@ object SqlUtils {
      * @return The bill object
      */
     fun cursorToBill(cursor: Cursor) : Bill =  Bill (
-            id = cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry._ID.colName)),
-            name = cursor.getString(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.NAME.colName)),
-            tax = cursor.getDouble(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.TAX.colName)),
-            tipPercent = cursor.getDouble(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.TIP_PERCENT.colName)),
-            date = Date(cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.DATE.colName))),
-            source = EBillSource.findSourceById(cursor.getInt(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.SOURCE.colName))),
-            status = EBillStatus.findStatusById(cursor.getInt(cursor.getColumnIndex(BlitterSqlDbContract.BillEntry.STATUS.colName)))
+            id = cursor.getLong(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillEntry._ID.colName)),
+            name = cursor.getString(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillEntry.NAME.colName)),
+            tax = cursor.getDouble(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillEntry.TAX.colName)),
+            tipPercent = cursor.getDouble(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillEntry.TIP_PERCENT.colName)),
+            date = Date(cursor.getLong(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillEntry.DATE.colName))),
+            source = EBillSource.findSourceById(cursor.getInt(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillEntry.SOURCE.colName))),
+            status = EBillStatus.findStatusById(cursor.getInt(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillEntry.STATUS.colName)))
     )
 
     /**
@@ -33,10 +33,10 @@ object SqlUtils {
      * @return The bill line object
      */
     fun cursorToBillLine(cursor: Cursor, bill: Bill) : BillLine = BillLine (
-            id = cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry._ID.colName)),
-            lineNumber = cursor.getInt(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry.LINE_NUMBER.colName)),
-            name = cursor.getString(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry.NAME.colName)),
-            price = cursor.getDouble(cursor.getColumnIndex(BlitterSqlDbContract.BillLineEntry.PRICE.colName)),
+            id = cursor.getLong(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillLineEntry._ID.colName)),
+            lineNumber = cursor.getInt(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillLineEntry.LINE_NUMBER.colName)),
+            name = cursor.getString(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillLineEntry.NAME.colName)),
+            price = cursor.getDouble(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.BillLineEntry.PRICE.colName)),
             bill = bill
     )
 
@@ -46,8 +46,8 @@ object SqlUtils {
      * @return The person object
      */
     fun cursorToPerson(cursor: Cursor): Person = Person (
-            id = cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.PersonEntry._ID.colName)),
-            name = cursor.getString(cursor.getColumnIndex(BlitterSqlDbContract.PersonEntry.NAME.colName)),
-            lastDate = Date(cursor.getLong(cursor.getColumnIndex(BlitterSqlDbContract.PersonEntry.LAST_DATE.colName)))
+            id = cursor.getLong(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.PersonEntry._ID.colName)),
+            name = cursor.getString(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.PersonEntry.NAME.colName)),
+            lastDate = Date(cursor.getLong(cursor.getColumnIndexOrThrow(BlitterSqlDbContract.PersonEntry.LAST_DATE.colName)))
     )
 }

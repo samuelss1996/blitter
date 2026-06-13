@@ -36,6 +36,8 @@ class CameraIntroActivity : ABlitterIntroActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         when(requestCode) {
             MainActivity.PERMISSIONS_REQUEST_CAMERA -> {
                 if(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {

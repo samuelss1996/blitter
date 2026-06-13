@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -45,7 +46,8 @@ object RemoveAdsOptionsDialog {
             onOptionSelected: (RemoveAdsProductOption) -> Unit
     ): View {
         val inflater = LayoutInflater.from(context)
-        val content = inflater.inflate(R.layout.dialog_remove_ads_options, null)
+        val contentParent = FrameLayout(context)
+        val content = inflater.inflate(R.layout.dialog_remove_ads_options, contentParent, false)
         content.findViewById<TextView>(R.id.remove_ads_options_message).setText(messageResId)
 
         val optionsContainer = content.findViewById<LinearLayout>(R.id.remove_ads_options_container)
