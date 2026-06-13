@@ -11,5 +11,11 @@
 __pycache__/
 
 .venv-play-api/
+.kotlin/
+
+*.jks
+*.keystore
+*service-account*.json
+*credentials*.json
 
 .vscode/
