@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:tag="@string/edge_to_edge_action_bar_content_tag"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="es.soutullo.blitter.view.activity.AdMobActivity">
 
@@ -53,6 +54,7 @@
         android:id="@+id/ad_mob_continue_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:tag="@string/edge_to_edge_bottom_controls_tag"
         android:text="@string/button_text_wait"
         style="@style/Base.Widget.AppCompat.Button.Colored"
         app:layout_constraintBottom_toBottomOf="parent"

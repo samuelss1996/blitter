@@ -6,7 +6,22 @@ import androidx.core.content.ContextCompat
 import es.soutullo.blitter.R
 
 object EdgeToEdgePolicy {
+    fun prepare(activity: Activity) {
+        val edgeToEdge = activity.javaClass.getAnnotation(EdgeToEdge::class.java)
+        val mode = edgeToEdge?.mode ?: EdgeToEdgeMode.CONTENT
+
+        if (mode != EdgeToEdgeMode.NONE) {
+            EdgeToEdgeUtils.prepareSystemBars(activity)
+        }
+    }
+
     fun apply(activity: Activity) {
+        val decor = activity.window.decorView
+        if (decor.getTag(R.id.edge_to_edge_policy_applied) == true) {
+            return
+        }
+        decor.setTag(R.id.edge_to_edge_policy_applied, true)
+
         val edgeToEdge = activity.javaClass.getAnnotation(EdgeToEdge::class.java)
         val mode = edgeToEdge?.mode ?: EdgeToEdgeMode.CONTENT
 
@@ -15,6 +30,19 @@ object EdgeToEdgePolicy {
             EdgeToEdgeMode.STATUS_BAR_ONLY -> EdgeToEdgeUtils.applyStatusBarBackground(activity, edgeToEdge.resolveStatusBarColor(activity))
             EdgeToEdgeMode.APP_INTRO -> EdgeToEdgeUtils.applyAppIntroInsets(activity, edgeToEdge.resolveStatusBarColor(activity))
             EdgeToEdgeMode.NONE -> Unit
+        }
+    }
+
+    fun refresh(activity: Activity) {
+        if (activity.window.decorView.getTag(R.id.edge_to_edge_policy_applied) != true) {
+            return
+        }
+
+        val edgeToEdge = activity.javaClass.getAnnotation(EdgeToEdge::class.java)
+        val mode = edgeToEdge?.mode ?: EdgeToEdgeMode.CONTENT
+
+        if (mode != EdgeToEdgeMode.NONE) {
+            EdgeToEdgeUtils.refreshSystemBars(activity)
         }
     }
 

@@ -10,12 +10,21 @@ class BlitterApplication : Application() {
         super.onCreate()
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
+                EdgeToEdgePolicy.prepare(activity)
+            }
+
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                EdgeToEdgePolicy.prepare(activity)
                 EdgeToEdgePolicy.apply(activity)
             }
 
             override fun onActivityStarted(activity: Activity) = Unit
-            override fun onActivityResumed(activity: Activity) = Unit
+
+            override fun onActivityResumed(activity: Activity) {
+                EdgeToEdgePolicy.refresh(activity)
+            }
+
             override fun onActivityPaused(activity: Activity) = Unit
             override fun onActivityStopped(activity: Activity) = Unit
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit

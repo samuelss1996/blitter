@@ -2,6 +2,7 @@ package es.soutullo.blitter.view.activity
 
 import android.os.Bundle
 import android.preference.PreferenceManager
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
 import com.github.appintro.AppIntroFragment
@@ -20,6 +21,7 @@ abstract class ABlitterIntroActivity : AppIntro() {
 
         // AppIntro 6 hides system bars by default; Blitter keeps the normal status bar visible.
         showStatusBar(true)
+        setBarColor(ContextCompat.getColor(this, barColorId))
         addSlide(
             AppIntroFragment.createInstance(
                 SliderPage(

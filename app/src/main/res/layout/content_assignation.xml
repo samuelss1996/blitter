@@ -15,6 +15,7 @@
             android:id="@+id/assignation_bill_lines"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:tag="@string/edge_to_edge_scrolling_content_tag"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"

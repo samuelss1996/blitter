@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/md_white_1000"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="es.soutullo.blitter.view.activity.MainActivity"
         tools:showIn="@layout/activity_main">
@@ -19,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/colorPrimaryLight"
+            android:tag="@string/edge_to_edge_bottom_padded_content_tag"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,6 +116,7 @@
             android:id="@+id/recent_bills_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:tag="@string/edge_to_edge_fab_aware_scrolling_content_tag"
             android:visibility="@{bills == null || bills.isEmpty()? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

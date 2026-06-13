@@ -199,4 +199,12 @@
         <item quantity="one">Please, wait %d second</item>
         <item quantity="other">Please, wait %d seconds</item>
     </plurals>
+
+    <string name="edge_to_edge_app_bar_tag" translatable="false">edge_to_edge_app_bar</string>
+    <string name="edge_to_edge_scrolling_content_tag" translatable="false">edge_to_edge_scrolling_content</string>
+    <string name="edge_to_edge_fab_aware_scrolling_content_tag" translatable="false">edge_to_edge_fab_aware_scrolling_content</string>
+    <string name="edge_to_edge_bottom_controls_tag" translatable="false">edge_to_edge_bottom_controls</string>
+    <string name="edge_to_edge_bottom_padded_content_tag" translatable="false">edge_to_edge_bottom_padded_content</string>
+    <string name="edge_to_edge_fab_speed_dial_tag" translatable="false">edge_to_edge_fab_speed_dial</string>
+    <string name="edge_to_edge_action_bar_content_tag" translatable="false">edge_to_edge_action_bar_content</string>
 </resources>

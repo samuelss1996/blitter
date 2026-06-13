@@ -1,0 +1,8 @@
+<resources>
+    <item name="edge_to_edge_initial_margins" type="id" />
+    <item name="edge_to_edge_initial_padding" type="id" />
+    <item name="edge_to_edge_navigation_bar_protection" type="id" />
+    <item name="edge_to_edge_navigation_bar_protection_color" type="id" />
+    <item name="edge_to_edge_policy_applied" type="id" />
+    <item name="edge_to_edge_status_bar_color" type="id" />
+</resources>
