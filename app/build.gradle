@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.android.gms:play-services-vision:17.0.2'
-    implementation 'com.google.android.gms:play-services-ads:17.2.1'
+    implementation 'com.google.android.gms:play-services-ads:24.9.0'
     implementation 'com.android.billingclient:billing:9.0.0'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'

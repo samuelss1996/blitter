@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -83,7 +84,7 @@ class AdMobActivity : AppCompatActivity() {
     }
 
     private fun loadAds() {
-        MobileAds.initialize(this, this.getString(R.string.ad_mob_app_id))
+        MobileAds.initialize(this)
         val adRequest = AdRequest.Builder().build()
 
         this.adView = this.findViewById<AdView>(R.id.adView).also { adView ->
@@ -92,8 +93,8 @@ class AdMobActivity : AppCompatActivity() {
                     adView.visibility = View.VISIBLE
                 }
 
-                override fun onAdFailedToLoad(errorCode: Int) {
-                    Log.w(TAG, "Ad failed to load with code $errorCode")
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    Log.w(TAG, "Ad failed to load: $error")
                     adView.visibility = View.INVISIBLE
                 }
             }
