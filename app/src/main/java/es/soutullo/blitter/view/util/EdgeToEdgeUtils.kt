@@ -284,12 +284,15 @@ object EdgeToEdgeUtils {
         val statusBars = getInsets(WindowInsetsCompat.Type.statusBars())
         val navigationBars = getInsets(WindowInsetsCompat.Type.navigationBars())
         val tappableElement = getInsets(WindowInsetsCompat.Type.tappableElement())
+        val ime = getInsets(WindowInsetsCompat.Type.ime())
+        val bottom = maxOf(navigationBars.bottom, tappableElement.bottom)
 
         return EdgeToEdgeInsets(
             left = systemBars.left,
             statusTop = statusBars.top,
             right = systemBars.right,
-            bottom = maxOf(navigationBars.bottom, tappableElement.bottom)
+            bottom = bottom,
+            bottomControlsBottom = maxOf(bottom, ime.bottom)
         )
     }
 
@@ -317,7 +320,7 @@ object EdgeToEdgeUtils {
                     view.applyScrollingContentInsets(insets)
                 }
                 tags.has(activity, R.string.edge_to_edge_bottom_controls_tag) -> {
-                    view.applySystemBarMargins(insets, bottom = true)
+                    view.applyBottomControlsMargins(insets)
                 }
                 tags.has(activity, R.string.edge_to_edge_bottom_padded_content_tag) -> {
                     view.applySystemBarPadding(insets, bottom = true)
@@ -369,6 +372,18 @@ object EdgeToEdgeUtils {
                 top = initialMargins.top + if (top) insets.statusTop else 0,
                 right = initialMargins.right + if (right) insets.right else 0,
                 bottom = initialMargins.bottom + if (bottom) insets.bottom else 0
+            )
+        )
+    }
+
+    private fun View.applyBottomControlsMargins(insets: EdgeToEdgeInsets) {
+        val initialMargins = initialMargins()
+
+        setMargins(
+            initialMargins.copy(
+                left = initialMargins.left + insets.left,
+                right = initialMargins.right + insets.right,
+                bottom = initialMargins.bottom + insets.bottomControlsBottom
             )
         )
     }
@@ -502,6 +517,7 @@ object EdgeToEdgeUtils {
         val left: Int,
         val statusTop: Int,
         val right: Int,
-        val bottom: Int
+        val bottom: Int,
+        val bottomControlsBottom: Int
     )
 }
