@@ -2,7 +2,6 @@ package es.soutullo.blitter.view.adapter.generic
 
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,7 @@ import es.soutullo.blitter.view.util.BlitterUtils
  * @param handler The handler. Gets called when the user performs interactions with a recycler view item,
  *                such as a click
  */
-abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableListOf(), var handler: IListHandler? = null, var fab: FloatingActionButton? = null)
+abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableListOf(), var handler: IListHandler? = null)
         : RecyclerView.Adapter<GenericListAdapter<Item>.GenericListViewHolder>() {
     companion object {
         private val VIEW_TYPE_STANDARD = 0
@@ -130,7 +129,6 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
 
     private fun onScroll(diffX: Int, diffY: Int) {
         if(diffY > 0) {
-            this.fab?.hide()
             if((this.recyclerView?.layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition() ?: -10 >= this.itemCount - 1) {
                 if(!this.isLoading) {
                     this.isLoading = true
@@ -138,8 +136,6 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
                     this.isLoading = false
                 }
             }
-        } else if (diffY < 0) {
-            this.fab?.show()
         }
     }
 

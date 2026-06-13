@@ -280,7 +280,6 @@ class MainActivity : ChoosingLayoutActivity() {
         this.findViewById<CheckBox>(R.id.select_all_checkbox).setOnCheckedChangeListener(this.createCheckAllListener())
         this.findViewById<EditText>(R.id.app_bar_search).addTextChangedListener(this.createSearchTextWatcher())
 
-        this.itemsAdapter.fab = fabSpeedDial.mainFab
         fabSpeedDial.addOnMenuItemClickListener({ miniFab, label, itemId ->
             when(itemId) {
                 R.id.fab_mini_transcribe -> this.onManualTranscriptionClicked()
