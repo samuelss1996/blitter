@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bignerdranch.android.multiselector.MultiSelector
-import com.bignerdranch.android.multiselector.MultiSelectorBindingHolder
 import es.soutullo.blitter.BR
 import es.soutullo.blitter.view.adapter.handler.IListHandler
 import es.soutullo.blitter.view.util.BlitterUtils
@@ -154,7 +152,7 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
     open protected fun getNullItemLayout(): Int = 0
 
     /** Generic ViewHolder for each item of the RecyclerView */
-    open inner class GenericListViewHolder(protected val view: View, multiSelector: MultiSelector = MultiSelector()): MultiSelectorBindingHolder(view, multiSelector) {
+    open inner class GenericListViewHolder(protected val view: View): RecyclerView.ViewHolder(view) {
         val binding: ViewDataBinding? = DataBindingUtil.bind(this.view)
 
         init {
@@ -170,12 +168,14 @@ abstract class GenericListAdapter<Item>(val items: MutableList<Item> = mutableLi
          *        its clickable children
          */
         open protected fun onClick(viewId: Int) {
-            this@GenericListAdapter.handler?.onItemClicked(this.adapterPosition, viewId)
+            if(this.bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                this@GenericListAdapter.handler?.onItemClicked(this.bindingAdapterPosition, viewId)
+            }
         }
 
-        override fun isSelectable(): Boolean = false
-        override fun isActivated(): Boolean = false
-        override fun setSelectable(selectable: Boolean) {}
-        override fun setActivated(activated: Boolean) {}
+        open fun isSelectable(): Boolean = false
+        open fun isActivated(): Boolean = false
+        open fun setSelectable(selectable: Boolean) {}
+        open fun setActivated(activated: Boolean) {}
     }
 }

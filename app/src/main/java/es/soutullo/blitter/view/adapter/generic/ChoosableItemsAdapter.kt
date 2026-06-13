@@ -5,44 +5,99 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import com.bignerdranch.android.multiselector.MultiSelector
+import androidx.recyclerview.widget.RecyclerView
 import es.soutullo.blitter.R
 import es.soutullo.blitter.view.adapter.handler.IChoosableItemsListHandler
 
 abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsListHandler? = null) : GenericListAdapter<Item>(handler = choosableHandler) {
-    private val multiSelector = MultiSelector()
+    private companion object {
+        const val SELECTION_PAYLOAD = "selection"
+    }
+
+    private var choosingMode = false
+    private val selectedIndexes = mutableSetOf<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericListViewHolder =
             ChoosableItemViewHolder(LayoutInflater.from(parent.context).inflate(this.getActualItemLayout(viewType), parent, false))
 
+    override fun onBindViewHolder(holder: GenericListViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        (holder as? ChoosableItemViewHolder)?.bindSelectionState(position)
+    }
+
+    override fun onBindViewHolder(holder: GenericListViewHolder, position: Int, payloads: MutableList<Any>) {
+        if(payloads.contains(SELECTION_PAYLOAD)) {
+            (holder as? ChoosableItemViewHolder)?.bindSelectionState(position)
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
     /** @return True if the choosing mode is currently enabled */
-    fun isChoosingModeEnabled() : Boolean = this.multiSelector.isSelectable
+    fun isChoosingModeEnabled() : Boolean = this.choosingMode
 
     /** @return The current selected indexes as as list of integers */
-    fun getSelectedIndexes(): List<Int> = this.multiSelector.selectedPositions
+    fun getSelectedIndexes(): List<Int> = this.selectedIndexes.sorted()
 
     /** Ends the choice mode and returns to the normal mode */
     fun finishChoiceMode() {
-        this.deselectAll()
-
-        this.multiSelector.isSelectable = false
+        this.selectedIndexes.clear()
+        this.choosingMode = false
+        this.notifySelectionStateChanged()
+        (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
         (this.handler as? IChoosableItemsListHandler)?.onChoiceModeFinished()
     }
 
     /** Selects all the items on the list while in choice mode */
     fun selectAll() {
-        this.items.indices.forEach { this.multiSelector.setSelected(it, 0, true) }
+        this.selectedIndexes.clear()
+        this.items.indices
+                .filter { this.items[it] != null }
+                .forEach { this.selectedIndexes.add(it) }
+        this.notifySelectionStateChanged()
         (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
     }
 
     /** Deselects all the items on the list while in choice mode */
     fun deselectAll() {
-        this.multiSelector.clearSelections()
+        this.selectedIndexes.clear()
+        this.notifySelectionStateChanged()
         (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
     }
 
+    private fun startChoiceMode(position: Int) {
+        this.choosingMode = true
+        this.selectedIndexes.add(position)
+        this.notifySelectionStateChanged()
+        (this.handler as? IChoosableItemsListHandler)?.onChoiceModeStarted()
+        (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
+    }
+
+    private fun setItemSelected(position: Int, selected: Boolean) {
+        if(position == RecyclerView.NO_POSITION || this.items.getOrNull(position) == null) {
+            return
+        }
+
+        val selectionChanged = if(selected) {
+            this.selectedIndexes.add(position)
+        } else {
+            this.selectedIndexes.remove(position)
+        }
+
+        if(selectionChanged) {
+            this.notifyItemChanged(position, SELECTION_PAYLOAD)
+            (this.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
+        }
+    }
+
+    private fun notifySelectionStateChanged() {
+        if(this.itemCount > 0) {
+            this.notifyItemRangeChanged(0, this.itemCount, SELECTION_PAYLOAD)
+        }
+    }
+
     /** View holder for the choosable items */
-    inner class ChoosableItemViewHolder(itemView: View) : GenericListAdapter<Item>.GenericListViewHolder(itemView, this.multiSelector) {
+    inner class ChoosableItemViewHolder(itemView: View) : GenericListAdapter<Item>.GenericListViewHolder(itemView) {
         private var isSelectable = false
         private var isActivated = false
 
@@ -51,8 +106,10 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
         }
 
         override fun onClick(viewId: Int) {
-            if(this@ChoosableItemsAdapter.multiSelector.isSelectable && this@ChoosableItemsAdapter.items[this.adapterPosition] != null) {
-                this@ChoosableItemsAdapter.multiSelector.setSelected(this, !this.isActivated)
+            val position = this.bindingAdapterPosition
+
+            if(this@ChoosableItemsAdapter.choosingMode && this@ChoosableItemsAdapter.items.getOrNull(position) != null) {
+                this@ChoosableItemsAdapter.setItemSelected(position, !this.isActivated)
             } else {
                 super.onClick(viewId)
             }
@@ -60,16 +117,19 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
 
         /** Gets called when a long click is performed on the item */
         private fun onLongClick(): Boolean {
-            if(!this@ChoosableItemsAdapter.multiSelector.isSelectable && this@ChoosableItemsAdapter.items[this.adapterPosition] != null) {
-                (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChoiceModeStarted()
+            val position = this.bindingAdapterPosition
 
-                this@ChoosableItemsAdapter.multiSelector.isSelectable = true
-                this@ChoosableItemsAdapter.multiSelector.setSelected(this, true)
-
+            if(!this@ChoosableItemsAdapter.choosingMode && this@ChoosableItemsAdapter.items.getOrNull(position) != null) {
+                this@ChoosableItemsAdapter.startChoiceMode(position)
                 return true
             }
 
             return false
+        }
+
+        fun bindSelectionState(position: Int) {
+            this.setActivated(this@ChoosableItemsAdapter.selectedIndexes.contains(position))
+            this.setSelectable(this@ChoosableItemsAdapter.choosingMode)
         }
 
         /**
@@ -80,9 +140,10 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
             this.isActivated = activated
             val background = if(activated) R.color.md_grey_100 else R.color.md_white_1000
 
-            (this@ChoosableItemsAdapter.handler as? IChoosableItemsListHandler)?.onChosenItemsChanged()
-
-            this.view.findViewById<CheckBox>(R.id.choosing_checkbox)?.isChecked = activated
+            this.view.findViewById<CheckBox>(R.id.choosing_checkbox)?.let { checkbox ->
+                checkbox.setOnCheckedChangeListener(null)
+                checkbox.isChecked = activated
+            }
             this.view.setBackgroundColor(ContextCompat.getColor(this.view.context, background))
         }
 
@@ -95,8 +156,9 @@ abstract class ChoosableItemsAdapter<Item>(choosableHandler: IChoosableItemsList
             this.isSelectable = selectable
 
             this.view.findViewById<CheckBox>(R.id.choosing_checkbox)?.let { checkbox ->
+                checkbox.setOnCheckedChangeListener(null)
                 checkbox.visibility = if(selectable) View.VISIBLE else View.GONE
-                checkbox.setOnCheckedChangeListener({ _, newState -> this@ChoosableItemsAdapter.multiSelector.setSelected(this@ChoosableItemViewHolder, newState) })
+                checkbox.setOnCheckedChangeListener { _, newState -> this@ChoosableItemsAdapter.setItemSelected(this.bindingAdapterPosition, newState) }
             }
         }
 
